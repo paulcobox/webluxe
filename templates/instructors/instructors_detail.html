@@ -1,0 +1,78 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Acerca de Nosotros{% endblock title %}
+
+{% block content %}
+
+    {% if instructor.about_me %}
+        <!-- About Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="row g-5">
+                    <!-- <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                        <div class="position-relative h-100">
+                            <img class="img-fluid position-absolute w-100 h-100" src="{{mision.image.url}}" alt="" style="object-fit: cover;">
+                        </div>
+                    </div> -->
+                    <div class="col-lg-12 wow fadeInUp" data-wow-delay="0.3s">
+                        <h6 class="section-title bg-white text-start text-primary pe-3">Acerca de mí</h6>
+                        <h1 class="mb-4">{{instructor.tags}}</h1>
+                        <p class="mb-4">{{instructor.about_me | safe }}</p>
+                        <!-- <div class="row gy-2 gx-4 mb-4">
+                            {% for mision_tag in mision_tags %}
+                                <div class="col-sm-6">
+                                    <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>{{ mision_tag }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <a class="btn btn-primary py-3 px-5 mt-2" href="">Reserva tu Clase</a> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- About End -->
+    {% endif %}
+
+    {% if instructor.mission %}
+        <!-- About Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="row g-5">
+
+                    <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                        <h6 class="section-title bg-white text-start text-primary pe-3">Mision</h6>
+                        <!-- <h1 class="mb-4">{{vision.title}}</h1> -->
+                        <p class="mb-4">{{instructor.mission | safe }}</p>
+                        <div class="row gy-2 gx-4 mb-4">
+                            {% for mision_tag in mision_tags %}
+                                <div class="col-sm-6">
+                                    <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>{{ mision_tag }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <a class="btn btn-primary py-3 px-4 mt-2 btn-sm" href="">Mis Cursos Virtuales</a>
+                        <a class="btn btn-primary py-3 px-4 mt-2 btn-sm" href="">Mis Cursos Presenciales</a>
+                        <a class="btn btn-primary py-3 px-4 mt-2 btn-sm" href="">Mis Clases Grabadas</a>
+                    </div>
+
+                    <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                        <div class="position-relative h-100">
+                            <video controls>
+                                <source src='{{ MEDIA_URL }}{{instructor.video_bibliography}}' type='video/mp4'>
+                                Your browser does not support the video tag.
+                            </video>
+                             <!-- <img class="img-fluid position-absolute w-100 h-100" src="{{instructor.video_bibliography.url}}" alt="" style="object-fit: cover;"> -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- About End -->
+    {% endif %}
+
+    
+{% endblock content %}
+
+{% block javascript %}
+{% endblock javascript %}

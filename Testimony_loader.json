@@ -1,0 +1,24 @@
+[
+    {
+      "name": "John Doe",
+      "profession": "Software Engineer",
+      "description": "This course was amazing! I learned so much and it helped me improve my skills significantly. I highly recommend it to anyone looking to advance their career in software development.",
+      "video": "",  # Leave blank if there's no video
+      "is_active": True
+    },
+    {
+      "name": "Jane Smith",
+      "profession": "Marketing Manager",
+      "description": "The course content was well-organized and easy to follow. The instructor was knowledgeable and engaging. I am very happy with the results I achieved after taking this course.",
+      "video": "testimonials/jane_smith.mp4",  # Replace with the relative video path if available
+      "is_active": True
+    },
+    {
+      "name": "Michael Brown",
+      "profession": "Graphic Designer",
+      "description": "I was impressed by the quality of the course materials and the support provided by the instructor. This course helped me take my design skills to the next level.",
+      "video": "",  # Leave blank if there's no video
+      "is_active": False  # Set to inactive for testing purposes
+    }
+  ]
+  
