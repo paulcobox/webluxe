@@ -10,15 +10,16 @@
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <div class="row align-items-start">
                     <div class="col" style="text-align: left;">
-                        <p style="margin-bottom: -10px;"><h2 class="text-primary">Curso aaaaaaaaa</h2></p>
-                        <p style="margin-bottom: -5px; margin-left: 10px;"><h7>Lunes y Miercoles 11:00 am - 12:00 pm</h7>
-                        <p style="margin-bottom: 5px; margin-left: 10px;"><h7>Teodoro Cardenas 244, Santa Beatriz</h7></p>
+                        <p style="margin-bottom: -10px;"><h2 class="text-primary">Curso {{ course.title }}</h2></p>
                     </div>
-                      
-                      
                     <div class="col" style="text-align: right;">
                         <h4 style="display: inline-block; margin-right: 10px;">Precio:</h4>
-                        <h2 style="display: inline-block;" class="text-primary">S/. 100</h2>
+                        <h2 style="display: inline-block;" class="text-primary">S/. {{ course.price }}</h2>
+                    </div>
+                </div><div class="row align-items-start">
+                    <div class="col" style="text-align: left;">
+                        <p style="margin-top: -15px; margin-left: 10px;"><h7> {{ course.schedule }}</h7></p>
+                        <p style="margin-top: -25px; margin-left: 10px;"><h7> {{ course.place | safe }}</h7></p>
                     </div>
                 </div>
             </div>
@@ -31,18 +32,18 @@
                             <a class="position-relative d-block overflow-hidden" href="">
                                
                                 <video class="img-fluid" width="800" height="300" controls>
-                                    <source src="img/VideoPrueba_3.mp4" type="video/mp4">
+                                    <source src="{{ course.video.url }}" type="video/mp4">
                                 </video>
                             </a>
                         </div>
                         <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
                             <a class="position-relative d-block overflow-hidden" href="">
-                                <img class="img-fluid" src="img/cat-2.jpg" alt="">
+                                <img class="img-fluid" src="{{ course.image_fiz.url }}" alt="">
                             </a>
                         </div>
                         <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
                             <a class="position-relative d-block overflow-hidden" href="">
-                                <img class="img-fluid" src="img/cat-3.jpg" alt="">
+                                <img class="img-fluid" src="{{ course.image_fid.url }}" alt="">
                             </a>
                         </div>
                     </div>
@@ -105,34 +106,21 @@
     </div>
     <!-- Detail Course and call to action -->
 
-
     <!-- About Start -->
-    <div class="container-xxl py-5">
+    <div class="container-xxl">
         <div class="container">
             <div class="row g-5">
                 <div class="col-lg-12 wow fadeInUp" data-wow-delay="0.3s">
-                    <h1 class="mb-4">Descripcion del Curso</h1>
-                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
-                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
+                    <h2 class="mb-4">Descripcion del Curso</h2>
+                    <p class="mb-4">{{ course.body | safe }}</p>
                     <div class="row gy-2 gx-4 mb-4">
-                        <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Skilled Instructors</p>
-                        </div>
-                        <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Online Classes</p>
-                        </div>
-                        <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>International Certificate</p>
-                        </div>
-                        <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Skilled Instructors</p>
-                        </div>
-                        <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Online Classes</p>
-                        </div>
-                        <div class="col-sm-6">
-                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>International Certificate</p>
-                        </div>
+                        {% for feature in course.feature.all %}
+                            <div class="col-sm-6">
+                                <h2 class="mb-0" style="font-size: 1rem; font-weight: 400; font-family: inherit; color: inherit;">
+                                    <i class="fa fa-arrow-right text-primary me-2"></i>{{ feature.description }}
+                                </h2>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -141,153 +129,81 @@
     <!-- About End -->
 
 
+    {% if list_course_you_might_like %}
+    <!-- Courses might Like -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h4 class="section-title bg-white text-center text-primary px-3">Otros cursos de baile que te pueden gustar </h4>
+                </div>
+                
+                <!-- list Courses Start -->
+                <div class="row g-4 justify-content-center">
+                    {% for course in list_course_you_might_like %}
+                        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="course-item bg-light">
+                                <div class="position-relative overflow-hidden d-flex align-items-center">
+                                    <img class="img-fluid" src="{{ course.image.url }}" alt="">
+                                    <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
+                                        <a href="{% url 'courses_detail' course.slug %}" class="flex-shrink-0 btn btn-sm btn-warning px-3 border-end" style="border-radius: 30px 0 0 30px;">Leer Mas</a>
+                                        <a href="#" class="flex-shrink-0 btn btn-sm btn-warning px-3" style="border-radius: 0 30px 30px 0;">Obten un Descuento</a>
+                                    </div>
+                                    <div class="infoPrice">
+                                        <strong>S/.{{ course.price }}</strong>
+                                    </div>
+                                </div>
+                                <a href="{% url 'courses_detail' course.slug %}" class="card-link">
+                                    <div class="text-center p-4 pb-0 border border-secondary  rounded">
+                                        <h5 class="mb-0">{{ course.title }}</h5>
+                                        <div class="mb-0">
+                                            <small class="fa fa-star text-primary"></small>
+                                            <small>{{ course.schedule }}</small>
+                                            <small class="fa fa-star text-primary"></small>
+                                        </div>
+                                        <div class="mb-2"><small>{{ course.instructor }}</small></div>
+                                        <h6 class="card-title">Lugar</h6>
+                                        <small class="text-muted">{{ course.district | safe }}</small>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
 
-    <!-- Courses Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h4 class="section-title bg-white text-center text-primary px-3 mb-5">Otros cursos de baile que te pueden gustar </h4>
+                <!-- list Courses End -->
             </div>
-            <div class="row g-4 justify-content-center">
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="course-item bg-light">
-                        <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src="img/course-1.jpg" alt="">
-                            <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Leer Mas</a>
-                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;" data-bs-toggle="modal" data-bs-target="#exampleModal">Contactar</a>
-                            </div>
-                        </div>
-                        <div class="text-center p-4 pb-0">
-                            <h3 class="mb-0">$149.00</h3>
-                            <div class="mb-3">
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small>(123)</small>
-                            </div>
-                            <h5 class="mb-4">Web Design & Development Course for Beginners</h5>
-                        </div>
-                        <div class="d-flex border-top">
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-user-tie text-primary me-2"></i>John Doe</small>
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-clock text-primary me-2"></i>1.49 Hrs</small>
-                            <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>30 Students</small>
-                        </div>
-                    </div>
+        </div>
+    {% endif %}
+    <!-- Courses might like End -->
+    
+    {% if list_testimony %}
+        <!-- Testimonial Start -->
+        <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="container">
+                <div class="text-center">
+                    <h4 class="section-title bg-white text-center text-primary px-3">Testimonios </h4>
+                    <h1 class="mb-3">Nuestros estudiantes dicen!</h1>
                 </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="course-item bg-light">
-                        <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src="img/course-2.jpg" alt="">
-                            <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
-                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Join Now</a>
+                <div class="owl-carousel testimonial-carousel position-relative">
+                    {% for testimony in list_testimony %}
+                        <div class="testimonial-item text-center">
+                            <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s">
+                                <video class="img-fluid"  controls>
+                                    <source src="{{ testimony.video.url }}" type="video/mp4">
+                                </video>
+                            </div>
+                            <div class="testimonial-text bg-light text-center p-4">
+                                <h5 class="mb-0">{{ testimony.name }}</h5>
+                                <p>{{ testimony.profession }}</p>
+                                <p class="mb-0">
+                                    {{ testimony.description | safe }}
+                                </p>
                             </div>
                         </div>
-                        <div class="text-center p-4 pb-0">
-                            <h3 class="mb-0">$149.00</h3>
-                            <div class="mb-3">
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small>(123)</small>
-                            </div>
-                            <h5 class="mb-4">Web Design & Development Course for Beginners</h5>
-                        </div>
-                        <div class="d-flex border-top">
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-user-tie text-primary me-2"></i>John Doe</small>
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-clock text-primary me-2"></i>1.49 Hrs</small>
-                            <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>30 Students</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="course-item bg-light">
-                        <div class="position-relative overflow-hidden">
-                            <img class="img-fluid" src="img/course-3.jpg" alt="">
-                            <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end" style="border-radius: 30px 0 0 30px;">Read More</a>
-                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 0 30px 30px 0;">Join Now</a>
-                            </div>
-                        </div>
-                        <div class="text-center p-4 pb-0">
-                            <h3 class="mb-0">$149.00</h3>
-                            <div class="mb-3">
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small class="fa fa-star text-primary"></small>
-                                <small>(123)</small>
-                            </div>
-                            <h5 class="mb-4">Web Design & Development Course for Beginners</h5>
-                        </div>
-                        <div class="d-flex border-top">
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-user-tie text-primary me-2"></i>John Doe</small>
-                            <small class="flex-fill text-center border-end py-2"><i class="fa fa-clock text-primary me-2"></i>1.49 Hrs</small>
-                            <small class="flex-fill text-center py-2"><i class="fa fa-user text-primary me-2"></i>30 Students</small>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Courses End -->
-
-
-    <!-- Testimonial Start -->
-    <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
-        <div class="container">
-            <div class="text-center">
-                <h4 class="section-title bg-white text-center text-primary px-3 mb-5">Testimonios </h4>
-            </div>
-            <div class="owl-carousel testimonial-carousel position-relative">
-                <div class="testimonial-item text-center">
-
-                    <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s">
-                        <video class="img-fluid"  controls>
-                            <source src="img/Testimonio_2.mp4" type="video/mp4">
-                        </video>
-                    </div>
-                      <div class="testimonial-text bg-light text-center p-4">
-                        <h5 class="mb-0">Client Name</h5>
-                        <p>Profession</p>
-                        <p class="mb-0">
-                            Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. 
-                            Clita erat ipsum et lorem et sit.
-                        </p>
-                    </div>
-                </div>
-                <div class="testimonial-item text-center">
-                    <img class="border rounded-circle p-2 mx-auto mb-3" src="img/testimonial-2.jpg" style="width: 80px; height: 80px;">
-                    <h5 class="mb-0">Client Name</h5>
-                    <p>Profession</p>
-                    <div class="testimonial-text bg-light text-center p-4">
-                    <p class="mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
-                    </div>
-                </div>
-                <div class="testimonial-item text-center">
-                    <img class="border rounded-circle p-2 mx-auto mb-3" src="img/testimonial-3.jpg" style="width: 80px; height: 80px;">
-                    <h5 class="mb-0">Client Name</h5>
-                    <p>Profession</p>
-                    <div class="testimonial-text bg-light text-center p-4">
-                    <p class="mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
-                    </div>
-                </div>
-                <div class="testimonial-item text-center">
-                    <img class="border rounded-circle p-2 mx-auto mb-3" src="img/testimonial-4.jpg" style="width: 80px; height: 80px;">
-                    <h5 class="mb-0">Client Name</h5>
-                    <p>Profession</p>
-                    <div class="testimonial-text bg-light text-center p-4">
-                    <p class="mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Testimonial End -->
+        <!-- Testimonial End -->
+    {% endif %}
 {% endblock content %}

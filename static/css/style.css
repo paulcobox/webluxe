@@ -46,7 +46,7 @@
 
 .btn.btn-primary,
 .btn.btn-secondary {
-    color: #FFFFFF;
+    color: #000000;
 }
 
 .btn-square {
@@ -448,3 +448,36 @@
     color: white;
     font-size: 40px;
   }
+
+  .infoPrice {
+    position: absolute;
+    top: 16px;
+    left: 0;
+    background: #F29003;
+    font-size: 14px;
+    color: #fff;
+    padding: 3px 15px;
+}
+
+.btn-warning {
+    color: #000;
+    background-color: #FFBC5C;
+    border-color: #F29003;
+}
+
+.card-link {
+    text-decoration: none;
+    color: inherit; /* Esto asegura que el color del texto no cambie */
+}
+
+.custom-content p {
+    font-size: 1.25rem; /* Equivalente a fs-5 */
+    color: #ffffff; /* Equivalente a text-white */
+    margin-bottom: 1.5rem; /* Equivalente a mb-4 */
+    padding-bottom: 0.5rem; /* Equivalente a pb-2 */
+}
+
+.custom-content * {
+    font-family: inherit; /* Anula cualquier cambio de font-family */
+    color: inherit; /* Anula cualquier cambio de color */
+}

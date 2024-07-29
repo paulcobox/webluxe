@@ -3,59 +3,51 @@
 {% block title %}Cursos | Talleres{% endblock title %}
 
 {% block content %}
-    {% if list_courses_by_month %}
-        {% for courses_by_month in list_courses_by_month %}
-        
-            <!-- Courses Start -->
-            <div class="container-xxl py-5">
-                <div class="container">
-                        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                            <h6 class="section-title bg-white text-center text-primary px-3">{% if title %}{{ title }}{% endif %}</h6>
-                            <h1 class="mb-5">Talleres{% if courses_by_month.month_name %} de {{ courses_by_month.month_name }}{% endif %}</h1>
-                        </div>
-                        <div class="row g-4 justify-content-center">
+    {% if list_courses %}
+        <!-- Courses Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                        <h6 class="section-title bg-white text-center text-primary px-3">{% if title %}{{ title }}{% endif %}</h6>
+                    </div>
+                    <div class="row g-4 justify-content-center">
 
-                            {% for course in courses_by_month.courses %}
-                                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                                    <div class="course-item bg-light">
-                                        <div class="position-relative overflow-hidden d-flex align-items-center">
-                                            <img class="img-fluid" src="{{ course.image.url }}" alt="">
-                                            <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                                                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3" style="border-radius: 30px 30px 30px 30px;">INSCRIBIRME AQUI</a>
-                                            </div>
+                        {% for course in list_courses %}
+                            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                                <div class="course-item bg-light">
+                                    <div class="position-relative overflow-hidden d-flex align-items-center">
+                                        <img class="img-fluid" src="{{ course.image.url }}" alt="">
+                                        <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
+                                            <a href="{% url 'courses_detail' course.slug %}" class="flex-shrink-0 btn btn-sm btn-warning px-3 border-end" style="border-radius: 30px 0 0 30px;">Leer Mas</a>
+                                            <a href="#" class="flex-shrink-0 btn btn-sm btn-warning px-3" style="border-radius: 0 30px 30px 0;">Obten un Descuento</a>
                                         </div>
-                                        <div class="text-center p-4 pb-0">
-                                            <h3 class="mb-0">S/.{{ course.price }}</h3>
+                                        <div class="infoPrice">
+                                            <strong>S/.{{ course.price }}</strong>
+                                        </div>
+                                    </div>
+                                    <a href="{% url 'courses_detail' course.slug %}" class="card-link">
+                                        <div class="text-center p-4 pb-0 border border-secondary  rounded">
+                                            <h5 class="mb-0">{{ course.title }}</h5>
                                             <div class="mb-0">
                                                 <small class="fa fa-star text-primary"></small>
                                                 <small>{{ course.schedule }}</small>
                                                 <small class="fa fa-star text-primary"></small>
                                             </div>
                                             <div class="mb-2"><small>{{ course.instructor }}</small></div>
-                                            <h5 class="mb-4">{{ course.title }}</h5>
+                                            <h6 class="card-title">Lugar</h6>
+                                            <small class="text-muted">{{ course.district | safe }}</small>
                                         </div>
-
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                <h6 class="card-title">Contenido</h6>
-                                                <p class="card-text"><small class="text-muted">{{ course.body | safe }}</small></p>
-                                                <h6 class="card-title">Lugar</h6>
-                                                <small class="text-muted">{{ course.place | safe }}</small>
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
+                                    </a>
                                 </div>
-                            {% endfor %}
-                    </div>
+                            </div>
+
+
+                            
+                        {% endfor %}
                 </div>
             </div>
-            <!-- Courses End -->
-        {% endfor %}
+        </div>
+        <!-- Courses End -->
     {% else %}
                     <!-- Courses Start -->
             <div class="container-xxl py-5">

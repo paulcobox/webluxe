@@ -1,0 +1,137 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Cursos | Talleres{% endblock title %}
+
+{% block content %}
+    {% if list_course_banner_top %}
+    <!-- Carousel Start -->
+        <div class="container-fluid p-0 mb-5">
+            <div class="owl-carousel header-carousel position-relative">
+                {% for course in list_course_banner_top %}
+                    <div class="owl-carousel-item position-relative">
+                        <img class="img-fluid" src="{{ course.image_banner_top.url }}" alt="">
+                        <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(24, 29, 56, .7);">
+                            <div class="container">
+                                <div class="row justify-content-start">
+                                    <div class="col-sm-10 col-lg-8">
+                                        <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Curso destacado</h5>
+                                        <h1 class="display-3 text-white animated slideInDown">{{ course.title }}</h1>
+                                        <div class="custom-content">
+                                            <p class="fs-5 text-white mb-4 pb-2">{{ course.body | safe}}</p>
+                                        </div>
+                                        <a href="" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Leer Mas</a>
+                                        <a href="" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Contactar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+    <!-- Carousel End -->
+
+    <!-- Categories Start -->
+    <div class="container-xxl py-5 category">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h4 class="section-title bg-white text-center text-primary px-3">Categoria de Cursos</h4>
+            </div>
+            <div class="row g-3">
+                <div class="col-lg-7 col-md-6">
+                    <div class="row g-3">
+                        <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s">
+                            <a class="position-relative d-block overflow-hidden" href="{% url 'courses_virtual' %}">
+                                <img class="img-fluid" src="{% static 'img/categories/cat-1.jpg' %}"  alt="">
+                                <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
+                                    <h5 class="m-0">Clases de Baile Virtual</h5>
+                                    <small class="text-primary"></small>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
+                            <a class="position-relative d-block overflow-hidden"href="{% url 'courses_group' %}">
+                                <img class="img-fluid" src="{% static 'img/categories/cat-2.jpg' %}" alt="">
+                                <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
+                                    <h5 class="m-0">Clases de Baile Grupal</h5>
+                                    <small class="text-primary"></small>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
+                            <a class="position-relative d-block overflow-hidden" href="{% url 'courses_choreography' %}">
+                                <img class="img-fluid" src="{% static 'img/categories/cat-3.jpg' %}" alt="">
+                                <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
+                                    <h5 class="m-0">Coreografias</h5>
+                                    <small class="text-primary"></small>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-6 wow zoomIn" data-wow-delay="0.7s" style="min-height: 350px;">
+                    <a class="position-relative d-block h-100 overflow-hidden" href="{% url 'courses_personal' %}">
+                        <img class="img-fluid position-absolute w-100 h-100" src="{% static 'img/categories/cat-4.jpg' %}" alt="" style="object-fit: cover;">
+                        <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin:  1px;">
+                            <h5 class="m-0">Clases de Baile Personalizado</h5>
+                            <small class="text-primary"></small>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Categories Start -->
+
+
+    {% if list_course_you_might_like %}
+    <!-- Courses might Like -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h4 class="section-title bg-white text-center text-primary px-3">Cursos Populares </h4>
+                </div>
+                
+                <!-- list Courses Start -->
+                <div class="row g-4 justify-content-center">
+                    {% for course in list_course_you_might_like %}
+                        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="course-item bg-light">
+                                <div class="position-relative overflow-hidden d-flex align-items-center">
+                                    <img class="img-fluid" src="{{ course.image.url }}" alt="">
+                                    <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
+                                        <a href="{% url 'courses_detail' course.slug %}" class="flex-shrink-0 btn btn-sm btn-warning px-3 border-end" style="border-radius: 30px 0 0 30px;">Leer Mas</a>
+                                        <a href="#" class="flex-shrink-0 btn btn-sm btn-warning px-3" style="border-radius: 0 30px 30px 0;">Obten un Descuento</a>
+                                    </div>
+                                    <div class="infoPrice">
+                                        <strong>S/.{{ course.price }}</strong>
+                                    </div>
+                                </div>
+                                <a href="{% url 'courses_detail' course.slug %}" class="card-link">
+                                    <div class="text-center p-4 pb-0 border border-secondary  rounded">
+                                        <h5 class="mb-0">{{ course.title }}</h5>
+                                        <div class="mb-0">
+                                            <small class="fa fa-star text-primary"></small>
+                                            <small>{{ course.schedule }}</small>
+                                            <small class="fa fa-star text-primary"></small>
+                                        </div>
+                                        <div class="mb-2"><small>{{ course.instructor }}</small></div>
+                                        <h6 class="card-title">Lugar</h6>
+                                        <small class="text-muted">{{ course.district | safe }}</small>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- list Courses End -->
+            </div>
+        </div>
+    {% endif %}
+    <!-- Courses might like End -->
+
+
+
+{% endblock content %}

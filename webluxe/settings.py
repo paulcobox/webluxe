@@ -50,10 +50,9 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     'users.apps.UsersConfig',
-    'courses.apps.CoursesConfig',
-    'pages.apps.PagesConfig',
-    'content_site.apps.ContentSiteConfig',
     'instructors.apps.InstructorsConfig',
+    'courses.apps.CoursesConfig',
+    'content_site.apps.ContentSiteConfig',
     'leads.apps.LeadsConfig',
 ]
 
