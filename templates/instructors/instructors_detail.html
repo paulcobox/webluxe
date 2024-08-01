@@ -8,24 +8,20 @@
         <!-- About Start -->
         <div class="container-xxl py-5">
             <div class="container">
+
                 <div class="row g-5">
-                    <!-- <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
-                        <div class="position-relative h-100">
-                            <img class="img-fluid position-absolute w-100 h-100" src="{{mision.image.url}}" alt="" style="object-fit: cover;">
+                    <div class="row g-4 justify-content-center">
+                        <div class="col" style="text-align: left;">
+                            <p style="margin-bottom: -10px;"><h2 class="text-primary">{{ instructor.name }}</h2></p>
                         </div>
-                    </div> -->
-                    <div class="col-lg-12 wow fadeInUp" data-wow-delay="0.3s">
-                        <h6 class="section-title bg-white text-start text-primary pe-3">Acerca de mí</h6>
-                        <h1 class="mb-4">{{instructor.tags}}</h1>
-                        <p class="mb-4">{{instructor.about_me | safe }}</p>
-                        <!-- <div class="row gy-2 gx-4 mb-4">
-                            {% for mision_tag in mision_tags %}
+                        {{instructor.about_me | safe }}
+                        <div class="row gy-2 gx-4 mb-0">
+                            {% for tag in tags_about_me %}
                                 <div class="col-sm-6">
-                                    <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>{{ mision_tag }}</p>
+                                    <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>{{ tag }}</p>
                                 </div>
                             {% endfor %}
                         </div>
-                        <a class="btn btn-primary py-3 px-5 mt-2" href="">Reserva tu Clase</a> -->
                     </div>
                 </div>
             </div>
@@ -33,43 +29,53 @@
         <!-- About End -->
     {% endif %}
 
-    {% if instructor.mission %}
-        <!-- About Start -->
+    {% if instructor.course %}
+    <!-- Courses might Like -->
         <div class="container-xxl py-5">
             <div class="container">
-                <div class="row g-5">
-
-                    <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
-                        <h6 class="section-title bg-white text-start text-primary pe-3">Mision</h6>
-                        <!-- <h1 class="mb-4">{{vision.title}}</h1> -->
-                        <p class="mb-4">{{instructor.mission | safe }}</p>
-                        <div class="row gy-2 gx-4 mb-4">
-                            {% for mision_tag in mision_tags %}
-                                <div class="col-sm-6">
-                                    <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>{{ mision_tag }}</p>
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <a class="btn btn-primary py-3 px-4 mt-2 btn-sm" href="">Mis Cursos Virtuales</a>
-                        <a class="btn btn-primary py-3 px-4 mt-2 btn-sm" href="">Mis Cursos Presenciales</a>
-                        <a class="btn btn-primary py-3 px-4 mt-2 btn-sm" href="">Mis Clases Grabadas</a>
-                    </div>
-
-                    <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
-                        <div class="position-relative h-100">
-                            <video controls>
-                                <source src='{{ MEDIA_URL }}{{instructor.video_bibliography}}' type='video/mp4'>
-                                Your browser does not support the video tag.
-                            </video>
-                             <!-- <img class="img-fluid position-absolute w-100 h-100" src="{{instructor.video_bibliography.url}}" alt="" style="object-fit: cover;"> -->
-                        </div>
-                    </div>
-
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h6 class="section-title bg-white text-center text-primary px-3">Mis Cursos</h6>
+                    <h1 class="mb-5">¡Aprende a Bailar con la Mejor Metodologia!</h1>
                 </div>
+                
+                <!-- list Courses Start -->
+                <div class="row g-4 justify-content-center">
+                    {% for course in instructor.course.all %}
+                        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="course-item bg-light">
+                                <div class="position-relative overflow-hidden d-flex align-items-center">
+                                    <img class="img-fluid" src="{{ course.image.url }}" alt="">
+                                    <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
+                                        <a href="{% url 'courses_detail' course.slug %}" class="flex-shrink-0 btn btn-sm btn-warning px-3 border-end" style="border-radius: 30px 0 0 30px;">Leer Mas</a>
+                                        <a href="#" class="flex-shrink-0 btn btn-sm btn-warning px-3" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-course="{{ course.title }}" style="border-radius: 0 30px 30px 0;">Obten un Descuento</a>
+                                    </div>
+                                    <div class="infoPrice">
+                                        <strong>S/.{{ course.price }}</strong>
+                                    </div>
+                                </div>
+                                <a href="{% url 'courses_detail' course.slug %}" class="card-link">
+                                    <div class="text-center p-4 pb-0 border border-secondary  rounded">
+                                        <h5 class="mb-0">{{ course.title }}</h5>
+                                        <div class="mb-0">
+                                            <small class="fa fa-star text-primary"></small>
+                                            <small>{{ course.schedule }}</small>
+                                            <small class="fa fa-star text-primary"></small>
+                                        </div>
+                                        <div class="mb-2"><small>{{ course.instructor }}</small></div>
+                                        <h6 class="card-title">Lugar</h6>
+                                        <small class="text-muted">{{ course.district | safe }}</small>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- list Courses End -->
             </div>
         </div>
-        <!-- About End -->
     {% endif %}
+    <!-- Courses might like End -->
 
     
 {% endblock content %}

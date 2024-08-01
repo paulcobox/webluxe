@@ -15,6 +15,7 @@ class Instructors(models.Model):
       facebook = models.URLField(max_length=500, blank = True, null = True, verbose_name = "Facebook")
       tiktok = models.URLField(max_length=500, blank = True, null = True, verbose_name = "Tiktok")
       instagram = models.URLField(max_length=500, blank = True, null = True, verbose_name = "Instagram")
+      slug = models.SlugField(max_length=250, unique=True, blank=True, null=True, verbose_name="Slug")
       youtube = models.URLField(max_length=500, blank = True, null = True, verbose_name = "Youtube")
       created_date = models.DateTimeField(auto_now_add = True, verbose_name = "Fecha de Creación")
       modified_date = models.DateTimeField(auto_now = True, verbose_name = "Fecha de Modificación")
@@ -25,3 +26,8 @@ class Instructors(models.Model):
 
       def __str__(self):
             return self.name
+      
+      def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super(Instructors, self).save(*args, **kwargs)

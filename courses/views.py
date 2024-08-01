@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from .models import Course
-from content_site.models import Testimony
 from webluxe.utils import get_actual_date
 from django.shortcuts import get_object_or_404
 import calendar
@@ -58,7 +57,6 @@ class CoursesDetailTemplateView(TemplateView):
   template_name = 'courses/course_detail.html'
 
   def get_context_data(self, *args, **kwargs):
-    print("TRAZA 0")
     context = super(CoursesDetailTemplateView, self).get_context_data(*args, **kwargs)
     course_slug = kwargs.get('course_slug')  # Assuming 'course_slug' is the URL parameter
     course = get_object_or_404(Course.objects.filter(is_active=True), slug=course_slug)
@@ -69,13 +67,9 @@ class CoursesDetailTemplateView(TemplateView):
         list_course_you_might_like = sample(list(list_course_you_might_like), 3)
 
 
-    list_testimony =  Testimony.objects.filter(is_active = True)
-    if list_testimony.count() >= 3:
-        list_testimony = sample(list(list_testimony), 3)
-
     context['course'] = course
     context['list_course_you_might_like'] = list_course_you_might_like
-    context['list_testimony'] = list_testimony
+   
     
     return context
   

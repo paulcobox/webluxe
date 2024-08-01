@@ -4,5 +4,6 @@ from .views import InstructorsTemplateView, InstructorsDetailTemplateView
 urlpatterns = [
   path('instructor', InstructorsTemplateView.as_view(), name = 'instructor'),
   path('instructor_detail', InstructorsDetailTemplateView.as_view(), name = 'instructor_detail'),
+  path('instructor/<slug:instructor_slug>/', InstructorsDetailTemplateView.as_view(), name='instructor_detail'),
  
 ]

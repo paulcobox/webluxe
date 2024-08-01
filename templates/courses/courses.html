@@ -19,7 +19,7 @@
                                         <img class="img-fluid" src="{{ course.image.url }}" alt="">
                                         <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
                                             <a href="{% url 'courses_detail' course.slug %}" class="flex-shrink-0 btn btn-sm btn-warning px-3 border-end" style="border-radius: 30px 0 0 30px;">Leer Mas</a>
-                                            <a href="#" class="flex-shrink-0 btn btn-sm btn-warning px-3" style="border-radius: 0 30px 30px 0;">Obten un Descuento</a>
+                                            <a href="#" class="flex-shrink-0 btn btn-sm btn-warning px-3" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-course="{{ course.title }}" style="border-radius: 0 30px 30px 0;">Obten un Descuento</a>
                                         </div>
                                         <div class="infoPrice">
                                             <strong>S/.{{ course.price }}</strong>

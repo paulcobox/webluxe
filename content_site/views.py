@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from .models import MissionVision
 from courses.models import Course
 from random import sample
+# from instructors.models import Instructors
 # Create your views here.
 
 class HomePageView(TemplateView):
@@ -21,7 +22,11 @@ class HomePageView(TemplateView):
     if list_course_banner_top.count() >= 3:
         list_course_banner_top = sample(list(list_course_banner_top), 3)
 
+    # instructors = Instructors.objects.filter(is_active = True)
+    
+    # context['instructors'] = instructors
     context['list_course_banner_top'] = list_course_banner_top
+    context['list_course_you_might_like'] = list_course_you_might_like
     
     return context
 

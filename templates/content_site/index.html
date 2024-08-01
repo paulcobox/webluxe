@@ -3,8 +3,9 @@
 {% block title %}Cursos | Talleres{% endblock title %}
 
 {% block content %}
-    {% if list_course_banner_top %}
+    
     <!-- Carousel Start -->
+    {% if list_course_banner_top %}
         <div class="container-fluid p-0 mb-5">
             <div class="owl-carousel header-carousel position-relative">
                 {% for course in list_course_banner_top %}
@@ -19,8 +20,8 @@
                                         <div class="custom-content">
                                             <p class="fs-5 text-white mb-4 pb-2">{{ course.body | safe}}</p>
                                         </div>
-                                        <a href="" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Leer Mas</a>
-                                        <a href="" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Contactar</a>
+                                        <a href="{% url 'courses_detail' course.slug %}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" >Leer Mas</a>
+                                        <a href="" class="btn btn-light py-md-3 px-md-5 animated slideInRight" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-course="{{ course.title }}">Contactar</a>
                                     </div>
                                 </div>
                             </div>
@@ -36,7 +37,8 @@
     <div class="container-xxl py-5 category">
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h4 class="section-title bg-white text-center text-primary px-3">Categoria de Cursos</h4>
+                <h6 class="section-title bg-white text-center text-primary px-3">Categoria de Cursos</h6>
+                <h1 class="mb-5">¡Encuentra Tu Curso Perfecto!</h1>
             </div>
             <div class="row g-3">
                 <div class="col-lg-7 col-md-6">
@@ -84,15 +86,14 @@
     </div>
     <!-- Categories Start -->
 
-
-    {% if list_course_you_might_like %}
     <!-- Courses might Like -->
+    {% if list_course_you_might_like %}
         <div class="container-xxl py-5">
             <div class="container">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h4 class="section-title bg-white text-center text-primary px-3">Cursos Populares </h4>
+                    <h6 class="section-title bg-white text-center text-primary px-3">Cursos Populares</h6>
+                    <h1 class="mb-5">¡Aprende a Bailar con Nuestros Cursos Más Populares!</h1>
                 </div>
-                
                 <!-- list Courses Start -->
                 <div class="row g-4 justify-content-center">
                     {% for course in list_course_you_might_like %}
@@ -102,7 +103,7 @@
                                     <img class="img-fluid" src="{{ course.image.url }}" alt="">
                                     <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
                                         <a href="{% url 'courses_detail' course.slug %}" class="flex-shrink-0 btn btn-sm btn-warning px-3 border-end" style="border-radius: 30px 0 0 30px;">Leer Mas</a>
-                                        <a href="#" class="flex-shrink-0 btn btn-sm btn-warning px-3" style="border-radius: 0 30px 30px 0;">Obten un Descuento</a>
+                                        <a href="#" class="flex-shrink-0 btn btn-sm btn-warning px-3" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-course="{{ course.title }}" style="border-radius: 0 30px 30px 0;">Obten un Descuento</a>
                                     </div>
                                     <div class="infoPrice">
                                         <strong>S/.{{ course.price }}</strong>
@@ -132,6 +133,74 @@
     {% endif %}
     <!-- Courses might like End -->
 
-
-
+    
+    {% if list_testimony %}
+        <!-- Testimonial Start -->
+        <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+            <div class="container">
+                <div class="text-center">
+                    <h6 class="section-title bg-white text-center text-primary px-3">Testimonios </h6>
+                    <h1 class="mb-3">Nuestros estudiantes dicen!</h1>
+                </div>
+                <div class="owl-carousel testimonial-carousel position-relative">
+                    {% for testimony in list_testimony %}
+                        <div class="testimonial-item text-center">
+                            <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s">
+                                <video class="img-fluid"  controls>
+                                    <source src="{{ testimony.video.url }}" type="video/mp4">
+                                </video>
+                            </div>
+                            <div class="testimonial-text bg-light text-center p-4">
+                                <h5 class="mb-0">{{ testimony.name }}</h5>
+                                <p>{{ testimony.profession }}</p>
+                                <p class="mb-0">
+                                    {{ testimony.description | safe }}
+                                </p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!-- Testimonial End -->
+    {% endif %}
+    
+    
+    <!-- Team Start -->
+    {% if instructors %}
+        <div id="instructors" class="container-xxl py-5">
+            <div class="container">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h6 class="section-title bg-white text-center text-primary px-3">Instructor</h6>
+                    <h1 class="mb-5">Instructor Experto</h1>
+                </div>
+                <div class="row g-4 justify-content-center">
+                    {% for instructor in instructors %}
+                        <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="team-item bg-light">
+                                <div class="overflow-hidden">
+                                    <img class="img-fluid" src="{{ instructor.image.url }}" alt="">
+                                </div>
+                                <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
+                                    <div class="bg-light d-flex justify-content-center pt-2 px-1">
+                                        <a class="btn btn-sm-square btn-primary mx-1" target="_blank" href="{{ instructor.facebook }}"><i class="fab fa-facebook-f"></i></a>
+                                        <a class="btn btn-sm-square btn-primary mx-1" target="_blank" href="{{ instructor.tiktok }}"><i class="fab fa-tiktok"></i></a>
+                                        <a class="btn btn-sm-square btn-primary mx-1" target="_blank" href="{{ instructor.instagram }}"><i class="fab fa-instagram"></i></a>
+                                    </div>
+                                </div>
+                                <div class="text-center p-4">
+                                    <h5 class="mb-0">{{ instructor.name }}</h5>
+                                    <small>{{ instructor.specialty }}</small>
+                                    <a class="btn btn-primary py-2 px-4 mt-2" href="{% url 'instructor_detail' instructor.slug %}">Ver mas</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    <!-- Team End -->
+    
 {% endblock content %}

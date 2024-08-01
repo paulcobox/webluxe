@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
+from instructors.models import Instructors
+from django.shortcuts import get_object_or_404
 # Create your views here.
 
 class InstructorsTemplateView(TemplateView):
@@ -14,19 +16,13 @@ class InstructorsTemplateView(TemplateView):
 
 
 class InstructorsDetailTemplateView(TemplateView):
-  template_name = 'instructors/about_instructors_detail.html'
+  template_name = 'instructors/instructors_detail.html'
 
   def get_context_data(self, *args, **kwargs):
     context = super(InstructorsDetailTemplateView, self).get_context_data(*args, **kwargs)
-
-    try:
-        instructor = Instructors.objects.get(id = 1)
-    except Instructors.DoesNotExist:
-        raise Exception("El Instructors no existe.")
-
-
-    context['name'] = 'instructor_detail'
+    instructor_slug = kwargs.get('instructor_slug')  # Assuming 'course_slug' is the URL parameter
+    instructor = get_object_or_404(Instructors.objects.filter(is_active=True), slug=instructor_slug)
     context['instructor'] = instructor
-    if instructor.tags_mission:
-      context['mision_tags'] = instructor.tags_mission.split(",")
+    if instructor.tags_about_me:
+      context['tags_about_me'] = instructor.tags_about_me.split("|")
     return context
