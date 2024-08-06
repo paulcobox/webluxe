@@ -128,49 +128,99 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-body">
-                        <form style="border: 2px solid #ddd; border-radius: 15px; padding: 20px;">
+                        <form id="leadForm" style="border: 2px solid #ddd; border-radius: 15px; padding: 20px;">
+                            {% csrf_token %}
+                            <input type="hidden" id="course_of_interest" name="course_of_interest">
                             <div class="row g-3">
-
                                 <div class="col-12">
                                     <div class="form-floating">
                                         <h4 class="text-dark">Contáctate y obten un descuento por el curso de baile</h4>
                                     </div>
                                 </div>
-
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="name" placeholder="Your Name">
+                                        <input type="text" class="form-control" id="name" name="first_name" placeholder="Tu Nombre" required>
                                         <label for="name">(*) Nombre</label>
+                                        <div class="invalid-feedback">
+                                            Por favor, introduce tu nombre.
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="email" class="form-control" id="email" placeholder="Your Email">
-                                        <label for="email">(*) Mail</label>
+                                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Tu Apellido" required>
+                                        <label for="last_name">(*) Apellido</label>
+                                        <div class="invalid-feedback">
+                                            Por favor, introduce tu apellido.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Tu Correo" required>
+                                        <label for="email">(*) Correo</label>
+                                        <div class="invalid-feedback">
+                                            Por favor, introduce un correo electrónico válido.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="Tu Whatsapp" required>
+                                        <label for="phone_number">(*) Whatsapp</label>
+                                        <div class="invalid-feedback">
+                                            Por favor, introduce tu número de WhatsApp.
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="subject" placeholder="Subject">
-                                        <label for="subject">(*) Tu Whatsapp </label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <textarea class="form-control" placeholder="Leave a message here" id="message" style="height: 120px"></textarea>
+                                        <textarea class="form-control" placeholder="Deja un mensaje aqui" id="message" name="notes" style="height: 120px" required></textarea>
                                         <label for="message">Consulta</label>
+                                        <div class="invalid-feedback">
+                                            Por favor, deja tu consulta.
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <button class="btn btn-success w-100 py-3" type="submit">
+                                    <button class="btn btn-success w-100 py-3" type="button" id="submitForm">
                                         <i class="fab fa-whatsapp i-size-contactar"></i>
                                         Contactar por WhatsApp
                                     </button>
+                                    <button type="button" id="closeModalButton" class="btn btn-secondary d-none" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </form>
+                        <div id="processingOverlay" class="position-absolute top-0 start-0 w-100 h-100 d-none d-flex align-items-center justify-content-center" style="background-color: rgba(255, 255, 255, 0.8); z-index: 10;">
+                            <div class="text-center">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <span class="d-block mt-2">Procesando su solicitud, por favor espere...</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <!-- Modal end -->
+
+
+        <!-- Modal start-->
+        <div class="modal" id="successModal" tabindex="-1">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Registro Exitoso</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <p>Hemos recibido tus datos y te contactarán a la brevedad posible..</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+              </div>
             </div>
         </div>
         <!-- Modal end -->
@@ -203,14 +253,73 @@
             // Extract info from data-bs-* attributes
             var recipient = button.getAttribute('data-bs-course')
             var messageField = document.getElementById('message');
+            var courseField = document.getElementById('course_of_interest');
             if (recipient) {
                 messageField.value = "Quiero informes y promociones sobre el Curso " + recipient;
+                courseField.value = recipient; // Asigna el valor al campo oculto
             } else {
                 messageField.value = "Quiero informes y promociones sobre los cursos.";
             }
 
 
         })
+
+
+        document.getElementById('submitForm').addEventListener('click', function () {
+            var form = document.getElementById('leadForm');
+            var processingMessage = document.getElementById('processingMessage');
+            if (form.checkValidity()) {    
+                var formData = new FormData(document.getElementById('leadForm'));
+                processingOverlay.classList.remove('d-none');
+                fetch('/create-lead/', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    }
+                }).then(response => response.json()).then(data => {
+                    if (data.success) {
+                        // Cerrar el primer modal
+                        document.getElementById('closeModalButton').click();
+                        // Mostrar el segundo modal
+                        var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                        successModal.show();
+
+                        // Preparar y abrir WhatsApp
+                        var firstName = document.getElementById('name').value;
+                        var lastName = document.getElementById('last_name').value;
+                        var courseOfInterest = document.getElementById('course_of_interest').value;
+                        var notes = document.getElementById('message').value;
+
+                        if (courseOfInterest) {
+                            var whatsappMessage = `Hola, me llamo ${firstName} ${lastName}. Estoy interesado en el curso: ${courseOfInterest}. ${notes}`;
+                        } else {
+                            var whatsappMessage = `Hola, me llamo ${firstName} ${lastName}. Estoy interesado en los cursos. ${notes}`;
+                        }
+
+                        var whatsappNumber = '51962345841'; // Reemplaza con el número de teléfono de WhatsApp deseado
+                        var whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+                        console.log(whatsappURL)
+                        window.open(whatsappURL, '_blank');
+
+
+                    } else {
+                        alert('Error al crear el lead');
+                    }
+                }).catch(error => {
+                    processingOverlay.classList.add('d-none'); // Ocultar el overlay
+                    console.error('Error:', error);
+                    alert('Ocurrió un error al enviar el formulario');
+                }).finally(() => {
+                    // Ocultar mensaje de procesamiento y habilitar botón
+                    processingOverlay.classList.add('d-none');
+
+                });
+            } else {
+                form.classList.add('was-validated');
+            }
+        });
+
     </script>
 
       {% block javascript %}
