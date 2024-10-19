@@ -54,6 +54,7 @@ LOCAL_APPS = [
     'courses.apps.CoursesConfig',
     'content_site.apps.ContentSiteConfig',
     'leads.apps.LeadsConfig',
+    'blog.apps.BlogConfig',
 ]
 
 

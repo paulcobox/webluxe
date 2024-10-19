@@ -1,0 +1,38 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Blog de Cuban Groove - Noticias y Artículos{% endblock title %}
+
+{% block content %}
+
+    <!-- Blog Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center px-3 color-oran">Blog</h6>
+                <h2 class="text-center mb-4 color-cafe">Últimas Noticias y Artículos</h2>
+            </div>
+            <div class="row">
+                {% for post in posts %}
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm ">
+                        <a href="{% url 'post_detail' post.slug %}" title="{{ post.title }}" aria-label="Leer más sobre {{ post.title }}" >
+                            <img class="card-img-top" src="{{ post.image.url }}" alt="{{ post.title }} - Imagen destacada" loading="lazy">
+                        </a>
+                        <div class="card-body">
+                            <h2 class="post-title-alt">
+                                <a href="{% url 'post_detail' post.slug %}" class="color-oran" title="{{ post.title }}" aria-label="Leer más sobre {{ post.title }}">{{ post.title }}</a>
+                            </h2>
+                            <p class="card-text">{{ post.excerpt }}</p>
+                            <a href="{% url 'post_detail' post.slug %}" style="background-color: #ff6a09;color: white;" class="btn btn-primary" title="Leer más sobre {{ post.title }}">Leer más</a>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p>No hay publicaciones disponibles.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- Blog End -->
+
+{% endblock content %}

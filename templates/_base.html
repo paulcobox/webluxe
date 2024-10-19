@@ -4,10 +4,10 @@
 
   <head>
     <meta charset="utf-8">
-    <title>{% block title %}Bookstore{% endblock title %}</title>
+    <title>{% block title %}Clases de Salsa en Lima{% endblock title %}</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+    <meta name="keywords" content="Clases de Salsa en Lima, Clases de Timba en Lima, Baile cubano en Lima, Escuela de baile en Lima, Salsa y Timba para principiantes, Instructores de baile en Lima, Academia de Salsa en Lima, Clases de baile latino, Cursos de Salsa y Timba, Danza afrocubana, Ritmos cubanos en Lima, Aprender a bailar Salsa, Clases de baile para adultos, Eventos de baile en Lima, Talleres de Salsa y Timba, Baile social en Lima, Salsa cubana, Timba cubana, Escuela de danza en Lima, Bailes latinos">
+    <meta name="description" content="CubanGroove ofrece clases de Salsa y Timba en Lima, donde aprenderás ritmos afrocubanos y otros géneros como son, chachachá, rumba y reguetón cubano. Con una metodología progresiva, dominarás la técnica de movimiento y los fundamentos teóricos del género. Únete a nosotros y transforma tu forma de bailar.">
 
     <!-- Favicon -->
     <!-- <link href="img/favicon.ico" rel="icon"> -->
@@ -49,7 +49,9 @@
       <!-- Navbar Start -->
       <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
           <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-              <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Muevete Cuba</h2>
+              <h2 class="m-0 text-primary">
+                <img class="" src="{% static 'img/logos/logo_desk.png' %}">
+              </h2>
           </a>
           <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
               <span class="navbar-toggler-icon"></span>
@@ -66,17 +68,18 @@
                       </div>
                   </div>                  
                   <div class="nav-item dropdown">
-                      <a href="#" class="nav-link dropdown-toggle {% if 'courses' in request.path %}active{% endif %}" data-bs-toggle="dropdown">Cursos</a>
+                      <a href="#" class="nav-link dropdown-toggle {% if 'courses' in request.path %}active{% endif %}" data-bs-toggle="dropdown">Cursos de Baile</a>
                       <div class="dropdown-menu fade-down m-0">
-                          <a href="{% url 'courses_virtual' %}" class="dropdown-item">Virtuales</a>
                           <a href="{% url 'courses_group' %}" class="dropdown-item">Grupales</a>
-                          <a href="{% url 'courses_personal' %}" class="dropdown-item">Personalizado</a>
+                          <a href="{% url 'courses_virtual' %}" class="dropdown-item">Virtuales</a>
+                          {% comment %} <a href="{% url 'courses_personal' %}" class="dropdown-item">Personalizado</a> {% endcomment %}
                           <a href="{% url 'courses_choreography' %}" class="dropdown-item">Coreografias</a>
                       </div>
                   </div>
                   <a href="{% url 'contact' %}" class="nav-item nav-link {% if 'contact' in request.path %}active{% endif %}">Contacto</a>
+                  <a href="{% url 'post_list' %}" class="nav-item nav-link {% if 'post_list' in request.path %}active{% endif %}">Blog</a>
               </div>
-              <a href="" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block" data-bs-toggle="modal" data-bs-target="#exampleModal">Inscribete Ahora<i class="fa fa-arrow-right ms-3"></i></a>
+              <a href="" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block"  style="background-color: #ff6a09;color: white;" data-bs-toggle="modal" data-bs-target="#exampleModal">Promoción Especial<i class="fa fa-arrow-right ms-3"></i></a>
           </div>
       </nav>
       <!-- Navbar End -->
@@ -98,11 +101,11 @@
                         <h4 class="text-white mb-3">Contacto</h4>
                         <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Lima, PERU</p>
                         <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+51 991 337 159</p>
-                        <p class="mb-2"><i class="fa fa-envelope me-3"></i>muevetecuba@gmail.com</p>
+                        <p class="mb-2"><i class="fa fa-envelope me-3"></i>cubangroove@gmail.com</p>
                         <div class="d-flex mb-5 justify-content-center"">
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-instagram"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-tiktok"></i></a>
+                            <a class="btn btn-outline-light btn-social" href="https://www.instagram.com/luxecoronado/" target="_blank"><i class="fab fa-instagram"></i></a>
+                            <a class="btn btn-outline-light btn-social" href="https://www.facebook.com/muevetecuba" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-outline-light btn-social" href="https://www.tiktok.com/@luxecoronado" target="_blank"><i class="fab fa-tiktok"></i></a>
                         </div>
 
                         <div class="text-center text-white text-rights mb-3">
@@ -181,6 +184,12 @@
                                             Por favor, deja tu consulta.
                                         </div>
                                     </div>
+                                </div>
+                                <!-- Términos y condiciones -->
+                                <div class="col-12">
+                                    <p class="small text-muted">
+                                        Al hacer clic en "Registrar", aceptas nuestros <a href="{% url 'terms_conditions' %}">Términos y Condiciones</a> y <a href="{% url 'privacy_policies' %}">Políticas de Privacidad</a>.
+                                    </p>
                                 </div>
                                 <div class="col-12">
                                     <button class="btn btn-success w-100 py-3" type="button" id="submitForm">

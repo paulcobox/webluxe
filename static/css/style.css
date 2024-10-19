@@ -1,6 +1,6 @@
 /********** Template CSS **********/
 :root {
-    --primary: #06BBCC;
+    --primary: #ff6a09;
     --light: #F0FBFC;
     --dark: #181d38;
 }
@@ -97,7 +97,7 @@
 
 .navbar-light .navbar-nav .nav-link:hover,
 .navbar-light .navbar-nav .nav-link.active {
-    color: var(--primary);
+    color: #ff6a09;
 }
 
 @media (max-width: 991.98px) {
@@ -470,6 +470,10 @@
     color: inherit; /* Esto asegura que el color del texto no cambie */
 }
 
+.card-link:hover {
+    color: #ff6a09; /* Asegúrate de que el color se mantenga igual cuando el usuario pase el ratón por encima */
+}
+
 .custom-content p {
     font-size: 1.25rem; /* Equivalente a fs-5 */
     color: #ffffff; /* Equivalente a text-white */
@@ -480,4 +484,54 @@
 .custom-content * {
     font-family: inherit; /* Anula cualquier cambio de font-family */
     color: inherit; /* Anula cualquier cambio de color */
+}
+
+.color-cafe {
+    color: #89171a; /* Anula cualquier cambio de color */
+}
+.color-oran {
+    color: #ff6a09; /* Anula cualquier cambio de color */
+}
+.back-oran {
+    color: #ff6a09; /* Anula cualquier cambio de color */
+}
+
+.post-title-alt {
+    font-family: Roboto, Arial, sans-serif;
+    font-size: 27px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-transform: none;
+    margin-bottom: .5rem;
+}
+
+.custom-h5 {
+    font-size: 1.25rem; /* Este es el tamaño por defecto de h5 en la mayoría de navegadores */
+    font-weight: bold;  /* Asegura que el peso de la fuente sea igual al de h5 */
+}
+
+.custom-h6 {
+    font-size: 1rem; /* Este es el tamaño por defecto de h6 en la mayoría de navegadores */
+    font-weight: bold; /* Mantén el peso de la fuente similar al de h6 */
+}
+
+.custom-h2 {
+    font-size: 2rem;       /* Tamaño personalizado para el h2 */
+    font-weight: bold;     /* Peso de la fuente */
+}
+
+.custom-h1 {
+    font-size: 2.5rem;       /* Tamaño personalizado para el h2 */
+    font-weight: bold;     /* Peso de la fuente */
+}
+
+.h2-small {
+    font-size: 0.875rem; /* Tamaño de fuente típico de <small> */
+    font-weight: normal; /* Peso de fuente para que no sea tan grueso como un <h2> */
+}
+
+.btn-orange {
+    background-color: #ff6a09;
+    border-color: #ff6a09;
+    color: #ffffff;
 }

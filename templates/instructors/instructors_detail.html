@@ -1,6 +1,7 @@
 {% extends '_base.html' %}
 {% load static %}
-{% block title %}Acerca de Nosotros{% endblock title %}
+{% block title %}Instructor | Clases de Baile{% endblock title %}
+
 
 {% block content %}
 
@@ -12,13 +13,13 @@
                 <div class="row g-5">
                     <div class="row g-4 justify-content-center">
                         <div class="col" style="text-align: left;">
-                            <p style="margin-bottom: -10px;"><h2 class="text-primary">{{ instructor.name }}</h2></p>
+                            <p style="margin-bottom: -10px;"><h1 class="color-oran">{{ instructor.name }}</h1></p>
                         </div>
                         {{instructor.about_me | safe }}
                         <div class="row gy-2 gx-4 mb-0">
                             {% for tag in tags_about_me %}
                                 <div class="col-sm-6">
-                                    <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>{{ tag }}</p>
+                                    <p class="mb-0"><i class="fa fa-arrow-right color-oran me-2"></i>{{ tag }}</p>
                                 </div>
                             {% endfor %}
                         </div>
@@ -34,8 +35,8 @@
         <div class="container-xxl py-5">
             <div class="container">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h6 class="section-title bg-white text-center text-primary px-3">Mis Cursos</h6>
-                    <h1 class="mb-5">¡Aprende a Bailar con la Mejor Metodologia!</h1>
+                    <h6 class="section-title bg-white text-center px-3 color-oran">Mis Cursos</h6>
+                    <h2 class="mb-5 color-cafe">¡Aprende a Bailar con la Mejor Metodologia!</h2>
                 </div>
                 
                 <!-- list Courses Start -->
@@ -44,9 +45,9 @@
                         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                             <div class="course-item bg-light">
                                 <div class="position-relative overflow-hidden d-flex align-items-center">
-                                    <img class="img-fluid" src="{{ course.image.url }}" alt="">
+                                    <img class="img-fluid" src="{{ course.image.url }}" alt="{{ course.title }} - Curso de Baile en Cuban Groove">
                                     <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                                        <a href="{% url 'courses_detail' course.slug %}" class="flex-shrink-0 btn btn-sm btn-warning px-3 border-end" style="border-radius: 30px 0 0 30px;">Leer Mas</a>
+                                        <a href="{% url 'courses_detail' course.slug %}" class="flex-shrink-0 btn btn-sm btn-warning px-3 border-end" style="border-radius: 30px 0 0 30px;">Leer Más</a>
                                         <a href="#" class="flex-shrink-0 btn btn-sm btn-warning px-3" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-course="{{ course.title }}" style="border-radius: 0 30px 30px 0;">Obten un Descuento</a>
                                     </div>
                                     <div class="infoPrice">
@@ -54,16 +55,16 @@
                                     </div>
                                 </div>
                                 <a href="{% url 'courses_detail' course.slug %}" class="card-link">
-                                    <div class="text-center p-4 pb-0 border border-secondary  rounded">
-                                        <h5 class="mb-0">{{ course.title }}</h5>
+                                    <div class="text-center p-4 pb-0 border border-secondary rounded">
+                                        <h2 class="mb-0 custom-h5">{{ course.title }}</h2>
                                         <div class="mb-0">
-                                            <small class="fa fa-star text-primary"></small>
+                                            <small class="fa fa-star color-oran"></small>
                                             <small>{{ course.schedule }}</small>
-                                            <small class="fa fa-star text-primary"></small>
+                                            <small class="fa fa-star color-oran"></small>
                                         </div>
-                                        <div class="mb-2"><small>{{ course.instructor }}</small></div>
+                                        <h2 class="mb-2 h2-small">{{ course.instructor }}</h2>
                                         <h6 class="card-title">Lugar</h6>
-                                        <small class="text-muted">{{ course.district | safe }}</small>
+                                        <h2 class="h2-small">{{ course.district | safe }}</h2>
                                     </div>
                                 </a>
                             </div>

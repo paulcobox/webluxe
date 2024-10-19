@@ -1,5 +1,6 @@
 from instructors.models import Instructors  # Ajusta esta importación según tu estructura de proyecto
 from content_site.models import Testimony
+from random import sample
 
 def global_context(request):
     instructors = Instructors.objects.filter(is_active = True)
