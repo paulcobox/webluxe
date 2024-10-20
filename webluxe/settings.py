@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 import locale
-locale.setlocale(locale.LC_ALL, 'es-es')
+locale.setlocale(locale.LC_ALL, 'es_ES.UTF-8')
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
