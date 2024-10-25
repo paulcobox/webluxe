@@ -1,0 +1,44 @@
+[
+{
+    "model": "content_site.testimony",
+    "pk": 1,
+    "fields": {
+        "name": "Romina V.",
+        "profession": "Estudiante de Timba y Salsa",
+        "description": "<p>&quot;Desde que empec&eacute; las clases en CubanGroove, not&eacute; una diferencia inmediata en la metodolog&iacute;a de ense&ntilde;anza. Los instructores explican cada paso con claridad, y las clases est&aacute;n bien estructuradas, lo que me permiti&oacute; avanzar r&aacute;pidamente. Adem&aacute;s, siempre tienen un calendario claro y accesible, &iexcl;as&iacute; que nunca pierdo una clase! Me encanta saber que puedo confiar en su profesionalismo y pasi&oacute;n por la cultura cubana.&quot;</p>",
+        "video": "",
+        "imagen": "images/testimony/testimonio_romi_edit.jpg",
+        "is_active": true,
+        "created_date": "2024-07-29T05:34:12.269Z",
+        "modified_date": "2024-09-25T01:17:36.223Z"
+    }
+},
+{
+    "model": "content_site.testimony",
+    "pk": 2,
+    "fields": {
+        "name": "Paul C.",
+        "profession": "Alumno de Salsa Cubana",
+        "description": "<p>&quot;Lo que m&aacute;s me gusta de CubanGroove es la transparencia y el ambiente acogedor. Desde el primer d&iacute;a, pude ver los precios de las clases y la disponibilidad de los instructores en su p&aacute;gina web. No tuve que lidiar con sorpresas. Adem&aacute;s, los profesores son incre&iacute;blemente experimentados, con una formaci&oacute;n s&oacute;lida en ritmos cubanos. &iexcl;Definitivamente se nota la diferencia con otras academias!&quot;</p>",
+        "video": "",
+        "imagen": "images/testimony/testimonio_paul_edit.jpg",
+        "is_active": true,
+        "created_date": "2024-09-25T00:56:29.472Z",
+        "modified_date": "2024-09-25T01:17:01.432Z"
+    }
+},
+{
+    "model": "content_site.testimony",
+    "pk": 3,
+    "fields": {
+        "name": "Eymmy H.",
+        "profession": "Alumna de Reparto Cubano",
+        "description": "<p>&quot;He probado varias academias de baile en Lima, pero CubanGroove destaca por la calidad de sus clases y el ambiente motivador. La instructora Lucero tiene un enfoque &uacute;nico y claro, lo que me ha permitido mejorar mi t&eacute;cnica de forma constante. Adem&aacute;s, el hecho de que su sitio web tenga toda la informaci&oacute;n sobre horarios y precios me da mucha confianza. &iexcl;Totalmente recomendado!&quot;</p>",
+        "video": "",
+        "imagen": "images/testimony/testimonio_eymmy_edit.jpg",
+        "is_active": true,
+        "created_date": "2024-09-25T00:57:08.877Z",
+        "modified_date": "2024-09-25T01:13:57.792Z"
+    }
+}
+]

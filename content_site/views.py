@@ -7,7 +7,7 @@ from random import sample
 # Create your views here.
 
 class HomePageView(TemplateView):
-  template_name = 'content_site/index.html'
+  template_name = 'index.html'
   
   
   def get_context_data(self, *args, **kwargs):
