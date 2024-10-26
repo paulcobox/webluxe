@@ -31,14 +31,15 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG') == 'True'  # Convertir a booleano
 
 # load production server from .env
-ALLOWED_HOSTS = [
-    "localhost",
-    "localhost:85",
-    "127.0.0.1",
-    "92.112.184.29",
-    'srv618887.hstgr.nube'
-]
+# ALLOWED_HOSTS = [
+#     "localhost",
+#     "localhost:85",
+#     "127.0.0.1",
+#     "92.112.184.29",
+#     'srv618887.hstgr.nube'
+# ]
 
+ALLOWED_HOSTS = ['*'] 
 
 # Application definition
 
