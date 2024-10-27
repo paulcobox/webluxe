@@ -39,7 +39,8 @@ DEBUG = os.getenv('DEBUG') == 'True'  # Convertir a booleano
 #     'srv618887.hstgr.nube'
 # ]
 
-ALLOWED_HOSTS = ['*'] 
+ALLOWED_HOSTS = ['92.112.184.29', 'localhost', '127.0.0.1']
+
 
 # Application definition
 
