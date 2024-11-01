@@ -11,8 +11,6 @@ import os
 import sys
 from django.core.wsgi import get_wsgi_application
 
-# Añadir la ruta a tu proyecto
-sys.path.append('/var/www/html/webluxe')
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'webluxe.settings')
 
