@@ -519,7 +519,12 @@
     font-size: 2rem;       /* Tamaño personalizado para el h2 */
     font-weight: bold;     /* Peso de la fuente */
 }
-
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 767px) {
+    .custom-h2 {
+        font-size: 1rem;  /* Tamaño más pequeño para pantallas móviles */
+    }
+}
 .custom-h1 {
     font-size: 2.5rem;       /* Tamaño personalizado para el h2 */
     font-weight: bold;     /* Peso de la fuente */

@@ -88,11 +88,11 @@
 
     <!-- Courses might Like -->
     {% if list_course_you_might_like %}
-        <div class="container-xxl py-5">
+        <div class="container-xxl mb-5">
             <div class="container">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                     <h6 class="section-title bg-white text-center px-3 color-oran">Cursos Populares</h6>
-                    <h2 class="mb-5 color-cafe">¡Aprende a Bailar con Nuestros Cursos Más Populares!</h2>
+                    <h2 class="mb-2 color-cafe">¡Aprende a Bailar con Nuestros Cursos Más Populares!</h2>
                 </div>
                 <!-- list Courses Start -->
                 <div class="row g-4 justify-content-center">
@@ -135,18 +135,18 @@
    
     <!-- Team Start -->
     {% if instructors %}
-        <div id="instructors" class="container-xxl py-5">
+        <div id="instructors" class="container-xxl mb-5">
             <div class="container">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                     <h6 class="section-title bg-white text-center px-3 color-oran">Instructor</h6>
-                    <h2 class="mb-5 color-cafe"">Instructor Experto</h2>
+                    <h2 class="mb-2 color-cafe"">Instructor Experto</h2>
                 </div>
                 <div class="row g-4 justify-content-center">
                     {% for instructor in instructors %}
                         <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                             <div class="team-item bg-light">
                                 <div class="overflow-hidden">
-                                    <img class="img-fluid" src="{{ instructor.image.url }}" alt="">
+                                    <img class="img-fluid" src="{{ instructor.image.url }}" alt="" style="width: 100%; height: auto;">
                                 </div>
                                 <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                                     <div class="bg-light d-flex justify-content-center pt-2 px-1">
@@ -176,11 +176,11 @@
     
     {% if list_testimony %}
         <!-- Testimonial Start -->
-        <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container-xxl mb-5 wow fadeInUp" data-wow-delay="0.1s">
             <div class="container">
                 <div class="text-center">
                     <h6 class="section-title bg-white text-center color-oran px-3">Testimonios </h6>
-                    <h2 class="mb-3 color-cafe">Nuestros estudiantes dicen!</h2>
+                    <h2 class="mb-2 color-cafe">Nuestros estudiantes dicen!</h2>
                 </div>
                 <div class="owl-carousel testimonial-carousel position-relative">
                     {% for testimony in list_testimony %}

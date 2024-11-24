@@ -4,24 +4,25 @@
 
 {% block content %}
     <!-- Detail Course and call to action -->
-    <div class="container-xxl py-5 category">
+    <div class="container-xxl py-3 category">
         <div class="container">
 
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <div class="row align-items-start">
-                    <div class="col" style="text-align: left;">
-                        <p style="margin-bottom: -10px;"><h1 class="custom-h2 color-oran">{{ course.title }}</h1></p>
+                <div class="row align-items-center">
+                    <div class="col-6 col-md-6 text-left">
+                        <h1 class="custom-h2 color-oran" style="text-align: left; white-space: nowrap;">{{ course.title }}</h1>
                     </div>
-                    <div class="col" style="text-align: right;">
-                        <h4 style="display: inline-block; margin-right: 10px;" class="color-oran">Precio:</h4>
-                        <h6 style="display: inline-block;" class="custom-h2 color-oran">S/. {{ course.price }}</h6>
-                    </div>
-                </div><div class="row align-items-start">
-                    <div class="col" style="text-align: left;">
-                        <p style="margin-top: -15px; margin-left: 10px;"><h7> {{ course.schedule }}</h7></p>
-                        <p style="margin-top: -25px; margin-left: 10px;"><h7> {{ course.place | safe }}</h7></p>
+                    <div class="col-6 col-md-6 text-right">
+                        <h1 class="custom-h2 color-oran" style="text-align: right; white-space: nowrap;">Precio: S/. {{ course.price }}</h1>
+                    </div>                    
+                    <div class="col-6 col-md-6 text-left">
+                        <h1 class="custom-h2" style="text-align: left; white-space: nowrap;">{{ course.schedule }}</h1>
+                    </div>                    
+                    <div class="col-6 col-md-6 text-right">
+                        <h1 class="custom-h2" style="text-align: right; white-space: nowrap;">{{ course.place | safe }}</h1>
                     </div>
                 </div>
+
             </div>
 
 
@@ -159,11 +160,11 @@
 
     {% if list_course_you_might_like %}
     <!-- Courses might Like -->
-        <div class="container-xxl py-5">
+        <div class="container-xxl mb-5">
             <div class="container">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h6 class="section-title bg-white text-center px-3 color-oran">Otros cursos de baile que te pueden gustar</h6>
-                    <h2 class="mb-5 color-cafe">¡Encuentra tu Curso Perfecto!</h2>
+                    <h6 class="section-title bg-white text-center px-3 color-oran">Otros cursos similares</h6>
+                    <h2 class="mb-2 color-cafe">¡Encuentra tu Curso Perfecto!</h2>
                 </div>
                 
                 <!-- list Courses Start -->
@@ -207,7 +208,7 @@
     
     {% if list_testimony %}
         <!-- Testimonial Start -->
-        <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container-xxl mb-5 wow fadeInUp" data-wow-delay="0.1s">
             <div class="container">
                 <div class="text-center">
                     <h6 class="section-title bg-white text-center px-3 color-oran">Testimonios</h6>

@@ -49,9 +49,9 @@
       <!-- Navbar Start -->
       <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
           <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-              <h2 class="m-0 text-primary">
-                <img class="" src="{% static 'img/logos/logo_desk.png' %}">
-              </h2>
+            <h2 class="m-0 text-primary">
+                <img src="{% static 'img/logos/logo_desk.png' %}" style="width: 200px; height: auto;">
+            </h2>
           </a>
           <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
               <span class="navbar-toggler-icon"></span>
@@ -79,7 +79,7 @@
                   <a href="{% url 'contact' %}" class="nav-item nav-link {% if 'contact' in request.path %}active{% endif %}">Contacto</a>
                   <a href="{% url 'post_list' %}" class="nav-item nav-link {% if 'post_list' in request.path %}active{% endif %}">Blog</a>
               </div>
-              <a href="" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block"  style="background-color: #ff6a09;color: white;" data-bs-toggle="modal" data-bs-target="#exampleModal">Promoción Especial<i class="fa fa-arrow-right ms-3"></i></a>
+              <a href="" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block"  style="background-color: #ff6a09;color: white; align-items: center;" data-bs-toggle="modal" data-bs-target="#exampleModal">Promoción<i class="fa fa-arrow-right ms-3"></i></a>
           </div>
       </nav>
       <!-- Navbar End -->

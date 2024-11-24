@@ -22,7 +22,7 @@ class CoursesVirtualTemplateView(TemplateView):
 
     context['list_course_you_might_like'] = list_course_you_might_like
     
-    context['title'] = 'CLASE DE BAILE VIRTUALES'
+    context['title'] = 'Clases de Baile Virtual'
     context['list_courses'] = courses
     
     return context
@@ -40,7 +40,7 @@ class CoursesPersonalTemplateView(TemplateView):
 
     context['list_course_you_might_like'] = list_course_you_might_like
     
-    context['title'] = 'CLASES DE BAILE PERSONALIZADAS'
+    context['title'] = 'Clases de Baile Personalizadas'
     context['list_courses'] = courses
     
     return context
@@ -57,7 +57,7 @@ class CoursesGroupTemplateView(TemplateView):
       list_course_you_might_like = sample(list(list_course_you_might_like), 3)
 
     context['list_course_you_might_like'] = list_course_you_might_like
-    context['title'] = 'CLASES DE BAILE GRUPALES'
+    context['title'] = 'Clases de Baile en Grupo'
     context['list_courses'] = courses
     
     return context
@@ -75,7 +75,7 @@ class CoursesChoreographyTemplateView(TemplateView):
 
     context['list_course_you_might_like'] = list_course_you_might_like
     
-    context['title'] = 'COREOGRAFIAS PARA EVENTOS'
+    context['title'] = 'Coreografias para Eventos (Concursos, Matrimonios, Empresas, Etc)'
     context['list_courses'] = courses
     
     return context
