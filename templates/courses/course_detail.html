@@ -13,13 +13,13 @@
                         <h1 class="custom-h2 color-oran" style="text-align: left; white-space: nowrap;">{{ course.title }}</h1>
                     </div>
                     <div class="col-6 col-md-6 text-right">
-                        <h1 class="custom-h2 color-oran" style="text-align: right; white-space: nowrap;">Precio: S/. {{ course.price }}</h1>
+                        <h2 class="custom-h2 color-oran" style="text-align: right; white-space: nowrap;">S/. {{ course.price }}</h2>
                     </div>                    
                     <div class="col-6 col-md-6 text-left">
-                        <h1 class="custom-h2" style="text-align: left; white-space: nowrap;">{{ course.schedule }}</h1>
+                        <p class="custom-h2" style="text-align: left; white-space: nowrap;">{{ course.schedule }}</p>
                     </div>                    
                     <div class="col-6 col-md-6 text-right">
-                        <h1 class="custom-h2" style="text-align: right; white-space: nowrap;">{{ course.place | safe }}</h1>
+                        <p class="custom-h2" style="text-align: right; white-space: nowrap;">{{ course.place | safe }}</p>
                     </div>
                 </div>
 
@@ -164,7 +164,7 @@
             <div class="container">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                     <h6 class="section-title bg-white text-center px-3 color-oran">Otros cursos similares</h6>
-                    <h2 class="mb-2 color-cafe">¡Encuentra tu Curso Perfecto!</h2>
+                    <h2 class="custom-h2 mb-2 color-cafe">¡Encuentra tu Curso Perfecto!</h2>
                 </div>
                 
                 <!-- list Courses Start -->
@@ -212,7 +212,7 @@
             <div class="container">
                 <div class="text-center">
                     <h6 class="section-title bg-white text-center px-3 color-oran">Testimonios</h6>
-                    <h2 class="mb-5 color-cafe">Nuestros estudiantes dicen!</h2>
+                    <h2 class="custom-h2 mb-5 color-cafe">Nuestros estudiantes dicen!</h2>
                 </div>
                 <div class="owl-carousel testimonial-carousel position-relative">
                     {% for testimony in list_testimony %}

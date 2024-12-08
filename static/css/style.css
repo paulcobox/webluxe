@@ -522,7 +522,7 @@
 /* Ajuste para pantallas pequeñas */
 @media (max-width: 767px) {
     .custom-h2 {
-        font-size: 1rem;  /* Tamaño más pequeño para pantallas móviles */
+        font-size: 1.5rem;  /* Tamaño más pequeño para pantallas móviles */
     }
 }
 .custom-h1 {
@@ -534,6 +534,8 @@
     font-size: 0.875rem; /* Tamaño de fuente típico de <small> */
     font-weight: normal; /* Peso de fuente para que no sea tan grueso como un <h2> */
 }
+
+
 
 .btn-orange {
     background-color: #ff6a09;
