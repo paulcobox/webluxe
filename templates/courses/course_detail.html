@@ -38,14 +38,14 @@
                             {% endif %}
                         </div>
                         <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
-                            <a class="position-relative d-block overflow-hidden" href="">
-                                <img class="img-fluid" src="{{ course.image_fiz.url }}" alt="">
-                            </a>
+
+                                <img class="img-fluid" src="{{ course.image_fiz.url }}" alt="{{ course.title }}">
+
                         </div>
                         <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
-                            <a class="position-relative d-block overflow-hidden" href="">
-                                <img class="img-fluid" src="{{ course.image_fid.url }}" alt="">
-                            </a>
+
+                                <img class="img-fluid" src="{{ course.image_fid.url }}" alt="{{ course.title }}">
+
                         </div>
                     </div>
                 </div>
@@ -217,7 +217,7 @@
                 <div class="owl-carousel testimonial-carousel position-relative">
                     {% for testimony in list_testimony %}
                         <div class="testimonial-item text-center">
-                            <img class="border rounded-circle p-2 mx-auto mb-3" src="{{ testimony.imagen.url }}" style="width: 80px; height: 80px;">
+                            <img class="border rounded-circle p-2 mx-auto mb-3" src="{{ testimony.imagen.url }}" style="width: 80px; height: 80px;" alt="testimonio de clases de baile">
                             <h5 class="mb-0">{{ testimony.name }}</h5>
                             <p>{{ testimony.profession }}</p>
                             <div class="testimonial-text bg-light text-center p-4">

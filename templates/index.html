@@ -9,7 +9,7 @@
             <div class="owl-carousel header-carousel position-relative">
                 {% for course in list_course_banner_top %}
                     <div class="owl-carousel-item position-relative">
-                        <img class="img-fluid" src="{{ course.image_banner_top.url }}" alt="">
+                        <img class="img-fluid" src="{{ course.image_banner_top.url }}" alt="alt="Clases de Salsa en Lima"">
                         <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(24, 29, 56, .7);">
                             <div class="container">
                                 <div class="row justify-content-start">
@@ -31,59 +31,6 @@
         </div>
     {% endif %}
     <!-- Carousel End -->
-
-    {% comment %} <!-- Categories Start -->
-    <div class="container-xxl py-5 category">
-        <div class="container">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h6 class="section-title bg-white text-center text-primary px-3">Categoria de Cursos</h6>
-                <h1 class="mb-5">¡Encuentra Tu Curso Perfecto!</h1>
-            </div>
-            <div class="row g-3">
-                <div class="col-lg-7 col-md-6">
-                    <div class="row g-3">
-                        <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s">
-                            <a class="position-relative d-block overflow-hidden" href="{% url 'courses_virtual' %}">
-                                <img class="img-fluid" src="{% static 'img/categories/cat-1.jpg' %}"  alt="">
-                                <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-                                    <h5 class="m-0">Clases de Baile Virtual</h5>
-                                    <small class="text-primary"></small>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
-                            <a class="position-relative d-block overflow-hidden"href="{% url 'courses_group' %}">
-                                <img class="img-fluid" src="{% static 'img/categories/cat-2.jpg' %}" alt="">
-                                <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-                                    <h5 class="m-0">Clases de Baile Grupal</h5>
-                                    <small class="text-primary"></small>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
-                            <a class="position-relative d-block overflow-hidden" href="{% url 'courses_choreography' %}">
-                                <img class="img-fluid" src="{% static 'img/categories/cat-3.jpg' %}" alt="">
-                                <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-                                    <h5 class="m-0">Coreografias</h5>
-                                    <small class="text-primary"></small>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-5 col-md-6 wow zoomIn" data-wow-delay="0.7s" style="min-height: 350px;">
-                    <a class="position-relative d-block h-100 overflow-hidden" href="{% url 'courses_personal' %}">
-                        <img class="img-fluid position-absolute w-100 h-100" src="{% static 'img/categories/cat-4.jpg' %}" alt="" style="object-fit: cover;">
-                        <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin:  1px;">
-                            <h5 class="m-0">Clases de Baile Personalizado</h5>
-                            <small class="text-primary"></small>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Categories Start --> {% endcomment %}
 
     <!-- Courses might Like -->
     {% if list_course_you_might_like %}
@@ -145,7 +92,7 @@
                         <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                             <div class="team-item bg-light">
                                 <div class="overflow-hidden">
-                                    <img class="img-fluid" src="{{ instructor.image.url }}" alt="" style="width: 100%; height: auto;">
+                                    <img class="img-fluid" src="{{ instructor.image.url }}" alt="{{ instructor.name }}" style="width: 100%; height: auto;">
                                 </div>
                                 <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                                     <div class="bg-light d-flex justify-content-center pt-2 px-1">
@@ -184,7 +131,7 @@
                 <div class="owl-carousel testimonial-carousel position-relative">
                     {% for testimony in list_testimony %}
                         <div class="testimonial-item text-center">
-                            <img class="border rounded-circle p-2 mx-auto mb-3" src="{{ testimony.imagen.url }}" style="width: 80px; height: 80px;">
+                            <img class="border rounded-circle p-2 mx-auto mb-3" src="{{ testimony.imagen.url }}" style="width: 80px; height: 80px;" alt="testimonio de clases de baile">
                             <h5 class="mb-0">{{ testimony.name }}</h5>
                             <p>{{ testimony.profession }}</p>
                             <div class="testimonial-text bg-light text-center p-4">
