@@ -1,0 +1,33 @@
+# Archivo robots.txt para https://cubangrooveperu.com
+# Indica a los rastreadores cómo interactuar con el sitio
+
+# Permitir a todos los bots rastrear excepto las áreas específicas
+User-agent: *
+Disallow: /admin/               # Bloquea el panel administrativo
+Disallow: /private/             # Bloquea el acceso a un directorio privado (si existe)
+Disallow: /search               # Bloquea búsquedas internas (si tu aplicación las tiene)
+Disallow: /*?                   # Bloquea URLs con parámetros dinámicos
+Disallow: /static/temp/         # Bloquea un directorio temporal dentro de /static/
+Allow: /static/css/             # Permite CSS
+Allow: /static/js/              # Permite JavaScript
+Allow: /                        # Permite todo lo demás
+
+# Ubicación del Sitemap
+Sitemap: https://cubangrooveperu.com/sitemap.xml
+
+# Reglas específicas para Googlebot
+User-agent: Googlebot
+Disallow: /hidden/              # Bloquea contenido oculto específico para Googlebot
+Allow: /                        # Permite todo lo demás
+
+# Reglas específicas para Bingbot
+User-agent: Bingbot
+Crawl-delay: 10                 # Solicita que rastree más lentamente (10 segundos entre solicitudes)
+Disallow: /                     # Bloquea todo para Bingbot (opcional)
+
+# Bloqueo de bots maliciosos (ejemplo genérico)
+User-agent: BadBot
+Disallow: /                     # Bloquea completamente el acceso
+
+# Regla para rastreadores con delay opcional
+Crawl-delay: 5                  # Aplica un retraso de 5 segundos para todos los bots que lo respeten

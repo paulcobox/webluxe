@@ -3,6 +3,8 @@ from django.views.generic import TemplateView
 # from .models import MissionVision
 from courses.models import Course
 from random import sample
+from django.http import FileResponse
+from django.http import FileResponse, Http404
 # from instructors.models import Instructors
 # Create your views here.
 
@@ -54,7 +56,14 @@ class TermsConditionsTemplateView(TemplateView):
     context = super(TermsConditionsTemplateView, self).get_context_data(*args, **kwargs)
     return context
   
+def sitemap_view(request):
+    return FileResponse(open('sitemap.xml', 'rb'), content_type='application/xml')
 
+def robots_view(request):
+    try:
+        return FileResponse(open('robots.txt', 'rb'), content_type='text/plain')
+    except FileNotFoundError:
+        raise Http404("El archivo robots.txt no se encuentra.")
 # class AboutMisionVisionValuesTemplateView(TemplateView):
 #   template_name = 'content_site/about_mision_vision.html'
 
