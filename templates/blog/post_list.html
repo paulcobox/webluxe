@@ -22,7 +22,7 @@
                             <h2 class="post-title-alt">
                                 <a href="{% url 'post_detail' post.slug %}" class="color-oran" title="{{ post.title }}" aria-label="Leer más sobre {{ post.title }}">{{ post.title }}</a>
                             </h2>
-                            <p class="card-text">{{ post.excerpt }}</p>
+                            <p class="card-text">{{ post.excerpt |safe }}</p>
                             <a href="{% url 'post_detail' post.slug %}" style="background-color: #ff6a09;color: white;" class="btn btn-primary" title="Leer más sobre {{ post.title }}">Leer más</a>
                         </div>
                     </div>

@@ -10,7 +10,9 @@
                 <h1>{{ post.title }}</h1>
                 <p class="text-muted">Publicado el {{ post.published_date|date:"F j, Y" }}</p>
                 <img src="{{ post.image.url }}" class="img-fluid mb-4" alt="{{ post.title }} - Imagen destacada" loading="lazy">
-                <p>{{ post.content }}</p>
+                <div class="rich-text">
+                    {{ post.content|safe }}
+                </div>
             </div>
         </div>
     </div>
