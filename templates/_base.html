@@ -11,6 +11,9 @@
 
 
     <link rel="alternate" hreflang="es-PE" href="https://cubangrooveperu.com" />
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+
+    
 
     <!-- Google Web Fonts -->
     
@@ -63,7 +66,15 @@
         }
     </script>
         
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M24NDJ63FD"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
+        gtag('config', 'G-M24NDJ63FD');
+    </script>
   </head>
 
 
@@ -161,7 +172,10 @@
        <!-- Modal start-->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
+              
+
                 <div class="modal-content">
+                    
                     <div class="modal-body">
                         <form id="leadForm" style="border: 2px solid #ddd; border-radius: 15px; padding: 20px;">
                             {% csrf_token %}
