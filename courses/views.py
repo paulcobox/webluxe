@@ -89,8 +89,8 @@ class CoursesDetailTemplateView(TemplateView):
     context = super(CoursesDetailTemplateView, self).get_context_data(*args, **kwargs)
     course_slug = kwargs.get('course_slug')  # Assuming 'course_slug' is the URL parameter
     course = get_object_or_404(Course.objects.filter(is_active=True), slug=course_slug)
-    video_id = YouTube(course.video_url).video_id
-    course.video_url = f"https://www.youtube.com/embed/{video_id}"
+    # video_id = YouTube(course.video_url).video_id
+    # course.video_url = f"https://www.youtube.com/embed/{video_id}"
     list_course_you_might_like = Course.objects.filter(is_active=True).exclude(pk=course.pk)
     # Select 3 random courses (if there are at least 3 active courses)
     if list_course_you_might_like.count() >= 3:
