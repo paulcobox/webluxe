@@ -481,6 +481,11 @@
     padding-bottom: 0.5rem; /* Equivalente a pb-2 */
 }
 
+@media (max-width: 767px) { /* Pantallas menores a 767px (dispositivos móviles) */
+    .custom-content p {
+        font-size: 1rem; /* Tamaño reducido para móviles */
+    }
+}
 .custom-content * {
     font-family: inherit; /* Anula cualquier cambio de font-family */
     color: inherit; /* Anula cualquier cambio de color */

@@ -17,7 +17,7 @@
                                         <h5 class="color-oran text-uppercase mb-3 animated slideInDown">Curso destacado</h5>
                                         <h2 class="display-3 text-white animated slideInDown custom-h1">{{ course.title }}</h2>
                                         <div class="custom-content">
-                                            <p class="fs-5 text-white mb-4 pb-2">{{ course.body | safe | truncatewords:30 }}</p>
+                                            <p class="text-white mb-4 pb-2">{{ course.body | safe | truncatewords:30 }}</p>
                                         </div>
                                         <a href="{% url 'courses_detail' course.slug %}" class="btn btn-orange py-md-3 px-md-5 me-3 animated slideInLeft" >Leer Mas</a>
                                         <a href="" class="btn btn-light py-md-3 px-md-5 animated slideInRight" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-course="{{ course.title }}">Contactar</a>
