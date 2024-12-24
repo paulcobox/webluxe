@@ -19,7 +19,7 @@
                                         <div class="custom-content">
                                             <p class="text-white mb-4 pb-2">{{ course.body | safe | truncatewords:30 }}</p>
                                         </div>
-                                        <a href="{% url 'courses_detail' course.slug %}" class="btn btn-orange py-md-3 px-md-5 me-3 animated slideInLeft" >Leer Mas</a>
+                                        <a href="{% url 'courses_detail' course.slug %}" id="btn_home_bt_read" class="btn btn-orange py-md-3 px-md-5 me-3 animated slideInLeft" >Leer Mas</a>
                                         <a href="" id="btn_home_bt_contact" class="btn btn-light py-md-3 px-md-5 animated slideInRight" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-course="{{ course.title }}">Contactar</a>
                                     </div>
                                 </div>
@@ -48,8 +48,8 @@
                                 <div class="position-relative overflow-hidden d-flex align-items-center">
                                     <img class="img-fluid" src="{{ course.image.url }}" alt="{{ course.title }} - Curso de Baile en Cuban Groove">
                                     <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                                        <a href="{% url 'courses_detail' course.slug %}" class="flex-shrink-0 btn btn-sm btn-warning px-3 border-end" style="border-radius: 30px 0 0 30px;">Leer Más</a>
-                                        <a href="#" class="flex-shrink-0 btn btn-sm btn-warning px-3" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-course="{{ course.title }}" style="border-radius: 0 30px 30px 0;">Obten un Descuento</a>
+                                        <a href="{% url 'courses_detail' course.slug %}" id="btn_home_popular_read" class="flex-shrink-0 btn btn-sm btn-warning px-3 border-end" style="border-radius: 30px 0 0 30px;">Leer Más</a>
+                                        <a href="#" class="flex-shrink-0 btn btn-sm btn-warning px-3" id="btn_home_popular_contact" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-course="{{ course.title }}" style="border-radius: 0 30px 30px 0;">Obten un Descuento</a>
                                     </div>
                                     <div class="infoPrice">
                                         <strong>S/.{{ course.price }}</strong>
@@ -105,7 +105,7 @@
                                     <h2 class="mb-0 custom-h5">{{ instructor.name }}</h2>
                                     <small>{{ instructor.specialty }}</small>
                                     <div>
-                                        <a class="btn btn-orange py-2 px-4 mt-2" href="{% url 'instructor_detail' instructor.slug %}">Mis Cursos</a>
+                                        <a class="btn btn-orange py-2 px-4 mt-2" id="btn_home_instructor_courses" href="{% url 'instructor_detail' instructor.slug %}">Mis Cursos</a>
                                     </div>
                                 </div>
                             </div>
