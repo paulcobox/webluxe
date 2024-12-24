@@ -1,6 +1,6 @@
 {% extends '_base.html' %}
 {% load static %}
-{% block title %}Cursos | Clases de Baile{% endblock title %}
+{% block title %}Cursos {% if title %}| {{ title }}{% endif %}{% endblock title %}
 {% block meta_description %}Explora nuestros cursos y talleres en Cuban Groove. Aprende a bailar con instructores expertos y obtén descuentos especiales. ¡Inscríbete hoy!{% endblock meta_description %}
 {% block meta_keywords %}cursos, talleres, baile, salsa, timba, Cuban Groove{% endblock meta_keywords %}
 

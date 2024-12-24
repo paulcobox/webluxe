@@ -1,6 +1,12 @@
 {% extends '_base.html' %}
 {% load static %}
-{% block title %}Cursos | Clases de Baile{% endblock title %}
+{% block title %}
+    {% if course.title %}
+        Cursos | {{ course.title }}
+    {% else %}
+        Cursos | Clases de Baile
+    {% endif %}
+{% endblock title %}
 
 {% block content %}
     <!-- Detail Course and call to action -->
