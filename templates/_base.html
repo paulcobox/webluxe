@@ -120,6 +120,7 @@
           <div class="collapse navbar-collapse" id="navbarCollapse">
               <div class="navbar-nav ms-auto p-4 p-lg-0">
                   <a href="{% url 'home' %}" class="nav-item nav-link {% if request.path == '/' %}active{% endif %}">Inicio</a>
+                  <a href="{% url 'courses_group' %}" class="nav-item nav-link {% if 'courses' in request.path %}active{% endif %}">Cursos de Baile</a>
                   <div class="nav-item dropdown">
                       <a href="#" class="nav-link dropdown-toggle {% if 'instructor' in request.path %}active{% endif %}" data-bs-toggle="dropdown">Nuestro Profesor</a>
                       <div class="dropdown-menu fade-down m-0">
@@ -128,15 +129,6 @@
                         {% endfor %}
                       </div>
                   </div>                  
-                  <div class="nav-item dropdown">
-                      <a href="#" class="nav-link dropdown-toggle {% if 'courses' in request.path %}active{% endif %}" data-bs-toggle="dropdown">Cursos de Baile</a>
-                      <div class="dropdown-menu fade-down m-0">
-                          <a href="{% url 'courses_group' %}" class="dropdown-item">Grupales</a>
-                          <a href="{% url 'courses_virtual' %}" class="dropdown-item">Virtuales</a>
-                          {% comment %} <a href="{% url 'courses_personal' %}" class="dropdown-item">Personalizado</a> {% endcomment %}
-                          <a href="{% url 'courses_choreography' %}" class="dropdown-item">Coreografias</a>
-                      </div>
-                  </div>
                   <a href="{% url 'contact' %}" class="nav-item nav-link {% if 'contact' in request.path %}active{% endif %}">Contacto</a>
                   <a href="{% url 'post_list' %}" class="nav-item nav-link {% if 'post_list' in request.path %}active{% endif %}">Blog</a>
               </div>

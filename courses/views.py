@@ -7,6 +7,7 @@ import calendar
 from random import sample
 from leads.models import Lead
 from pytube import YouTube
+from django.db.models import Case, When, Value, IntegerField
 # Create your views here.
 
 class CoursesVirtualTemplateView(TemplateView):
@@ -44,6 +45,29 @@ class CoursesPersonalTemplateView(TemplateView):
     context['list_courses'] = courses
     
     return context
+
+class CoursesGroupAllTemplateView(TemplateView):
+  template_name = 'courses/courses.html'
+
+  def get_context_data(self, *args, **kwargs):
+    context = super(CoursesGroupAllTemplateView, self).get_context_data(*args, **kwargs)
+   
+    # Anotar prioridad para ordenar los cursos
+    courses = Course.objects.filter(is_active=True).annotate(
+        order_priority=Case(
+            When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
+            default=Value(0),  # El resto tiene mayor prioridad
+            output_field=IntegerField(),
+        )
+    ).order_by('order_priority')  # Ordenar por prioridad
+
+    # context['list_course_you_might_like'] = list_course_you_might_like
+    context['title'] = 'Clases de Baile'
+    context['list_courses'] = courses
+    
+    return context
+
+
 
 class CoursesGroupTemplateView(TemplateView):
   template_name = 'courses/courses.html'
@@ -92,9 +116,15 @@ class CoursesDetailTemplateView(TemplateView):
     # video_id = YouTube(course.video_url).video_id
     # course.video_url = f"https://www.youtube.com/embed/{video_id}"
     list_course_you_might_like = Course.objects.filter(is_active=True).exclude(pk=course.pk)
-    # Select 3 random courses (if there are at least 3 active courses)
-    if list_course_you_might_like.count() >= 3:
-        list_course_you_might_like = sample(list(list_course_you_might_like), 3)
+    
+    list_course_you_might_like = list_course_you_might_like.filter(is_active=True).annotate(
+        order_priority=Case(
+            When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
+            default=Value(0),  # El resto tiene mayor prioridad
+            output_field=IntegerField(),
+        )
+    ).order_by('order_priority')[:6]  # Seleccionar los primeros 6 registros
+    
 
     context['course'] = course
     context['list_course_you_might_like'] = list_course_you_might_like

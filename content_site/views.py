@@ -5,6 +5,7 @@ from courses.models import Course
 from random import sample
 from django.http import FileResponse
 from django.http import FileResponse, Http404
+from django.db.models import Case, When, Value, IntegerField
 # from instructors.models import Instructors
 # Create your views here.
 
@@ -14,11 +15,18 @@ class HomePageView(TemplateView):
   
   def get_context_data(self, *args, **kwargs):
     context = super(HomePageView, self).get_context_data(*args, **kwargs)
-    list_course_you_might_like = Course.objects.filter(is_active=True)
+    # Anotar prioridad para ordenar los cursos
+    list_course_you_might_like = Course.objects.filter(is_active=True).annotate(
+        order_priority=Case(
+            When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
+            default=Value(0),  # El resto tiene mayor prioridad
+            output_field=IntegerField(),
+        )
+    ).order_by('order_priority')[:6]  # Seleccionar los primeros 6 registros
     
-    # Select 3 random courses (if there are at least 3 active courses)
-    if list_course_you_might_like.count() >= 3:
-        list_course_you_might_like = sample(list(list_course_you_might_like), 3)
+    # # Select 6 random courses (if there are at least 3 active courses)
+    # if list_course_you_might_like.count() >= 6:
+    #     list_course_you_might_like = sample(list(list_course_you_might_like), 6)
         
     list_course_banner_top =  Course.objects.filter(is_active = True, is_banner_home=True)
     if list_course_banner_top.count() >= 3:
