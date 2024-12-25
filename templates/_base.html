@@ -11,16 +11,6 @@
     })(window,document,'script','dataLayer','GTM-MZQLV2CB');</script>
     <!-- End Google Tag Manager -->
 
-    <!-- Google tag (gtag.js) -->
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M24NDJ63FD"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-M24NDJ63FD');
-    </script>
 
     
     <meta charset="utf-8">
@@ -91,7 +81,20 @@
           ]
         }
     </script>
-        
+    
+    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11491332295">
+    </script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'AW-11491332295');
+    </script>
+
 
   </head>
 
@@ -136,7 +139,7 @@
                   <a href="{% url 'contact' %}" class="nav-item nav-link {% if 'contact' in request.path %}active{% endif %}">Contacto</a>
                   <a href="{% url 'post_list' %}" class="nav-item nav-link {% if 'post_list' in request.path %}active{% endif %}">Blog</a>
               </div>
-              <a href="" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block"  style="background-color: #ff6a09;color: white; align-items: center;" data-bs-toggle="modal" data-bs-target="#exampleModal">Promoción<i class="fa fa-arrow-right ms-3"></i></a>
+              <a href="" id="btn_home_menu_free_class" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block"  style="background-color: #ff6a09;color: white; align-items: center;" data-bs-toggle="modal" data-bs-target="#exampleModal">Clase Gratis<i class="fa fa-arrow-right ms-3"></i></a>
           </div>
       </nav>
       <!-- Navbar End -->
@@ -215,6 +218,8 @@
               
 
                 <div class="modal-content">
+                    <!-- Botón de cierre -->
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
                     
                     <div class="modal-body">
                         <form id="leadForm" style="border: 2px solid #ddd; border-radius: 15px; padding: 20px;">
@@ -255,10 +260,19 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="Tu Whatsapp" required>
+                                        <input type="text" 
+                                            class="form-control" 
+                                            id="phone_number" 
+                                            name="phone_number" 
+                                            placeholder="Tu Whatsapp" 
+                                            required 
+                                            pattern="^\+?[0-9]{9,}$" 
+                                            title="Solo se permiten números y, opcionalmente, un '+' al inicio.">
+                                
+
                                         <label for="phone_number">(*) Whatsapp</label>
                                         <div class="invalid-feedback">
-                                            Por favor, introduce tu número de WhatsApp.
+                                            Por favor, introduce un número de WhatsApp válido.
                                         </div>
                                     </div>
                                 </div>
@@ -392,7 +406,7 @@
                             var whatsappMessage = `Hola, me llamo ${firstName} ${lastName}. Estoy interesado en los cursos. ${notes}`;
                         }
 
-                        var whatsappNumber = '51962345841'; // Reemplaza con el número de teléfono de WhatsApp deseado
+                        var whatsappNumber = '51991337159'; // Reemplaza con el número de teléfono de WhatsApp deseado
                         var whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
                         console.log(whatsappURL)
                         window.open(whatsappURL, '_blank');

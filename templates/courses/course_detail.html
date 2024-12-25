@@ -96,7 +96,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="Tu Whatsapp" required>
+                                    <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="Tu Whatsapp" pattern="^\+?[0-9]{9,}$" required>
                                     <label for="phone_number">(*) Whatsapp</label>
                                     <div class="invalid-feedback">
                                         Por favor, introduce tu número de WhatsApp.
@@ -269,7 +269,7 @@
                     var notes = document.getElementById('message').value;
                     var whatsappMessage = `Hola, me llamo ${firstName} ${lastName}. Estoy interesado en los cursos. ${notes}`;
 
-                    var whatsappNumber = '51962345841'; // Reemplaza con el número de teléfono de WhatsApp deseado
+                    var whatsappNumber = '51991337159'; // Reemplaza con el número de teléfono de WhatsApp deseado
                     var whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
                     console.log(whatsappURL)
                     window.open(whatsappURL, '_blank');
