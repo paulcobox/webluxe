@@ -26,8 +26,11 @@
     <meta charset="utf-8">
     <title>{% block title %}Cuban Groove | Clases de Baile{% endblock title %}</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta name="keywords" content="Clases de Baile en Lima, Clases de Timba en Lima, Baile cubano en Lima, Escuela de baile en Lima, Salsa y Timba para principiantes, Instructores de baile en Lima, Academia de Salsa en Lima, Clases de baile latino, Cursos de Salsa y Timba, Danza afrocubana, Ritmos cubanos en Lima, Aprender a bailar Salsa, Clases de baile para adultos, Eventos de baile en Lima, Talleres de Salsa y Timba, Baile social en Lima, Salsa cubana, Timba cubana, Escuela de danza en Lima, Bailes latinos">
-    <meta name="description" content="Aprende Salsa y Timba en Lima con Cuban Groove. Descubre ritmos cubanos como la salsa cubana, reparto, cubaton y rumba. ¡Transforma tu forma de bailar!">
+    <!-- Meta Keywords -->
+    <meta name="keywords" content="Clases de Salsa, Clases de Salsa en Lima, Clases de Salsa en Miraflores, Clases de Salsa en Surco, Clases de Salsa en San Isidro, Clases de Salsa en Lince, Clases de Baile, Clases de Baile en Miraflores, Clases de Baile en Surco, Clases de Baile en San Isidro, Clases de Baile en Lince, Academia de Baile en Surco, Academia de Baile en San Isidro, Academia de Baile en Lince, Academia de Baile en La Victoria, Escuela de Baile en Lima, Ritmos Cubanos, Danza Latina, Timba Cubana, Salsa Cubana">
+
+    <!-- Meta Description -->
+    <meta name="description" content="Aprende Salsa y Baile en Lima con Cuban Groove. Ofrecemos clases en Miraflores, Surco, San Isidro y Lince. Descubre ritmos cubanos como salsa cubana, reparto y rumba. ¡Transforma tu estilo de baile con nosotros!">
     <meta name="author" content="Cuban Groove">
     <meta name="robots" content="index, follow">
 
@@ -141,45 +144,70 @@
       {% block content %}
       {% endblock content %}
 
-
         <!-- Footer Start -->
         <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
             <div class="container py-5">
                 <div class="row g-5 justify-content-center">
-                    {% comment %} <div>
-                        <ul class="list-inline text-center">
-                            <li class="text-white">MUEVETE CUBA.</li>
-                        </ul>
-                    </div> {% endcomment %}
                     <div class="col-lg-3 col-md-6 text-center">
                         <h4 class="text-white mb-3">Contacto</h4>
                         <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Lima, PERU</p>
                         <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+51 991 337 159</p>
                         <p class="mb-2"><i class="fa fa-envelope me-3"></i>cubangroove@gmail.com</p>
-                        <div class="d-flex mb-5 justify-content-center"">
+                        <div class="d-flex mb-5 justify-content-center">
                             <a class="btn btn-outline-light btn-social" href="https://www.instagram.com/luxecoronado/" target="_blank"><i class="fab fa-instagram"></i></a>
                             <a class="btn btn-outline-light btn-social" href="https://www.facebook.com/muevetecuba" target="_blank"><i class="fab fa-facebook-f"></i></a>
                             <a class="btn btn-outline-light btn-social" href="https://www.tiktok.com/@luxecoronado" target="_blank"><i class="fab fa-tiktok"></i></a>
                             <a class="btn btn-outline-light btn-social" href="https://www.youtube.com/@CubanGroovePeru" target="_blank"><i class="fab fa-youtube"></i></a>
                         </div>
-
-                        <div class="text-center text-white text-rights mb-3">
-                            <div>
-                                <script>
-                                    document.write(new Date().getFullYear());
-                                </script>
-                                Muevete Cuba. Todos los derechos reservados.
-                            </div>
-                            <div>Diseñado por PMC2.</div>
-                        </div>
-
+                    </div>
+                    
+                    <!-- Hipervínculos SEO -->
+                    <div class="col-lg-3 col-md-6 text-center">
+                        <h4 class="text-white mb-3">Clases de Baile</h4>
+                        <ul class="list-unstyled">
+                            <li><a href="{% url 'courses_group' %}" class="text-white">Clases de Salsa</a></li>
+                            <li><a href="{% url 'courses_group' %}" class="text-white">Clases de Salsa en Lima</a></li>
+                            <li><a href="{% url 'courses_group' %}" class="text-white">Clases de Salsa en Miraflores</a></li>
+                            <li><a href="{% url 'courses_group' %}" class="text-white">Clases de Salsa en Surco</a></li>
+                            <li><a href="{% url 'courses_group' %}" class="text-white">Clases de Salsa en San Isidro</a></li>
+                            <li><a href="{% url 'courses_group' %}" class="text-white">Clases de Salsa en Lince</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6 text-center">
+                        <h4 class="text-white mb-3">Academias y Cursos</h4>
+                        <ul class="list-unstyled">
+                            <li><a href="{% url 'courses_group' %}" class="text-white">Clases de Baile</a></li>
+                            <li><a href="{% url 'courses_group' %}" class="text-white">Clases de Baile en Miraflores</a></li>
+                            <li><a href="{% url 'courses_group' %}" class="text-white">Clases de Baile en Surco</a></li>
+                            <li><a href="{% url 'courses_group' %}" class="text-white">Clases de Baile en San Isidro</a></li>
+                            <li><a href="{% url 'courses_group' %}" class="text-white">Clases de Baile en Lince</a></li>
+                        </ul>
                     </div>
 
-
+                    <div class="col-lg-3 col-md-6 text-center">
+                        <h4 class="text-white mb-3">Academias de Baile</h4>
+                        <ul class="list-unstyled">
+                            <li><a href="{% url 'courses_group' %}" class="text-white">Academia de Baile en Surco</a></li>
+                            <li><a href="{% url 'courses_group' %}" class="text-white">Academia de Baile en San Isidro</a></li>
+                            <li><a href="{% url 'courses_group' %}" class="text-white">Academia de Baile en Lince</a></li>
+                            <li><a hhref="{% url 'courses_group' %}" class="text-white">Academia de Baile en La Victoria</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="text-center text-white text-rights mt-4">
+                    <div>
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script>
+                        Cuban Groove. Todos los derechos reservados.
+                    </div>
+                    <div>Diseñado por PMC2.</div>
                 </div>
             </div>
         </div>
         <!-- Footer End -->
+
 
        <!-- Modal start-->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
