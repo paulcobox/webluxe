@@ -1,5 +1,7 @@
 from django.urls import path
 from .views import HomePageView, ContactTemplateView, PrivacyPoliciesTemplateView, TermsConditionsTemplateView, sitemap_view, robots_view
+from django.views.generic import RedirectView
+from django.conf import settings
 
 urlpatterns = [
   # path('about_us', AboutUsTemplateView.as_view(), name = 'about_us'),
@@ -12,5 +14,6 @@ urlpatterns = [
   path('terms-conditions', TermsConditionsTemplateView.as_view(), name='terms_conditions'), # new
   path('sitemap.xml', sitemap_view, name='sitemap'),
   path('robots.txt', robots_view, name='robots'),
+  path('favicon.ico', RedirectView.as_view(url=settings.STATIC_URL + 'img/logos/favicon.ico')),
     
 ]
