@@ -204,6 +204,12 @@
                         </ul>
                     </div>
                 </div>
+                 <!-- Texto de términos y políticas -->
+                <div class="text-center text-white mt-4">
+                    <p class="small">
+                        Al hacer clic en "Contactar", aceptas nuestros <a href="{% url 'terms_conditions' %}" class="text-white text-decoration-underline">Términos y Condiciones</a> y <a href="{% url 'privacy_policies' %}" class="text-white text-decoration-underline">Políticas de Privacidad</a>.
+                    </p>
+                </div>
                 <div class="text-center text-white text-rights mt-4">
                     <div>
                         <script>
@@ -286,11 +292,16 @@
                                     </div>
                                 </div>
                                 <!-- Términos y condiciones -->
+
                                 <div class="col-12">
                                     <p class="small text-muted">
-                                        Al hacer clic en "Registrar", aceptas nuestros <a href="{% url 'terms_conditions' %}">Términos y Condiciones</a> y <a href="{% url 'privacy_policies' %}">Políticas de Privacidad</a>.
+                                        Al hacer click en "Contactar" aceptas los <a href="#" data-bs-toggle="modal" data-bs-target="#modalAuthorization">Términos y Condiciones</a>
                                     </p>
                                 </div>
+                                
+                                
+
+
                                 <div class="col-12">
                                     <button class="btn btn-success btn-sm w-100 py-2" type="button" id="submitForm">
                                         <i class="fab fa-whatsapp i-size-contactar"></i>
@@ -334,6 +345,47 @@
             </div>
         </div>
         <!-- Modal end -->
+        
+        <!-- Modal de Términos y Condiciones -->
+        <div class="modal fade" id="modalAuthorization" tabindex="-1" aria-labelledby="modalAuthorizationLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <!-- Encabezado del modal -->
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="modalAuthorizationLabel">Autorización de Datos</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <!-- Cuerpo del modal -->
+                    <div class="modal-body">
+                        <p><strong>Términos y Condiciones</strong></p>
+                        <p>
+                            Los Términos y Condiciones del sitio web de Cuban Groove regulan su uso como plataforma para
+                            información y registro en cursos de baile en Lima, como Salsa y Timba.
+                        </p>
+                        <p>
+                            Los usuarios deben respetar las leyes peruanas y evitar usos ilícitos, delictivos o que perjudiquen
+                            derechos de terceros. También deben abstenerse de realizar acciones que puedan dañar, sobrecargar
+                            o inutilizar el sitio.
+                        </p>
+                        <hr>
+                        <p><strong>Propiedad Intelectual</strong></p>
+                        <p>
+                            El contenido del sitio, incluyendo textos, imágenes, diseños y software, está protegido por derechos
+                            de propiedad intelectual y es propiedad exclusiva de Cuban Groove. Está prohibido copiar, adaptar o
+                            comercializar dicho contenido sin autorización.
+                        </p>
+                        <hr>
+                        <p><strong>Prohibiciones</strong></p>
+                        <p>
+                            Está prohibido violar la seguridad del sitio mediante accesos no autorizados, pruebas de
+                            vulnerabilidad, interrupciones de servicio o envío de spam. Cualquier violación puede resultar en
+                            acciones legales.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
       <!-- Back to Top -->
         <div class="whatsapp-icon">
