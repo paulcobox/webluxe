@@ -225,7 +225,7 @@
 
                 <div class="modal-content">
                     <div class="modal-header text-center" style="background-color: #ff6a09; color: white;">
-                        <h4 class="modal-title w-100">🎉✨ ¡Promociones Especiales! 🎁</h4>
+                        <h4 class="modal-title w-100 custom-h4">🎉✨ ¡Promociones Especiales! 🎁</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background-color: white;"></button>
                     </div>
                     <div class="modal-body">
@@ -235,7 +235,7 @@
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="name" name="first_name" placeholder="Tu Nombre" required>
+                                        <input type="text" class="form-control form-control-sm" id="name" name="first_name" placeholder="Tu Nombre" required>
                                         <label for="name">(*) Nombre</label>
                                         <div class="invalid-feedback">
                                             Por favor, introduce tu nombre.
@@ -244,7 +244,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Tu Apellido" required>
+                                        <input type="text" class="form-control form-control-sm" id="last_name" name="last_name" placeholder="Tu Apellido" required>
                                         <label for="last_name">(*) Apellido</label>
                                         <div class="invalid-feedback">
                                             Por favor, introduce tu apellido.
@@ -253,7 +253,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Tu Correo" required>
+                                        <input type="email" class="form-control form-control-sm" id="email" name="email" placeholder="Tu Correo" required>
                                         <label for="email">(*) Correo</label>
                                         <div class="invalid-feedback">
                                             Por favor, introduce un correo electrónico válido.
@@ -263,15 +263,13 @@
                                 <div class="col-md-6">
                                     <div class="form-floating">
                                         <input type="text" 
-                                            class="form-control" 
+                                            class="form-control form-control-sm" 
                                             id="phone_number" 
                                             name="phone_number" 
                                             placeholder="Tu Whatsapp" 
                                             required 
                                             pattern="^\+?[0-9]{9,}$" 
                                             title="Solo se permiten números y, opcionalmente, un '+' al inicio.">
-                                
-
                                         <label for="phone_number">(*) Whatsapp</label>
                                         <div class="invalid-feedback">
                                             Por favor, introduce un número de WhatsApp válido.
@@ -280,7 +278,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <textarea class="form-control" placeholder="Deja un mensaje aqui" id="message" name="notes" style="height: 120px" required></textarea>
+                                        <textarea class="form-control form-control-sm" placeholder="Deja un mensaje aqui" id="message" name="notes" style="height: 80px" required></textarea>
                                         <label for="message">Consulta</label>
                                         <div class="invalid-feedback">
                                             Por favor, deja tu consulta.
@@ -294,14 +292,15 @@
                                     </p>
                                 </div>
                                 <div class="col-12">
-                                    <button class="btn btn-success w-100 py-3" type="button" id="submitForm">
+                                    <button class="btn btn-success btn-sm w-100 py-2" type="button" id="submitForm">
                                         <i class="fab fa-whatsapp i-size-contactar"></i>
                                         Contactar por WhatsApp
                                     </button>
-                                    <button type="button" id="closeModalButton" class="btn btn-secondary d-none" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" id="closeModalButton" class="btn btn-secondary btn-sm d-none" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </form>
+                        
                         <div id="processingOverlay" class="position-absolute top-0 start-0 w-100 h-100 d-none d-flex align-items-center justify-content-center" style="background-color: rgba(255, 255, 255, 0.8); z-index: 10;">
                             <div class="text-center">
                                 <div class="spinner-border text-primary" role="status">

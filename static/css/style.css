@@ -545,6 +545,18 @@
     font-weight: normal; /* Peso de fuente para que no sea tan grueso como un <h2> */
 }
 
+.custom-h4 {
+    font-size: 1.5rem;       /* Tamaño personalizado para el h4 */
+    font-weight: 600;        /* Peso de la fuente */
+}
+
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 767px) {
+    .custom-h4 {
+        font-size: 1.2rem;   /* Tamaño más pequeño para pantallas móviles */
+        text-transform: none; /* Mantener el texto normal en móviles */
+    }
+}
 
 
 .btn-orange {
