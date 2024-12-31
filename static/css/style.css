@@ -552,3 +552,34 @@
     border-color: #ff6a09;
     color: #ffffff;
 }
+
+
+.btn-close {
+    background-color: #ff6a09;
+    color: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-close:hover {
+    background-color: #d9534f;
+    transform: rotate(90deg);
+}
+
+.btn-success {
+    background: linear-gradient(90deg, #34d058, #28a745);
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-success:hover {
+    background: linear-gradient(90deg, #28a745, #34d058);
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+}

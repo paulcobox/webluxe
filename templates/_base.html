@@ -143,7 +143,13 @@
           </div>
       </nav>
       <!-- Navbar End -->
-
+        <!-- Banner Start -->
+        <div class="banner-top text-center">
+            <a id="btn_home_pr_contact" href="{% url 'courses_group' %}" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <img src="{% static 'img/promo/promo_desk.png' %}" alt="Promociones de fin de año" class="img-fluid" style="width: 100%; height: auto;">
+            </a>
+        </div>
+        <!-- Banner End -->
       {% block content %}
       {% endblock content %}
 
@@ -218,19 +224,15 @@
               
 
                 <div class="modal-content">
-                    <!-- Botón de cierre -->
-                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
-                    
+                    <div class="modal-header text-center" style="background-color: #ff6a09; color: white;">
+                        <h4 class="modal-title w-100">🎉✨ ¡Promociones Especiales! 🎁</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background-color: white;"></button>
+                    </div>
                     <div class="modal-body">
                         <form id="leadForm" style="border: 2px solid #ddd; border-radius: 15px; padding: 20px;">
                             {% csrf_token %}
                             <input type="hidden" id="course_of_interest" name="course_of_interest">
                             <div class="row g-3">
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <h4 class="text-dark">Contáctate y obten un descuento por el curso de baile</h4>
-                                    </div>
-                                </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" id="name" name="first_name" placeholder="Tu Nombre" required>
