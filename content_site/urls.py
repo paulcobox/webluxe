@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import HomePageView, ContactTemplateView, PrivacyPoliciesTemplateView, TermsConditionsTemplateView, sitemap_view, robots_view
+from .views import HomePageView, ContactTemplateView, PrivacyPoliciesTemplateView, TermsConditionsTemplateView, sitemap_view, robots_view, ThankYouTemplateView
 from django.views.generic import RedirectView
 from django.conf import settings
 
@@ -12,6 +12,7 @@ urlpatterns = [
   path('contact', ContactTemplateView.as_view(), name='contact'), # new
   path('privacy-policies', PrivacyPoliciesTemplateView.as_view(), name='privacy_policies'), # new
   path('terms-conditions', TermsConditionsTemplateView.as_view(), name='terms_conditions'), # new
+  path('thankyou', ThankYouTemplateView.as_view(), name='thankyou'), # new
   path('sitemap.xml', sitemap_view, name='sitemap'),
   path('robots.txt', robots_view, name='robots'),
   path('favicon.ico', RedirectView.as_view(url=settings.STATIC_URL + 'img/logos/favicon.ico')),

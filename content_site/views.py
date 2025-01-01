@@ -63,6 +63,21 @@ class TermsConditionsTemplateView(TemplateView):
   def get_context_data(self, *args, **kwargs):
     context = super(TermsConditionsTemplateView, self).get_context_data(*args, **kwargs)
     return context
+
+class ThankYouTemplateView(TemplateView):
+  template_name = 'content_site/thankyou.html'
+
+  def get_context_data(self, *args, **kwargs):
+    context = super(ThankYouTemplateView, self).get_context_data(*args, **kwargs)
+    list_course_you_might_like = Course.objects.filter(is_active=True).annotate(
+        order_priority=Case(
+            When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
+            default=Value(0),  # El resto tiene mayor prioridad
+            output_field=IntegerField(),
+        )
+    ).order_by('order_priority')[:6]  # Seleccionar los primeros 6 registros
+    context['list_course_you_might_like'] = list_course_you_might_like
+    return context
   
 def sitemap_view(request):
     return FileResponse(open('sitemap.xml', 'rb'), content_type='application/xml')
