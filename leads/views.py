@@ -16,6 +16,14 @@ def create_lead(request):
         course_of_interest_id = request.POST.get('course_of_interest')
         notes = request.POST.get('notes')
         course_of_interest = request.POST.get('course_of_interest')
+        utm_source = request.POST.get('utm_source')
+        utm_medium = request.POST.get('utm_medium')
+        utm_campaign = request.POST.get('utm_campaign')
+        utm_term = request.POST.get('utm_term')
+        utm_content = request.POST.get('utm_content')
+        referer = request.POST.get('referer')
+        user_agent = request.POST.get('user_agent')
+
         
         if course_of_interest:
             course_of_interest = Course.objects.get(title=str(course_of_interest))
@@ -28,7 +36,14 @@ def create_lead(request):
             email=email,
             phone_number=phone_number,
             course_of_interest=course_of_interest,
-            notes=notes
+            notes=notes,
+            utm_source=utm_source,
+            utm_medium=utm_medium,
+            utm_campaign=utm_campaign,
+            utm_term=utm_term,
+            utm_content=utm_content,
+            referer=referer,
+            user_agent=user_agent
         )
 
         return JsonResponse({'success': True})

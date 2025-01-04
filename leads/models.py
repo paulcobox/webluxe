@@ -12,6 +12,13 @@ class Lead(models.Model):
     course_of_interest = models.ForeignKey(Course, on_delete = models.CASCADE, related_name = 'lead', blank = True, null = True, verbose_name = "Curso de Interes")
     status = models.CharField(max_length=50, choices=[('NEW', 'New'), ('PROSPECT', 'Prospect'), ('CUSTOMER', 'Customer')], default='NEW')
     notes = models.TextField(blank=True)
+    utm_source = models.CharField(max_length=100, null=True, blank=True)
+    utm_medium = models.CharField(max_length=100, null=True, blank=True)
+    utm_campaign = models.CharField(max_length=100, null=True, blank=True)
+    utm_term = models.CharField(max_length=100, null=True, blank=True)
+    utm_content = models.CharField(max_length=100, null=True, blank=True)
+    referer = models.TextField(null=True, blank=True)
+    user_agent = models.TextField(null=True, blank=True)
     created_date = models.DateTimeField(auto_now_add = True, verbose_name = "Fecha de Creación")
     modified_date = models.DateTimeField(auto_now = True, verbose_name = "Fecha de Modificación")
 

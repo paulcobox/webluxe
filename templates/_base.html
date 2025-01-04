@@ -4,7 +4,7 @@
 
   <head>
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    <script defer>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
@@ -12,7 +12,7 @@
     <!-- End Google Tag Manager -->
 
 
-    <script type="text/javascript">
+    <script type="text/javascript" defer>
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
             t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
@@ -61,7 +61,7 @@
     <link rel="icon" href="{% static 'img/logos/favicon.ico' %}" type="image/x-icon">
     
 
-    <script type="application/ld+json">
+    <script type="application/ld+json" defer>
         {
           "@context": "https://schema.org",
           "@type": "DanceSchool",
@@ -92,9 +92,9 @@
     <!-- Google tag (gtag.js) -->
     <!-- Google tag (gtag.js) -->
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11491332295">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11491332295" defer>
     </script>
-    <script>
+    <script defer>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
@@ -244,6 +244,13 @@
                     <div class="modal-body">
                         <form id="leadForm" style="border: 2px solid #ddd; border-radius: 15px; padding: 20px;">
                             {% csrf_token %}
+                            <input type="hidden" id="utm_source" name="utm_source">
+                            <input type="hidden" id="utm_medium" name="utm_medium">
+                            <input type="hidden" id="utm_campaign" name="utm_campaign">
+                            <input type="hidden" id="utm_term" name="utm_term">
+                            <input type="hidden" id="utm_content" name="utm_content">
+                            <input type="hidden" id="referer" name="referer">
+                            <input type="hidden" id="user_agent" name="user_agent">
                             <input type="hidden" id="course_of_interest" name="course_of_interest">
                             <div class="row g-3">
                                 <div class="col-md-6">
@@ -414,7 +421,7 @@
 
       <!-- Template Javascript -->
       <script src="{% static 'js/main.js' %}"></script>
-      <script>
+      <script defer>
         var exampleModal = document.getElementById('exampleModal')
         exampleModal.addEventListener('show.bs.modal', function (event) {
             // Button that triggered the modal
@@ -423,6 +430,23 @@
             var recipient = button.getAttribute('data-bs-course')
             var messageField = document.getElementById('message');
             var courseField = document.getElementById('course_of_interest');
+            const urlParams = new URLSearchParams(window.location.search);
+            const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+                // Capturar UTM
+            utmParams.forEach(param => {
+                const value = urlParams.get(param);
+                if (value) {
+                    document.getElementById(param).value = value;
+                }
+            });
+
+            // Capturar Referer
+            const referer = document.referrer;
+            document.getElementById('referer').value = referer;
+
+            // Capturar User-Agent
+            const userAgent = navigator.userAgent;
+            document.getElementById('user_agent').value = userAgent;
             if (recipient) {
                 messageField.value = "Quiero informes y promociones sobre el Curso " + recipient;
                 courseField.value = recipient; // Asigna el valor al campo oculto
@@ -439,6 +463,7 @@
             var processingMessage = document.getElementById('processingMessage');
             if (form.checkValidity()) {    
                 var formData = new FormData(document.getElementById('leadForm'));
+                
                 processingOverlay.classList.remove('d-none');
                 fetch('/create-lead/', {
                     method: 'POST',
