@@ -48,7 +48,7 @@
                         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                             <div class="course-item bg-light">
                                 <div class="position-relative overflow-hidden d-flex align-items-center">
-                                    <img class="img-fluid" src="{{ course.image.url }}" alt="{{ course.title }} - Curso de Baile en Cuban Groove">
+                                    <img class="img-fluid" src="{{ course.image.url }}" alt="{{ course.title }} - Curso de Baile en Cuban Groove" loading="lazy">
                                     <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
                                         <a href="{% url 'courses_detail' course.slug %}" id="btn_home_popular_read" class="flex-shrink-0 btn btn-sm btn-warning px-3 border-end" style="border-radius: 30px 0 0 30px;">Leer Más</a>
                                         <a href="#" class="flex-shrink-0 btn btn-sm btn-warning px-3" id="btn_home_popular_contact" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-course="{{ course.title }}" style="border-radius: 0 30px 30px 0;">Contactar</a>
@@ -94,7 +94,7 @@
                         <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                             <div class="team-item bg-light">
                                 <div class="overflow-hidden">
-                                    <img class="img-fluid" src="{{ instructor.image.url }}" alt="{{ instructor.name }}" style="width: 100%; height: auto;">
+                                    <img class="img-fluid" src="{{ instructor.image.url }}" alt="{{ instructor.name }}" style="width: 100%; height: auto;" loading="lazy">
                                 </div>
                                 <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                                     <div class="bg-light d-flex justify-content-center pt-2 px-1">
@@ -133,7 +133,7 @@
                 <div class="owl-carousel testimonial-carousel position-relative">
                     {% for testimony in list_testimony %}
                         <div class="testimonial-item text-center">
-                            <img class="border rounded-circle p-2 mx-auto mb-3" src="{{ testimony.imagen.url }}" style="width: 80px; height: 80px;" alt="testimonio de clases de baile">
+                            <img class="border rounded-circle p-2 mx-auto mb-3" src="{{ testimony.imagen.url }}" style="width: 80px; height: 80px;" alt="testimonio de clases de baile" loading="lazy">
                             <h5 class="mb-0">{{ testimony.name }}</h5>
                             <p>{{ testimony.profession }}</p>
                             <div class="testimonial-text bg-light text-center p-4">
