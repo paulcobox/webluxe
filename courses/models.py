@@ -14,6 +14,12 @@ class Course(models.Model):
       image_fiz = models.ImageField(blank=True, upload_to='images/course', verbose_name = "Imagen Ficha Inferior Izq")
       image_fid = models.ImageField(blank=True, upload_to='images/course', verbose_name = "Imagen Ficha Inferior Der")
       video_url = models.URLField(verbose_name="URL del Video", blank=False)
+      video_mp4 = models.FileField(
+        upload_to='videos/course',
+        blank=True,
+        null=True,
+        verbose_name="Video MP4"
+      )
       body = RichTextField(verbose_name = "Contenido")
       place = models.CharField(max_length=250, blank = False, null = False, verbose_name = "Lugar")
       district = models.CharField(max_length=250, blank = True, null = True, verbose_name = "Distrito")
