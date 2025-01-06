@@ -1,0 +1,89 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Contacto | Cuban Groove | Clases de Baile{% endblock title %}
+
+{% block content %}
+
+    <!-- Contact Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center px-3 color-oran">Invitación</h6>
+                <h2 class="mb-5 color-cafe">Solo para alumnos del Full Pass: <br> ¡Invita a un amigo por tan solo S/10!</h2>
+            </div>
+            <div class="row g-5">
+                {% if error_message %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error_message }}
+                </div>
+                {% endif %}
+                <form id="inviteFriendForm" method="POST" action="{% url 'invite_friend' %}" onsubmit="showProcessingOverlay();">
+                    {% csrf_token %}
+                    <!-- Nombre del alumno -->
+                    <div class="mb-3">
+                        <label for="studentName" class="form-label">Nombre del Alumno</label>
+                        <input type="text" class="form-control" id="studentName" name="student_name" placeholder="Nombre Completo del Alumno" required value="{{ student_name }}">
+                    </div>
+
+                    <!-- Nombre del amigo -->
+                    <div class="mb-3">
+                        <label for="friendName" class="form-label">Nombre del Amigo</label>
+                        <input type="text" class="form-control" id="friendName" name="friend_name" placeholder="Nombre Completo del Amigo" required value="{{ friend_name }}">
+                    </div>
+
+                    <!-- Teléfono del amigo -->
+                    <div class="mb-3">
+                        <label for="friendPhone" class="form-label">Teléfono de Contacto del Amigo</label>
+                        <input type="text" class="form-control" id="friendPhone" name="friend_phone" placeholder="Número de WhatsApp del Amigo" required pattern="^\+?[0-9]{9,}$" value="{{ friend_phone }}">
+                    </div>
+                    
+                    <!-- Email del alumno -->
+                    <div class="mb-3">
+                        <label for="studentEmail" class="form-label">Correo Electrónico del Amigo</label>
+                        <input type="email" class="form-control" id="studentEmail" name="student_email" placeholder="Correo Electrónico del Amigo" required value="{{ student_email }}">
+                    </div>
+                    <!-- Clase seleccionada -->
+                    <div class="mb-3">
+                        <label for="selectedClass" class="form-label">Clase a la que Asistirán</label>
+                        <textarea class="form-control form-control-sm" placeholder="Indícanos a qué clase asistirá" id="message" name="notes" style="height: 80px" required>{{ notes }}</textarea>
+                    </div>
+
+                    <!-- Condiciones -->
+                    <div class="mb-3">
+                        <p class="small text-muted">
+                            <strong>Condiciones:</strong> 
+                            Esta promoción solo aplica para personas que no hayan sido alumnos o invitados anteriormente. Cuban Groove se reserva el derecho de verificar esta información.
+                        </p>
+                    </div>
+
+                    <!-- Botón de envío -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success py-2">Registrar Invitación</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay de procesamiento -->
+    <div id="processingOverlay" class="position-fixed top-0 start-0 w-100 h-100 d-none d-flex align-items-center justify-content-center" style="background-color: rgba(255, 255, 255, 0.8); z-index: 1050;">
+        <div class="text-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <span class="d-block mt-2">Procesando su solicitud, por favor espere...</span>
+        </div>
+    </div>
+    
+    <!-- Contact End -->
+
+    <script>
+        function showProcessingOverlay() {
+            const overlay = document.getElementById('processingOverlay');
+            overlay.classList.remove('d-none');
+        }
+    </script>
+
+
+
+{% endblock content %}

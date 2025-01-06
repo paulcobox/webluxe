@@ -1,11 +1,20 @@
+# from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import render
 from django.views.generic import TemplateView
 # from .models import MissionVision
 from courses.models import Course
+from .models import Invitated
 from random import sample
 from django.http import FileResponse
 from django.http import FileResponse, Http404
 from django.db.models import Case, When, Value, IntegerField
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import redirect
+from django.urls import reverse
+from django.conf import settings
+from django.template.loader import render_to_string
+# from django.core.mail import send_mail
+from django.http import HttpResponse
 # from instructors.models import Instructors
 # Create your views here.
 
@@ -87,6 +96,84 @@ def robots_view(request):
         return FileResponse(open('robots.txt', 'rb'), content_type='text/plain')
     except FileNotFoundError:
         raise Http404("El archivo robots.txt no se encuentra.")
+    
+class InvitatedTemplateView(TemplateView):
+    template_name = "content_site/invitated.html"  # Plantilla con el formulario
+
+    def post(self, request, *args, **kwargs):
+        # Obtener datos del formulario
+        student_name = request.POST.get("student_name")
+        student_email = request.POST.get("student_email")
+        friend_name = request.POST.get("friend_name")
+        friend_phone = request.POST.get("friend_phone")
+        notes = request.POST.get("notes")
+
+        # Lógica para guardar datos en base de datos o procesamiento
+        print("Nombre del Alumno:", student_name)
+        print("Correo Electrónico del Alumno:", student_email)
+        print("Nombre del Amigo:", friend_name)
+        print("Teléfono del Amigo:", friend_phone)
+        print("Clase Seleccionada:", notes)
+        # Guardar los datos en el modelo
+        
+        # Verificar si el amigo ya ha sido registrado
+        if Invitated.objects.filter(friend_phone=friend_phone).exists():
+            # Mostrar mensaje de error si ya fue registrado
+            return render(request, self.template_name, {
+                "error_message": "El amigo ya ha sido registrado como invitado y solo puede ser invitado una vez.",
+                "student_name": student_name,
+                "student_email": student_email,
+                "friend_name": friend_name,
+                "friend_phone": friend_phone,
+                "notes": notes,
+            })
+            
+        Invitated.objects.create(
+            student_name=student_name,
+            student_email=student_email,
+            friend_name=friend_name,
+            friend_phone=friend_phone,
+            notes=notes,
+        )
+        
+        # Enviar correo de invitación con plantilla HTML
+        # self.send_invitation_email(student_name, friend_name, student_email, notes)
+        # Redirigir a la página de éxito
+        return redirect(reverse("invite_success"))
+    
+    # def send_invitation_email(self, student_name, friend_name, student_email, notes):
+    #     subject = f"¡{student_name} Ha invitado a {friend_name} a Cuban Groove!"
+    #     from_email = settings.DEFAULT_FROM_EMAIL
+    #     recipient_list = [student_email, 'paulcofiis@gmail.com']
+
+    #     # Renderizar la plantilla HTML para el correo
+    #     html_content = render_to_string("emails/invitation_email.html", {
+    #         "student_name": student_name,
+    #         "friend_name": friend_name,
+    #         "notes": notes,
+    #     })
+
+        # Crear y enviar el correo
+        # email = EmailMultiAlternatives(subject, "", from_email, recipient_list)
+        # email.attach_alternative(html_content, "text/html")
+        # email.send()
+        
+class InvitatedSuccessTemplateView(TemplateView):
+    template_name = "content_site/invitated_success.html"  # Plantilla de la página de éxito
+    
+# def test_email(request):
+#     try:
+#         send_mail(
+#             'Correo de prueba',
+#             'Este es un correo de prueba enviado desde Django usando Gmail.',
+#             'cubangroove.pe@gmail.com',  # Desde
+#             ['paulcofiis@gmail.com'],  # Cambia a un correo de prueba
+#             fail_silently=False,
+#         )
+#         return HttpResponse('Correo enviado con éxito.')
+#     except Exception as e:
+#         return HttpResponse(f'Error al enviar el correo: {e}')
+
 # class AboutMisionVisionValuesTemplateView(TemplateView):
 #   template_name = 'content_site/about_mision_vision.html'
 

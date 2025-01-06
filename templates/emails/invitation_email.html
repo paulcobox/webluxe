@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación a Cuban Groove</title>
+    <style>
+        .email-container {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: auto;
+        }
+        .email-header {
+            text-align: center;
+            background-color: #ff6a09;
+            color: white;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+        }
+        .email-body {
+            padding: 20px;
+            background-color: white;
+            border-radius: 0 0 10px 10px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            color: white;
+            background-color: #ff6a09;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <h2>🎉 ¡Gracias por tu invitación, {{ student_name }}! 🎉</h2>
+        </div>
+        <div class="email-body">
+            <p>Hola {{ student_name }},</p>
+            <p>
+                Hemos recibido tu invitación para que {{ friend_name }} asista a nuestras clases.
+                Nos emociona mucho recibirlo/a en Cuban Groove.
+            </p>
+            <p><strong>Detalles de la clase:</strong></p>
+            <p>{{ notes }}</p>
+            <p>
+                Si tienes alguna pregunta, no dudes en contactarnos.
+            </p>
+            <a href="https://cubangrooveperu.com/contact" class="btn">Contáctanos</a>
+            <p>¡Nos vemos en la pista de baile!</p>
+            <p>El equipo de Cuban Groove</p>
+        </div>
+    </div>
+</body>
+</html>

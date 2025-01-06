@@ -68,3 +68,15 @@ class Testimony(models.Model):
 
       def __str__(self):
             return self.name + " " + self.profession
+
+
+class Invitated(models.Model):
+    student_name = models.CharField(max_length=100, verbose_name="Nombre del Alumno")
+    student_email = models.EmailField(verbose_name="Correo Electrónico del Amigo")
+    friend_name = models.CharField(max_length=100, verbose_name="Nombre del Amigo")
+    friend_phone = models.CharField(max_length=15, verbose_name="Teléfono del Amigo")
+    notes = models.TextField(verbose_name="Clase Seleccionada", blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de Registro")
+
+    def __str__(self):
+        return f"Invitación de {self.student_name} para {self.friend_name}"
