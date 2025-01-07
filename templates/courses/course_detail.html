@@ -59,10 +59,21 @@
                             <!-- Móvil -->
                             <div class="d-block d-md-none">
                                 {% if course.video_mp4 %}
-                                <video controls width="100%">
-                                    <source src="{{ course.video_mp4.url }}" type="video/mp4">
-                                    Tu navegador no soporta el elemento de video.
-                                </video>
+                                <div class="video-wrapper" style="position: relative; cursor: pointer; text-align: center;">
+                                    <img 
+                                        src="{% static 'img/play-icon.png' %}" 
+                                        alt="Play" 
+                                        class="play-icon img-fluid" >
+                                    <video 
+                                        controls 
+                                        width="100%" 
+                                        poster="{% static 'img/video-placeholder.jpg' %}" 
+                                        style="display: none;" 
+                                        id="mobileVideo">
+                                        <source src="{{ course.video_mp4.url }}" type="video/mp4">
+                                        Tu navegador no soporta el elemento de video.
+                                    </video>
+                                </div>
                                 {% else %}
                                     <p>No video available</p>
                                 {% endif %}
@@ -271,6 +282,25 @@
 {% block javascript %}
 <script>
 
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const videoWrapper = document.querySelector(".video-wrapper");
+        const video = document.getElementById("mobileVideo");
+        const playIcon = document.querySelector(".play-icon");
+
+        if (videoWrapper && video && playIcon) {
+            videoWrapper.addEventListener("click", function () {
+                // Ocultar el ícono de reproducción
+                playIcon.style.display = "none";
+                // Mostrar el video y reproducirlo
+                video.style.display = "block";
+                video.play();
+            });
+        }
+    });
+
+
+    
     document.getElementById('submitForm_curso_detail').addEventListener('click', function () {
         var form = document.getElementById('leadForm_curso_detail');
         var processingMessage = document.getElementById('processingMessage_curso_detail');
