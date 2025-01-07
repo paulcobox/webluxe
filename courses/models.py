@@ -14,6 +14,7 @@ class Course(models.Model):
       image_fiz = models.ImageField(blank=True, upload_to='images/course', verbose_name = "Imagen Ficha Inferior Izq")
       image_fid = models.ImageField(blank=True, upload_to='images/course', verbose_name = "Imagen Ficha Inferior Der")
       video_url = models.URLField(verbose_name="URL del Video", blank=False)
+      image_video_url = models.ImageField(blank=True, upload_to='images/course', verbose_name = "Imagen Video")
       video_mp4 = models.FileField(
         upload_to='videos/course',
         blank=True,

@@ -61,7 +61,7 @@
                                 {% if course.video_mp4 %}
                                 <div class="video-wrapper" style="position: relative; cursor: pointer; text-align: center;">
                                     <img 
-                                        src="{% static 'img/play-icon.png' %}" 
+                                        src="{{ course.image_video_url.url }}"
                                         alt="Play" 
                                         class="play-icon img-fluid" >
                                     <video 
