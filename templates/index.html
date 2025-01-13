@@ -59,15 +59,27 @@
                                 </div>
                                 <a href="{% url 'courses_detail' course.slug %}" class="card-link">
                                     <div class="text-center p-4 pb-0 border border-secondary rounded">
+                                        <!-- Título del curso -->
                                         <h2 class="mb-0 custom-h5">{{ course.title }}</h2>
+                                    
+                                        <!-- Horario del curso -->
                                         <div class="mb-0">
                                             <small class="fa fa-star color-oran"></small>
                                             <small>{{ course.schedule }}</small>
                                             <small class="fa fa-star color-oran"></small>
                                         </div>
-                                        <h2 class="mb-2 h2-small">{{ course.instructor }}</h2>
-                                        <h6 class="card-title">Lugar</h6>
-                                        <h2 class="h2-small">{{ course.district | safe }}</h2>
+                                    
+                                        <!-- Ubicación -->
+                                        <div class="d-flex align-items-center justify-content-center my-2">
+                                            <i class="fas fa-map-marker-alt me-2"></i>
+                                            <h2 class="h2-small m-0">{{ course.district | safe }}</h2>
+                                        </div>
+                                    
+                                        <!-- Instructor -->
+                                        <div class="d-flex align-items-center justify-content-center my-2">
+                                            <i class="fas fa-chalkboard-teacher me-2"></i>
+                                            <h2 class="mb-2 h2-small m-0">{{ course.instructor }}</h2>
+                                        </div>
                                     </div>
                                 </a>
                             </div>

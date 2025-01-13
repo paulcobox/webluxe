@@ -525,6 +525,15 @@
     font-weight: bold; /* Mantén el peso de la fuente similar al de h6 */
 }
 
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 767px) {
+    .custom-h6 {
+        font-size: 0.5 rem;   /* Tamaño más pequeño para pantallas móviles */
+        text-transform: none; /* Mantener el texto normal en móviles */
+    }
+}
+
+
 .custom-h2 {
     font-size: 2rem;       /* Tamaño personalizado para el h2 */
     font-weight: bold;     /* Peso de la fuente */
