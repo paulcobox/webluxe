@@ -47,25 +47,37 @@ class CoursesPersonalTemplateView(TemplateView):
     return context
 
 class CoursesGroupAllTemplateView(TemplateView):
-  template_name = 'courses/courses.html'
+    template_name = 'courses/courses.html'
 
-  def get_context_data(self, *args, **kwargs):
-    context = super(CoursesGroupAllTemplateView, self).get_context_data(*args, **kwargs)
-   
-    # Anotar prioridad para ordenar los cursos
-    courses = Course.objects.filter(is_active=True).annotate(
-        order_priority=Case(
-            When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
-            default=Value(0),  # El resto tiene mayor prioridad
-            output_field=IntegerField(),
+    def get_context_data(self, *args, **kwargs):
+        context = super(CoursesGroupAllTemplateView, self).get_context_data(*args, **kwargs)
+        
+        # Obtener el curso "Salsa Cubana Basico" si existe
+        salsa_basico = Course.objects.filter(
+            is_active=True, 
+            title="Salsa Cubana Basico"
+        ).annotate(
+            order_priority=Value(-1, output_field=IntegerField())  # Prioridad máxima
         )
-    ).order_by('order_priority')  # Ordenar por prioridad
 
-    # context['list_course_you_might_like'] = list_course_you_might_like
-    context['title'] = 'Clases de Baile'
-    context['list_courses'] = courses
-    
-    return context
+        # Obtener el resto de los cursos
+        other_courses = Course.objects.filter(is_active=True).exclude(
+            title="Salsa Cubana Basico"
+        ).annotate(
+            order_priority=Case(
+                When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
+                default=Value(0),  # El resto tiene mayor prioridad
+                output_field=IntegerField(),
+            )
+        ).order_by('order_priority')  # Ordenar por prioridad
+
+        # Combinar los cursos, colocando "Salsa Cubana Basico" al inicio
+        courses = list(salsa_basico) + list(other_courses)
+
+        context['title'] = 'Clases de Baile'
+        context['list_courses'] = courses
+        
+        return context
 
 
 
