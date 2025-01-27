@@ -39,20 +39,35 @@
                         <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s">
                             <!-- Escritorio -->
                             <div class="d-none d-md-block">
-                                {% if course.video_url %}
-                                <iframe 
-                                    width="100%" 
-                                    height="300" 
-                                    src="{{ course.video_url }}&rel=0&showinfo=0&controls=0&vq=small"  
-                                    title="YouTube video player" 
-                                    frameborder="0" 
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                    referrerpolicy="strict-origin-when-cross-origin" 
-                                    allowfullscreen
-                                    loading="lazy">
-                                </iframe>
+                                {% if "tecnica" in request.path or "afrocubano" in request.path %}
+                                    {% if course.video_mp4 %}
+                                    <video 
+                                        controls 
+                                        width="100%" 
+                                        poster="{% static 'img/video-placeholder.jpg' %}" 
+                                        id="desktopVideo">
+                                        <source src="{{ course.video_mp4.url }}" type="video/mp4">
+                                        Tu navegador no soporta el elemento de video.
+                                    </video>
+                                    {% else %}
+                                        <p>No video available</p>
+                                    {% endif %}
                                 {% else %}
-                                    <p>No video available</p>
+                                    {% if course.video_url %}
+                                    <iframe 
+                                        width="100%" 
+                                        height="300" 
+                                        src="{{ course.video_url }}&rel=0&showinfo=0&controls=0&vq=small"  
+                                        title="YouTube video player" 
+                                        frameborder="0" 
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                        referrerpolicy="strict-origin-when-cross-origin" 
+                                        allowfullscreen
+                                        loading="lazy">
+                                    </iframe>
+                                    {% else %}
+                                        <p>No video available</p>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         
