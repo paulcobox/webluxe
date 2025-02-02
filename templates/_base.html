@@ -263,7 +263,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background-color: white;"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="leadForm" style="border: 2px solid #ddd; border-radius: 15px; padding: 20px;">
+                        <form id="leadForm" style="border: 1px solid #ddd; border-radius: 10px; padding: 15px;">
                             {% csrf_token %}
                             <input type="hidden" id="utm_source" name="utm_source">
                             <input type="hidden" id="utm_medium" name="utm_medium">
@@ -326,14 +326,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Términos y condiciones -->
-
-                                <div class="col-12">
-                                    <p class="small text-muted">
-                                        Al hacer click en "Contactar" aceptas los <a href="#" data-bs-toggle="modal" data-bs-target="#modalAuthorization">Términos y Condiciones</a>
-                                    </p>
-                                </div>
-                                
+                              
                                 
 
 
@@ -344,6 +337,7 @@
                                     </button>
                                     <button type="button" id="closeModalButton" class="btn btn-secondary btn-sm d-none" data-bs-dismiss="modal">Close</button>
                                 </div>
+
                             </div>
                         </form>
                         
