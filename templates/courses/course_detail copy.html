@@ -107,9 +107,8 @@
                     </div>
                 </div>
             
-                
-
-                <div class="col-lg-5 col-md-12 wow fadeInUp d-none d-md-block" data-wow-delay="0.5s">
+                    
+                <div class="col-lg-5 col-md-12 wow fadeInUp" data-wow-delay="0.5s">
                     <form id="leadForm_curso_detail" style="border: 2px solid #ddd; border-radius: 15px; padding: 20px;">
                         {% csrf_token %}
                         <input type="hidden" id="course_of_interest" name="course_of_interest">
@@ -192,7 +191,6 @@
         </div>
     </div>
     <!-- Detail Course and call to action -->
-    
 
     <!-- About Start -->
     <div class="container-xxl">
@@ -307,10 +305,10 @@
 
     <!-- Sección fija inferior solo para móvil -->
     <div class="mobile-contact-bar d-block d-md-none">
-        <span class="fw-bold ms-3">Solicita una Clase de Prueba</span>
-        <button class="btn btn-primary me-3" id="openContactForm" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-course="{{ course.title }}">
-            Contactar
-        </button>
+        <div class="d-flex justify-content-between align-items-center">
+            <span class="fw-bold ms-3">🎉 Clase de Prueba</span>
+            <button class="btn btn-primary me-3" id="openContactForm">Contactar</button>
+        </div>
     </div>
 
 
@@ -318,6 +316,21 @@
 {% endblock content %}
 
 {% block javascript %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const contactButton = document.getElementById("openContactForm");
+        const formSection = document.getElementById("leadForm_curso_detail"); // Formulario de contacto
+
+        if (contactButton && formSection) {
+            contactButton.addEventListener("click", function () {
+                // Hacer scroll suave al formulario
+                formSection.scrollIntoView({ behavior: "smooth" });
+            });
+        }
+    });
+</script>
+
 
 <script>
 
@@ -339,6 +352,8 @@
         }
     });
 
+
+    
     document.getElementById('submitForm_curso_detail').addEventListener('click', function () {
         var form = document.getElementById('leadForm_curso_detail');
         var processingMessage = document.getElementById('processingMessage_curso_detail');
@@ -386,7 +401,6 @@
             form.classList.add('was-validated');
         }
     });
-    
 </script>
 {% endblock javascript %}
 
