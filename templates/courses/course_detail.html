@@ -308,12 +308,13 @@
     <!-- Sección fija inferior solo para móvil -->
     <div id="mobileContactBar" class="mobile-contact-bar d-block d-md-none">
         <div class="container d-flex justify-content-between align-items-center">
-            <span class="fw-bold">📢 Clase de Prueba</span>
-            <button class="btn btn-primary" id="openContactForm" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-course="{{ course.title }}">
-                Solicitar
+            <span>🎁 Clase de Prueba</span>
+            <button class="btn btn-lg" id="openContactForm" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-course="{{ course.title }}">
+                ¡Reserva Ahora!
             </button>
         </div>
     </div>
+
 
 
 
@@ -368,12 +369,28 @@
     document.addEventListener("DOMContentLoaded", function () {
         var contactButton = document.getElementById("openContactForm");
     
-        // Restaurar color al cerrar el modal
-        var modal = document.getElementById("exampleModal");
-        modal.addEventListener("hidden.bs.modal", function () {
-            contactButton.style.backgroundColor = "#ff6a09";  // Color original
-        });
+        if (contactButton) {
+            // Guardamos los estilos originales del botón al cargar la página
+            var originalStyles = {
+                backgroundColor: contactButton.style.backgroundColor,
+                color: contactButton.style.color,
+                border: contactButton.style.border,
+                boxShadow: contactButton.style.boxShadow
+            };
+    
+            // Restaurar estilos cuando el modal se cierra
+            var modal = document.getElementById("exampleModal");
+            if (modal) {
+                modal.addEventListener("hidden.bs.modal", function () {
+                    contactButton.style.backgroundColor = originalStyles.backgroundColor;
+                    contactButton.style.color = originalStyles.color;
+                    contactButton.style.border = originalStyles.border;
+                    contactButton.style.boxShadow = originalStyles.boxShadow;
+                });
+            }
+        }
     });
+    
     
 
     document.addEventListener("DOMContentLoaded", function () {
