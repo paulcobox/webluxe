@@ -319,7 +319,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <textarea class="form-control form-control-sm" placeholder="Deja un mensaje aqui" id="message" name="notes" style="height: 80px" required></textarea>
+                                        <textarea class="form-control form-control-sm" placeholder="Deja un mensaje aqui" id="message" name="notes" style="height: 80px" required>Estoy interesado en el curso...</textarea>
                                         <label for="message">Consulta</label>
                                         <div class="invalid-feedback">
                                             Por favor, deja tu consulta.
@@ -358,7 +358,7 @@
 
         <!-- Modal start-->
         <div class="modal" id="successModal" tabindex="-1">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title">Registro Exitoso</h5>
@@ -488,11 +488,20 @@
                     }
                 }).then(response => response.json()).then(data => {
                     if (data.success) {
-                        // Cerrar el primer modal
-                        document.getElementById('closeModalButton').click();
-                        // Mostrar el segundo modal
-                        var successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                        successModal.show();
+
+                        // **Cerrar el modal de contacto**
+                        var contactModal = bootstrap.Modal.getInstance(document.getElementById('exampleModal'));
+                        if (contactModal) {
+                            contactModal.hide();
+                        }
+
+                        // **Mostrar el modal de éxito después de cerrar el modal de contacto**
+                        setTimeout(() => {
+                            var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                            successModal.show();
+                        }, 500); // Pequeño delay para asegurar el cierre del primer modal
+
+
 
                         // Preparar y abrir WhatsApp
                         var firstName = document.getElementById('name').value;
