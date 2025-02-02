@@ -321,6 +321,24 @@
 
 <script>
 
+    document.addEventListener("DOMContentLoaded", function () {
+        var whatsappIcon = document.querySelector(".whatsapp-icon");
+    
+        if (window.location.href.includes("/courses/")) {
+            whatsappIcon.style.bottom = "80px"; // Sube más en la página de cursos
+        }
+    });
+
+    
+    document.addEventListener("DOMContentLoaded", function () {
+        var contactButton = document.getElementById("openContactForm");
+    
+        // Restaurar color al cerrar el modal
+        var modal = document.getElementById("exampleModal");
+        modal.addEventListener("hidden.bs.modal", function () {
+            contactButton.style.backgroundColor = "#ff6a09";  // Color original
+        });
+    });
     
 
     document.addEventListener("DOMContentLoaded", function () {

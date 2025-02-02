@@ -449,12 +449,6 @@
     cursor: pointer;
 }
 
-/* Ajustar la posición en versión móvil */
-@media (max-width: 768px) {
-    .whatsapp-icon {
-        bottom: 80px; /* Sube el icono en móviles */
-    }
-}
 
 .whatsapp-icon i {
     color: white;
