@@ -39,55 +39,36 @@
                         <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s">
                             <!-- Escritorio -->
                             <div class="d-none d-md-block">
-                                {% if "tecnica" in request.path or "afrocubano" in request.path %}
-                                    {% if course.video_mp4 %}
-                                    <video 
-                                        controls 
-                                        width="100%" 
-                                        poster="{% static 'img/video-placeholder.jpg' %}" 
-                                        id="desktopVideo">
-                                        <source src="{{ course.video_mp4.url }}" type="video/mp4">
-                                        Tu navegador no soporta el elemento de video.
-                                    </video>
-                                    {% else %}
-                                        <p>No video available</p>
-                                    {% endif %}
+                                {% if course.video_url %}
+                                    <div style="padding:56.25% 0 0 0;position:relative;">
+                                        <iframe 
+                                            src="{{ course.video_url }}?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479"
+                                            frameborder="0" 
+                                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
+                                            style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+                                            title="Video Player"
+                                            loading="lazy">
+                                        </iframe>
+                                    </div>
                                 {% else %}
-                                    {% if course.video_url %}
-                                    <iframe 
-                                        width="100%" 
-                                        height="300" 
-                                        src="{{ course.video_url }}&rel=0&showinfo=0&controls=0&vq=small"  
-                                        title="YouTube video player" 
-                                        frameborder="0" 
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                        referrerpolicy="strict-origin-when-cross-origin" 
-                                        allowfullscreen
-                                        loading="lazy">
-                                    </iframe>
-                                    {% else %}
-                                        <p>No video available</p>
-                                    {% endif %}
+                                    <p>No video available</p>
                                 {% endif %}
                             </div>
                         
                             <!-- Móvil -->
                             <div class="d-block d-md-none">
-                                {% if course.video_mp4 %}
+                                {% if course.video_url %}
                                 <div class="video-wrapper" style="position: relative; cursor: pointer; text-align: center;">
-                                    <img 
-                                        src="{{ course.image_video_url.url }}"
-                                        alt="Play" 
-                                        class="play-icon img-fluid" >
-                                    <video 
-                                        controls 
-                                        width="100%" 
-                                        poster="{% static 'img/video-placeholder.jpg' %}" 
-                                        style="display: none;" 
-                                        id="mobileVideo">
-                                        <source src="{{ course.video_mp4.url }}" type="video/mp4">
-                                        Tu navegador no soporta el elemento de video.
-                                    </video>
+                                    <div style="padding:56.25% 0 0 0;position:relative;">
+                                        <iframe 
+                                            src="{{ course.video_url }}?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479"
+                                            frameborder="0" 
+                                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
+                                            style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+                                            title="Video Player"
+                                            loading="lazy">
+                                        </iframe>
+                                    </div>
                                 </div>
                                 {% else %}
                                     <p>No video available</p>
