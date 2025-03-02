@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .forms import BasicInfoForm, AdditionalInfoForm
+from .models import CastingRegistration
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Lead
@@ -49,3 +51,34 @@ def create_lead(request):
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
 
+
+
+def casting_registration(request):
+    if request.method == 'POST':
+        form = BasicInfoForm(request.POST)
+        if form.is_valid():
+            registration = form.save()
+            request.session['registration_id'] = registration.id
+            return redirect('additional_info')
+    else:
+        form = BasicInfoForm()
+    return render(request, 'casting/basic_info.html', {'form': form})
+
+def additional_info(request):
+    registration_id = request.session.get('registration_id')
+    if not registration_id:
+        return redirect('casting_registration')
+    
+    registration = CastingRegistration.objects.get(id=registration_id)
+    if request.method == 'POST':
+        form = AdditionalInfoForm(request.POST, instance=registration)
+        if form.is_valid():
+            form.save()
+            del request.session['registration_id']
+            return redirect('thank_you')
+    else:
+        form = AdditionalInfoForm(instance=registration)
+    return render(request, 'casting/additional_info.html', {'form': form})
+
+def thank_you(request):
+    return render(request, 'casting/thank_you.html')

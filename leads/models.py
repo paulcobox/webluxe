@@ -24,3 +24,25 @@ class Lead(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+
+class CastingRegistration(models.Model):
+    full_name = models.CharField(max_length=255)
+    phone = models.CharField(max_length=15)
+    email = models.EmailField()
+    occupation = models.CharField(max_length=255, blank=True, null=True)
+    district = models.CharField(max_length=255, blank=True, null=True)
+    dancing_experience = models.TextField(blank=True, null=True)
+    genres = models.TextField(blank=True, null=True)
+    experience_competing_teaching = models.TextField(blank=True, null=True)
+    motivation = models.TextField(blank=True, null=True)
+    goals = models.TextField(blank=True, null=True)
+    practice_time_commitment = models.TextField(blank=True, null=True)
+    investment_willingness = models.TextField(blank=True, null=True)
+    long_term_commitment = models.BooleanField(default=False)
+    other_commitments = models.TextField(blank=True, null=True)
+    availability = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.full_name

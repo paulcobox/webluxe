@@ -1,0 +1,130 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Información Adicional | Cuban Groove{% endblock title %}
+
+{% block content %}
+
+    <!-- Información Adicional Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center px-3 color-oran">Información Adicional</h6>
+                <h2 class="mb-5 color-cafe">¡Queremos conocerte mejor!</h2>
+            </div>
+            <div class="row g-5">
+                {% if error_message %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error_message }}
+                </div>
+                {% endif %}
+                <form id="additionalInfoForm" method="POST" action="{% url 'additional_info' %}" onsubmit="showProcessingOverlay();">
+                    {% csrf_token %}
+                    <!-- Ocupación -->
+                    <div class="mb-3">
+                        <label for="occupation" class="form-label">Ocupación</label>
+                        <input type="text" class="form-control" id="occupation" name="occupation" placeholder="¿A qué te dedicas?" required>
+                    </div>
+
+                    <!-- Distrito de residencia -->
+                    <div class="mb-3">
+                        <label for="district" class="form-label">Distrito de Residencia</label>
+                        <input type="text" class="form-control" id="district" name="district" placeholder="¿En qué distrito vives?" required>
+                    </div>
+
+                    <!-- Experiencia en baile -->
+                    <div class="mb-3">
+                        <label for="dancingExperience" class="form-label">¿Cuánto tiempo llevas bailando y dónde te formaste?</label>
+                        <textarea class="form-control" id="dancingExperience" name="dancing_experience" rows="3" placeholder="Describe tu experiencia en baile" required></textarea>
+                    </div>
+
+                    <!-- Géneros que dominas -->
+                    <div class="mb-3">
+                        <label for="genres" class="form-label">¿Qué géneros dominas?</label>
+                        <textarea class="form-control" id="genres" name="genres" rows="3" placeholder="Menciona los géneros que dominas" required></textarea>
+                    </div>
+
+                    <!-- Experiencia compitiendo o dictando clases -->
+                    <div class="mb-3">
+                        <label for="experienceCompetingTeaching" class="form-label">¿Tienes experiencia compitiendo o dictando clases de baile?</label>
+                        <textarea class="form-control" id="experienceCompetingTeaching" name="experience_competing_teaching" rows="3" placeholder="Describe tu experiencia" required></textarea>
+                    </div>
+
+                    <!-- Motivación para unirse -->
+                    <div class="mb-3">
+                        <label for="motivation" class="form-label">¿Por qué quieres formar parte de Cuban Groove?</label>
+                        <textarea class="form-control" id="motivation" name="motivation" rows="3" placeholder="Explícanos tu motivación" required></textarea>
+                    </div>
+
+                    <!-- Objetivos como bailarín/a -->
+                    <div class="mb-3">
+                        <label for="goals" class="form-label">¿Cuáles son tus objetivos como bailarín/a?</label>
+                        <textarea class="form-control" id="goals" name="goals" rows="3" placeholder="Describe tus objetivos" required></textarea>
+                    </div>
+
+                    <!-- Tiempo de compromiso semanal -->
+                    <div class="mb-3">
+                        <label for="practiceTimeCommitment" class="form-label">¿Cuánto tiempo puedes comprometerte a ensayar semanalmente? Especifica el horario.</label>
+                        <textarea class="form-control" id="practiceTimeCommitment" name="practice_time_commitment" rows="3" placeholder="Indica tu disponibilidad" required></textarea>
+                    </div>
+
+                    <!-- Inversión en formación -->
+                    <div class="mb-3">
+                        <label for="investmentWillingness" class="form-label">¿Estás dispuesto/a a invertir dinero en tu formación? De acuerdo a tu respuesta, explica el motivo.</label>
+                        <textarea class="form-control" id="investmentWillingness" name="investment_willingness" rows="3" placeholder="Explícanos tu disposición" required></textarea>
+                    </div>
+
+                    <!-- Compromiso a largo plazo -->
+                    <div class="mb-3">
+                        <label for="longTermCommitment" class="form-label">¿Estás dispuesto/a a asumir compromisos a largo plazo con la agrupación?</label>
+                        <select class="form-control" id="longTermCommitment" name="long_term_commitment" required>
+                            <option value="true">Sí</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+
+                    <!-- Otros compromisos -->
+                    <div class="mb-3">
+                        <label for="otherCommitments" class="form-label">¿Tienes algún otro compromiso que pueda interferir con los ensayos o presentaciones? (Trabajo, estudios, perteneces a alguna escuela o agrupación de baile?)</label>
+                        <textarea class="form-control" id="otherCommitments" name="other_commitments" rows="3" placeholder="Menciona tus otros compromisos" required></textarea>
+                    </div>
+
+                    <!-- Disponibilidad en horarios -->
+                    <div class="mb-3">
+                        <label for="availability" class="form-label">¿Tienes disponibilidad en este horario? DOMINGOS 4 - 7 PM / JUEVES 8 - 10 PM</label>
+                        <select class="form-control" id="availability" name="availability" required>
+                            <option value="true">Sí</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+
+                    <!-- Botón de envío -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success py-2">Enviar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Información Adicional End -->
+
+    <!-- Overlay de procesamiento -->
+    <div id="processingOverlay" class="position-fixed top-0 start-0 w-100 h-100 d-none d-flex align-items-center justify-content-center" style="background-color: rgba(255, 255, 255, 0.8); z-index: 1050;">
+        <div class="text-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <span class="d-block mt-2">Procesando su solicitud, por favor espere...</span>
+        </div>
+    </div>
+    
+    <!-- Contact End -->
+
+    <script>
+        function showProcessingOverlay() {
+            const overlay = document.getElementById('processingOverlay');
+            overlay.classList.remove('d-none');
+        }
+    </script>
+    
+
+{% endblock content %}

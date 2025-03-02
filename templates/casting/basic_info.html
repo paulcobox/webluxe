@@ -1,0 +1,70 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Registro para el Casting | Cuban Groove{% endblock title %}
+
+{% block content %}
+
+    <!-- Registro Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center px-3 color-oran">Registro</h6>
+                <h2 class="mb-5 color-cafe">¡Inscríbete al Casting de Cuban Groove!</h2>
+            </div>
+            <div class="row g-5">
+                {% if error_message %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error_message }}
+                </div>
+                {% endif %}
+                <form id="basicInfoForm" method="POST" action="{% url 'casting_registration' %}" onsubmit="showProcessingOverlay();">
+                    {% csrf_token %}
+                    <!-- Nombre completo -->
+                    <div class="mb-3">
+                        <label for="fullName" class="form-label">Nombre Completo</label>
+                        <input type="text" class="form-control" id="fullName" name="full_name" placeholder="Ingresa tu nombre completo" required>
+                    </div>
+
+                    <!-- Celular -->
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Celular</label>
+                        <input type="text" class="form-control" id="phone" name="phone" placeholder="Ingresa tu número de celular" required>
+                    </div>
+
+                    <!-- Correo electrónico -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Correo Electrónico</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Ingresa tu correo electrónico" required>
+                    </div>
+
+                    <!-- Botón de envío -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success py-2">Siguiente</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Registro End -->
+
+    <!-- Overlay de procesamiento -->
+    <div id="processingOverlay" class="position-fixed top-0 start-0 w-100 h-100 d-none d-flex align-items-center justify-content-center" style="background-color: rgba(255, 255, 255, 0.8); z-index: 1050;">
+        <div class="text-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <span class="d-block mt-2">Procesando su solicitud, por favor espere...</span>
+        </div>
+    </div>
+    
+    <!-- Contact End -->
+
+    <script>
+        function showProcessingOverlay() {
+            const overlay = document.getElementById('processingOverlay');
+            overlay.classList.remove('d-none');
+        }
+    </script>
+    
+
+{% endblock content %}

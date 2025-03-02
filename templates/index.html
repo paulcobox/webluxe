@@ -19,7 +19,7 @@
                                         <div class="custom-content">
                                             <p class="text-white mb-4 pb-2">{{ course.body | safe | truncatewords:30 }}</p>
                                         </div>
-                                        <a href="{% url 'courses_detail' course.slug %}" id="btn_home_bt_read" class="btn btn-orange py-md-3 px-md-5 me-3 animated slideInLeft" >Leer Mas</a>
+                                        <a href="{% url 'courses_detail' course.slug %}" id="btn_home_bt_read" class="btn btn-orange py-md-3 px-md-5 me-3 animated slideInLeft slideInRight" >Leer Mas</a>
                                         <a href="" id="btn_home_bt_contact" class="btn btn-light py-md-3 px-md-5 animated slideInRight" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-course="{{ course.title }}">Probar Clase</a>
                                     </div>
                                 </div>
@@ -38,26 +38,29 @@
             <div class="container">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                     <h1 class="section-title bg-white text-center px-3 color-oran custom-h6">Cursos de Baile para Adultos</h1>
-                    <p class="custom-h2 mb-2 color-cafe">¿Sientes que tus pasos no se ven fluidos o elegantes en la pista de baile?</p>
-                    <p>Aprenderas a bailar mientras te integras a una comunidad salsera y timbera. Practicaras lo aprendido con la profesora y alumn@s en diferentes eventos sociales de baile.. ¡Descubre más sobre nuestros cursos!</p>
+                    <p class="custom-h2 mb-2 color-cafe">Te enseñamos a bailar y disociar el cuerpo.</p>
+                    <p>Practicaras lo aprendido con la profesora y alumn@s en diferentes eventos sociales de baile..</p>
 
                 </div>
                 <!-- list Courses Start -->
                 <div class="row g-4 justify-content-center">
                     {% for course in list_course_you_might_like %}
                         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                            <div class="course-item bg-light">
-                                <div class="position-relative overflow-hidden d-flex align-items-center">
-                                    <img class="img-fluid" src="{{ course.image.url }}" alt="{{ course.title }} - Curso de Baile en Cuban Groove" loading="lazy">
-                                    <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                                        <a href="{% url 'courses_detail' course.slug %}" id="btn_home_popular_read" class="flex-shrink-0 btn btn-sm btn-warning px-3 border-end" style="border-radius: 30px 0 0 30px;">Leer Más</a>
-                                        <a href="#" class="flex-shrink-0 btn btn-sm btn-warning px-3" id="btn_home_popular_contact" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-course="{{ course.title }}" style="border-radius: 0 30px 30px 0;">Probar Clase</a>
+                            <!-- Envuelve toda la tarjeta en un enlace -->
+                            <a href="{% url 'courses_detail' course.slug %}" class="card-link" style="text-decoration: none; color: inherit;">
+                                <div class="course-item bg-light">
+                                    <div class="position-relative overflow-hidden d-flex align-items-center">
+                                        <img class="img-fluid" src="{{ course.image.url }}" alt="{{ course.title }} - Curso de Baile en Cuban Groove" loading="lazy">
+                                        <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
+                                            <!-- Botón "Leer Más" -->
+                                            <span class="flex-shrink-0 btn btn-sm btn-warning px-3 border-end" style="border-radius: 30px 30px 30px 30px;">
+                                                Leer Más
+                                            </span>
+                                        </div>
+                                        <div class="infoPrice">
+                                            <strong>S/.{{ course.price }}</strong>
+                                        </div>
                                     </div>
-                                    <div class="infoPrice">
-                                        <strong>S/.{{ course.price }}</strong>
-                                    </div>
-                                </div>
-                                <a href="{% url 'courses_detail' course.slug %}" class="card-link">
                                     <div class="text-center p-4 pb-0 border border-secondary rounded">
                                         <!-- Título del curso -->
                                         <h2 class="mb-0 custom-h5">{{ course.title }}</h2>
@@ -81,12 +84,11 @@
                                             <h2 class="mb-2 h2-small m-0">{{ course.instructor }}</h2>
                                         </div>
                                     </div>
-                                </a>
-                            </div>
+                                </div>
+                            </a>
                         </div>
                     {% endfor %}
                 </div>
-
                 <!-- list Courses End -->
             </div>
         </div>
@@ -99,31 +101,39 @@
             <div class="container">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                     <h6 class="section-title bg-white text-center px-3 color-oran">Instructor</h6>
-                    <h2 class="custom-h2 mb-2 color-cafe"">Instructor Experto</h2>
+                    <h2 class="custom-h2 mb-2 color-cafe"">Instructor</h2>
                 </div>
                 <div class="row g-4 justify-content-center">
                     {% for instructor in instructors %}
-                        <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <!-- Envuelve toda la tarjeta en un enlace -->
+                        <a href="{% url 'instructor_detail' instructor.slug %}" class="card-link" style="text-decoration: none; color: inherit;">
                             <div class="team-item bg-light">
                                 <div class="overflow-hidden">
                                     <img class="img-fluid" src="{{ instructor.image.url }}" alt="{{ instructor.name }}" style="width: 100%; height: auto;" loading="lazy">
                                 </div>
                                 <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                                     <div class="bg-light d-flex justify-content-center pt-2 px-1">
+                                        <!-- Enlaces a redes sociales (se abren en una nueva pestaña) -->
                                         <a class="btn btn-sm-square btn-orange mx-1" target="_blank" href="{{ instructor.facebook }}"><i class="fab fa-facebook-f"></i></a>
                                         <a class="btn btn-sm-square btn-orange mx-1" target="_blank" href="{{ instructor.tiktok }}"><i class="fab fa-tiktok"></i></a>
                                         <a class="btn btn-sm-square btn-orange mx-1" target="_blank" href="{{ instructor.instagram }}"><i class="fab fa-instagram"></i></a>
                                     </div>
                                 </div>
                                 <div class="text-center p-4">
+                                    <!-- Nombre y especialidad del instructor -->
                                     <h2 class="mb-0 custom-h5">{{ instructor.name }}</h2>
                                     <small>{{ instructor.specialty }}</small>
                                     <div>
-                                        <a class="btn btn-orange py-2 px-4 mt-2" id="btn_home_instructor_courses" href="{% url 'instructor_detail' instructor.slug %}">Mis Cursos</a>
+                                        <!-- Botón "Mis Cursos" -->
+                                        <span class="btn btn-orange py-2 px-4 mt-2" id="btn_home_instructor_courses">
+                                            Mis Cursos
+                                        </span>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
+                    </div>
                     {% endfor %}
                     
                 </div>
