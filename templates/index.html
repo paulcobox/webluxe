@@ -14,13 +14,13 @@
                             <div class="container">
                                 <div class="row justify-content-start">
                                     <div class="col-sm-10 col-lg-8">
-                                        <h5 class="color-oran text-uppercase mb-3 animated slideInDown">Curso destacado</h5>
-                                        <h2 class="display-3 text-white animated slideInDown custom-h1">{{ course.title }}</h2>
+                                        <h5 class="color-oran text-uppercase mb-3">Curso destacado</h5>
+                                        <h2 class="display-3 text-white custom-h1">{{ course.title }}</h2>
                                         <div class="custom-content">
                                             <p class="text-white mb-4 pb-2">{{ course.body | safe | truncatewords:30 }}</p>
                                         </div>
-                                        <a href="{% url 'courses_detail' course.slug %}" id="btn_home_bt_read" class="btn btn-orange py-md-3 px-md-5 me-3 animated slideInLeft slideInRight" >Leer Mas</a>
-                                        <a href="" id="btn_home_bt_contact" class="btn btn-light py-md-3 px-md-5 animated slideInRight" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-course="{{ course.title }}">Probar Clase</a>
+                                        <a href="{% url 'courses_detail' course.slug %}" id="btn_home_bt_read" class="btn btn-orange py-md-3 px-md-5 me-3 slideInRight" >Leer Mas</a>
+                                        <a href="" id="btn_home_bt_contact" class="btn btn-light py-md-3 px-md-5" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-course="{{ course.title }}">Probar Clase</a>
                                     </div>
                                 </div>
                             </div>
