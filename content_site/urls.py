@@ -2,6 +2,8 @@ from django.urls import path
 from .views import HomePageView, ContactTemplateView, PrivacyPoliciesTemplateView, TermsConditionsTemplateView, sitemap_view, robots_view, ThankYouTemplateView, InvitatedTemplateView, InvitatedSuccessTemplateView
 from django.views.generic import RedirectView
 from django.conf import settings
+from .views import test_email  # Asegúrate de importar la vista
+
 # from .views import test_email
 
 urlpatterns = [
@@ -19,6 +21,7 @@ urlpatterns = [
   path('favicon.ico', RedirectView.as_view(url=settings.STATIC_URL + 'img/logos/favicon.ico')),
   path("invite-friend/", InvitatedTemplateView.as_view(), name="invite_friend"),
   path("invite-success/", InvitatedSuccessTemplateView.as_view(), name="invite_success"),
+  path("enviar-correo/", test_email, name="enviar_correo"),
+]
   # path('test-email/', test_email, name='test_email'),
     
-]

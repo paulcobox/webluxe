@@ -13,7 +13,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.conf import settings
 from django.template.loader import render_to_string
-# from django.core.mail import send_mail
+from django.core.mail import send_mail
 from django.http import HttpResponse
 # from instructors.models import Instructors
 # Create your views here.
@@ -141,23 +141,37 @@ class InvitatedTemplateView(TemplateView):
         # Redirigir a la página de éxito
         return redirect(reverse("invite_success"))
     
-    # def send_invitation_email(self, student_name, friend_name, student_email, notes):
-    #     subject = f"¡{student_name} Ha invitado a {friend_name} a Cuban Groove!"
-    #     from_email = settings.DEFAULT_FROM_EMAIL
-    #     recipient_list = [student_email, 'paulcofiis@gmail.com']
+    def send_aviso_email(self, student_name, friend_name, student_email, notes):
+        subject = f"¡Lead de {friend_name} a Cuban Groove!"
+        from_email = settings.DEFAULT_FROM_EMAIL
+        recipient_list = [student_email, 'paulcofiis@gmail.com', '']
 
-    #     # Renderizar la plantilla HTML para el correo
-    #     html_content = render_to_string("emails/invitation_email.html", {
-    #         "student_name": student_name,
-    #         "friend_name": friend_name,
-    #         "notes": notes,
-    #     })
+        # Renderizar la plantilla HTML para el correo
+        html_content = render_to_string("emails/invitation_email.html", {
+            "friend_name": friend_name,
+            "notes": notes,
+        })
 
-        # Crear y enviar el correo
-        # email = EmailMultiAlternatives(subject, "", from_email, recipient_list)
-        # email.attach_alternative(html_content, "text/html")
-        # email.send()
+        email = EmailMultiAlternatives(subject, "", from_email, recipient_list)
+        email.attach_alternative(html_content, "text/html")
+        email.send()
         
+
+        
+    
+def test_email(request):
+    try:
+        send_mail(
+            "Correo de prueba",
+            "Este es un correo de prueba desde Django con Gmail.",
+            "cubangroove.pe@gmail.com",  # Remitente
+            ["paulcofiis@gmail.com"],  # Destinatario
+            fail_silently=False,
+        )
+        return HttpResponse("Correo enviado correctamente")
+    except Exception as e:
+        return HttpResponse(f"Error al enviar el correo: {str(e)}", status=500)
+              
 class InvitatedSuccessTemplateView(TemplateView):
     template_name = "content_site/invitated_success.html"  # Plantilla de la página de éxito
     
