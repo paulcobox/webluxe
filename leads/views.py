@@ -5,6 +5,9 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Lead
 from courses.models import Course
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 # Create your views here.
 
@@ -47,7 +50,55 @@ def create_lead(request):
             referer=referer,
             user_agent=user_agent
         )
+        
+        # Enviar correo de aviso al admin
+        subject = f"Nuevo lead registrado: {first_name} {last_name}"
+        context = {
+            'first_name': first_name,
+            'last_name': last_name,
+            'email': email,
+            'phone_number': phone_number,
+            'course_of_interest': course_of_interest.title if course_of_interest else "No especificado",
+            'notes': notes,
+            'referer': referer,
+            'user_agent': user_agent,
+            'created_date': lead.created_date,
+        }
+        html_message = render_to_string('emails/new_lead_notification.html', context)
+        plain_message = strip_tags(html_message)  # Versión en texto plano del correo
+        from_email = "Cuban Groove <info@cubangrooveperu.com>"  # Remitente
+        to_email = ["paulcofiis@gmail.com"]  # Tu dirección de correo para recibir el aviso
 
+        # Enviar el correo
+        send_mail(
+            subject,
+            plain_message,
+            from_email,
+            to_email,
+            html_message=html_message,  # Enviar el correo en formato HTML
+        )
+
+        # Enviar correo de confirmación al cliente
+        subject_client = f"¡Gracias por contactarnos, {first_name}!"
+        context_client = {
+            'first_name': first_name,
+            'last_name': last_name,
+            'email': email,
+            'phone_number': phone_number,
+            'course_of_interest': course_of_interest.title if course_of_interest else "No especificado",
+            'notes': notes,
+        }
+        html_message_client = render_to_string('emails/lead_confirmation.html', context_client)
+        plain_message_client = strip_tags(html_message_client)  # Versión en texto plano del correo
+        to_email_client = [email]  # Correo del cliente
+
+        send_mail(
+            subject_client,
+            plain_message_client,
+            from_email,
+            to_email_client,
+            html_message=html_message_client,  # Enviar el correo en formato HTML
+        )
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
 

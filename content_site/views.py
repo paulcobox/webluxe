@@ -13,8 +13,17 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.conf import settings
 from django.template.loader import render_to_string
+
+
+import logging
 from django.core.mail import send_mail
 from django.http import HttpResponse
+from smtplib import SMTPException
+import socket
+
+logger = logging.getLogger(__name__)
+
+
 # from instructors.models import Instructors
 # Create your views here.
 
@@ -158,19 +167,33 @@ class InvitatedTemplateView(TemplateView):
         
 
         
-    
+
+
 def test_email(request):
     try:
         send_mail(
             "Correo de prueba",
             "Este es un correo de prueba desde Django con Gmail.",
-            "cubangroove.pe@gmail.com",  # Remitente
+            "Cuban Groove <info@cubangrooveperu.com>",  # Remitente
             ["paulcofiis@gmail.com"],  # Destinatario
             fail_silently=False,
         )
         return HttpResponse("Correo enviado correctamente")
+    except SMTPException as e:
+        # Captura errores específicos de SMTP
+        error_message = f"Error SMTP al enviar el correo: {str(e)}"
+        logger.error(error_message)  # Registra el error en los logs
+        return HttpResponse(error_message, status=500)
+    except socket.error as e:
+        # Captura errores de conexión (por ejemplo, problemas de red)
+        error_message = f"Error de conexión: {str(e)}"
+        logger.error(error_message)  # Registra el error en los logs
+        return HttpResponse(error_message, status=500)
     except Exception as e:
-        return HttpResponse(f"Error al enviar el correo: {str(e)}", status=500)
+        # Captura cualquier otro error inesperado
+        error_message = f"Error inesperado: {str(e)}"
+        logger.error(error_message)  # Registra el error en los logs
+        return HttpResponse(error_message, status=500)
               
 class InvitatedSuccessTemplateView(TemplateView):
     template_name = "content_site/invitated_success.html"  # Plantilla de la página de éxito

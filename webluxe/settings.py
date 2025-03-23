@@ -174,3 +174,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+
+# Configuración de correo para Gmail
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Servidor SMTP de Gmail
+EMAIL_PORT = 587  # Puerto para TLS
+EMAIL_USE_TLS = True  # Usar TLS (obligatorio para Gmail)
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  # Tu dirección de Gmail (se obtiene de .env)
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # Tu contraseña o contraseña de aplicación (se obtiene de .env)
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')  # Remitente (se obtiene de .env)
+
+
