@@ -34,16 +34,172 @@
         </div>
     {% endif %}
     <!-- Carousel End -->
+        
+   <!-- Service Start - Versión Compacta -->
+    <div class="container-xxl py-3">  <!-- Reducimos el padding vertical del contenedor -->
+        <div class="container">
+            <div class="row g-3">  <!-- Reducimos el gap entre columnas -->
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="service-item text-center">  <!-- Eliminamos pt-3 -->
+                        <div class="p-3">  <!-- Reducimos padding interno de p-4 a p-3 -->
+                            <i class="fa fa-2x fa-comments text-primary mb-2"></i>  <!-- Icono más pequeño -->
+                            <h5 class="mb-2">Feedback Constante</h5>  <!-- Reducimos margen inferior -->
+                            <p class="small mb-0">Clases <strong>personalizadas</strong> con correcciones adaptadas a tu ritmo.</p>  <!-- Texto más compacto -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="service-item text-center">
+                        <div class="p-3">
+                            <i class="fa fa-2x fa-chart-line text-primary mb-2"></i>
+                            <h5 class="mb-2">Progreso Garantizado</h5>
+                            <p class="small mb-0">Resultados rapidos <strong>desde las primeras clases</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="service-item text-center">
+                        <div class="p-3">
+                            <i class="fa fa-2x fa-bolt text-primary mb-2"></i>
+                            <h5 class="mb-2">Clases Dinámicas</h5>
+                            <p class="small mb-0">Ambiente <strong>energético</strong> para aprender divirtiéndote.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
+                    <div class="service-item text-center">
+                        <div class="p-3">
+                            <i class="fa fa-2x fa-shoe-prints text-primary mb-2"></i>
+                            <h5 class="mb-2">Técnica Profesional</h5>
+                            <p class="small mb-0">Domina los <strong>fundamentos cubanos</strong> con expertos.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Service End -->
 
-    <!-- Courses might Like -->
-    {% if list_course_you_might_like %}
-        <div class="container-xxl mb-5">
+    <!-- About Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h1 class="section-title bg-white text-center px-3 color-oran custom-h6 mb-3">Clases de baile para adultos</h1>
+            </div>
+            <div class="row g-5">
+                <!-- Imagen (izquierda) -->
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                    <div class="position-relative h-100">
+                        <img class="img-fluid position-absolute w-100 h-100" src="{% static 'img/about/adultos-bailando-salsa.jpg' %}" alt="Clases de baile para adultos en Cuban Groove" style="object-fit: cover;">
+                    </div>
+                </div>
+    
+                <!-- Contenido (derecha) -->
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <h6 class="section-title bg-white text-start color-oran pe-3">¿Por qué elegirnos?</h6>
+                    <h6 class="mb-4 custom-h1">Aprenderas a bailar con <span class="color-oran">método cubano</span></h6>
+                    
+                    <p class="mb-4"><strong>¿Buscas clases de baile realmente funcionen?</strong> En Cuban Groove no solo te enseñamos pasos: te entrenamos para que <strong>sientas la música</strong>, domines la técnica y ganes confianza.</p>
+                    
+                    <p class="mb-4">Nuestra metodología, probada por cientos de alumnos, combina:</p>
+    
+                    <!-- Beneficios clave -->
+                    <div class="row gy-2 gx-4 mb-4">
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-check-circle text-primary me-2"></i><strong>Técnica afrocubana</strong>: Movimientos fluidos y ritmo auténtico.</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-check-circle text-primary me-2"></i><strong>Clases 100% prácticas</strong>: Aprendes bailando, no mirando.</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-check-circle text-primary me-2"></i><strong>Grupos reducidos</strong>: Atención personalizada.</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-check-circle text-primary me-2"></i><strong>Enfoque en adultos</strong>: Sin presiones, a tu ritmo.</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-check-circle text-primary me-2"></i><strong>Eventos sociales</strong>: Practica en fiestas sociales.</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-check-circle text-primary me-2"></i><strong>Profesores profesionales</strong>: Con experiencia en escenarios.</p>
+                        </div>
+                    </div>
+    
+                    <!-- Testimonio embebido para confianza -->
+                    <div class="bg-light p-4 mb-4">
+                        <p class="mb-0"><i class="fa fa-quote-left text-primary me-2"></i> <em>Lucero no solo me enseñó a bailar, sino a conectar con la música. En 3 meses ya bailaba en eventos.</em> — <strong>Robert, alumno</strong></p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+
+
+        <!-- Categories Start -->
+        <div class="container-xxl py-0 category">
             <div class="container">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h1 class="section-title bg-white text-center px-3 color-oran custom-h6">Cursos de Baile para Adultos</h1>
-                    <p class="custom-h2 mb-2 color-cafe">Te enseñamos a bailar y disociar el cuerpo.</p>
-                    <p>Practicaras lo aprendido con la profesora y alumn@s en diferentes eventos sociales de baile..</p>
-
+                    <h2 class="section-title bg-white text-center px-3 color-oran custom-h6">Modalidades</h2>
+                    <p class="custom-h2 mb-2">Clases de baile grupal, online, particular y para eventos</strong>?</p>
+                </div>
+                <div class="row g-3">
+                    <div class="col-lg-7 col-md-6">
+                        <div class="row g-3">
+                            <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s">
+                                <a class="position-relative d-block overflow-hidden" href="{% url 'courses_group' %}">
+                                    <img class="img-fluid" src="{% static 'img/categories/cat-1.jpg' %}" alt="clases-de-baile-presencial">
+                                    <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
+                                        <h3 class="m-0 custom-h5">Clases de Baile</h3>
+                                        <small  style="color: #FF6B35; font-weight: 500;">Aprende en un salon</small>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
+                                <a class="position-relative d-block overflow-hidden" href="{% url 'courses_online' %}">
+                                    <img class="img-fluid" src="{% static 'img/categories/cat-2.jpg' %}" alt="clases-de-baile-online">
+                                    <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
+                                        <h3 class="m-0 custom-h5">Clases Online</h3>
+                                        <small  style="color: #FF6B35; font-weight: 500;">Aprende desde casa</small>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
+                                <a class="position-relative d-block overflow-hidden" href="{% url 'courses_particulares' %}">
+                                    <img class="img-fluid" src="{% static 'img/categories/cat-3.jpg' %}" alt="clases-de-baile-particular">
+                                    <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
+                                        <h3 class="m-0 custom-h5">Clases Particulares</h3>
+                                        <small  style="color: #FF6B35; font-weight: 500;">1 a 1 con profesor experto</small>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-6 wow zoomIn" data-wow-delay="0.7s" style="min-height: 350px;">
+                        <a class="position-relative d-block h-100 overflow-hidden" href="{% url 'courses_events' %}">
+                            <img class="img-fluid position-absolute w-100 h-100" src="{% static 'img/categories/cat-4.jpg' %}" alt="clases-de-baile-eventos-bodas" style="object-fit: cover;">
+                            <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin:  1px;">
+                                <h3 class="m-0 custom-h5">Eventos y Bodas</h3>
+                                <small  style="color: #FF6B35; font-weight: 500;">Para empresas, bodas o fiestas</small>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Categories Start -->
+        
+        <!-- Courses might Like -->
+        {% if list_course_you_might_like %}
+        <div class="container-xxl mt-5 mb-5">
+            <div class="container">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h2 class="section-title bg-white text-center px-3 color-oran custom-h6">Clases de Baile</h2>
+                    <p class="custom-h2 mb-2">Salsa, tecnica de danza, afro y más en un ambiente divertido</p>
                 </div>
                 <!-- list Courses Start -->
                 <div class="row g-4 justify-content-center">
@@ -66,7 +222,7 @@
                                     </div>
                                     <div class="text-center p-4 pb-0 border border-secondary rounded">
                                         <!-- Título del curso -->
-                                        <h2 class="mb-0 custom-h5">{{ course.title }}</h2>
+                                        <h3 class="mb-0 custom-h5">{{ course.title }}</h3>
                                     
                                         <!-- Horario del curso -->
                                         <div class="mb-0">
@@ -78,13 +234,13 @@
                                         <!-- Ubicación -->
                                         <div class="d-flex align-items-center justify-content-center my-2">
                                             <i class="fas fa-map-marker-alt me-2"></i>
-                                            <h2 class="h2-small m-0">{{ course.district | safe }}</h2>
+                                            <p class="h2-small m-0">{{ course.district | safe }}</p>
                                         </div>
                                     
                                         <!-- Instructor -->
                                         <div class="d-flex align-items-center justify-content-center my-2">
                                             <i class="fas fa-chalkboard-teacher me-2"></i>
-                                            <h2 class="mb-2 h2-small m-0">{{ course.instructor }}</h2>
+                                            <p class="mb-2 h2-small m-0">{{ course.instructor }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -97,70 +253,27 @@
         </div>
     {% endif %}
     <!-- Courses might like End -->
+
    
-    <!-- Team Start -->
-    {% if instructors %}
-        <div id="instructors" class="container-xxl mb-5">
-            <div class="container">
-                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h6 class="section-title bg-white text-center px-3 color-oran">Instructor</h6>
-                    <h2 class="custom-h2 mb-2 color-cafe"">Instructor</h2>
-                </div>
-                <div class="row g-4 justify-content-center">
-                    {% for instructor in instructors %}
-                    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                        <!-- Envuelve toda la tarjeta en un enlace -->
-                        <a href="{% url 'instructor_detail' instructor.slug %}" class="card-link" style="text-decoration: none; color: inherit;">
-                            <div class="team-item bg-light">
-                                <div class="overflow-hidden">
-                                    <img class="img-fluid" src="{{ instructor.image.url }}" alt="{{ instructor.name }}" style="width: 100%; height: auto;" loading="lazy">
-                                </div>
-                                <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
-                                    <div class="bg-light d-flex justify-content-center pt-2 px-1">
-                                        <!-- Enlaces a redes sociales (se abren en una nueva pestaña) -->
-                                        <a class="btn btn-sm-square btn-orange mx-1" target="_blank" href="{{ instructor.facebook }}"><i class="fab fa-facebook-f"></i></a>
-                                        <a class="btn btn-sm-square btn-orange mx-1" target="_blank" href="{{ instructor.tiktok }}"><i class="fab fa-tiktok"></i></a>
-                                        <a class="btn btn-sm-square btn-orange mx-1" target="_blank" href="{{ instructor.instagram }}"><i class="fab fa-instagram"></i></a>
-                                    </div>
-                                </div>
-                                <div class="text-center p-4">
-                                    <!-- Nombre y especialidad del instructor -->
-                                    <h2 class="mb-0 custom-h5">{{ instructor.name }}</h2>
-                                    <small>{{ instructor.specialty }}</small>
-                                    <div>
-                                        <!-- Botón "Mis Cursos" -->
-                                        <span class="btn btn-orange py-2 px-4 mt-2" id="btn_home_instructor_courses">
-                                            Mis Cursos
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    {% endfor %}
-                    
-                </div>
-            </div>
-        </div>
-    {% endif %}
-    <!-- Team End -->
     
     
     
     {% if list_testimony %}
         <!-- Testimonial Start -->
-        <div class="container-xxl mb-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container-xxl mb-3 wow fadeInUp" data-wow-delay="0.1s">
             <div class="container">
                 <div class="text-center">
-                    <h6 class="section-title bg-white text-center color-oran px-3">Testimonios </h6>
-                    <h2 class="custom-h2 mb-2 color-cafe">Nuestros estudiantes dicen!</h2>
+                    <p class="section-title bg-white text-center px-3 color-oran custom-h6">Testimonios</p>
+                    <p class="custom-h2 mb-2">Nuestros estudiantes dicen!</p>
                 </div>
                 <div class="owl-carousel testimonial-carousel position-relative">
                     {% for testimony in list_testimony %}
                         <div class="testimonial-item text-center">
-                            <img class="border rounded-circle p-2 mx-auto mb-3" src="{{ testimony.imagen.url }}" style="width: 80px; height: 80px;" alt="testimonio de clases de baile" loading="lazy">
-                            <h5 class="mb-0">{{ testimony.name }}</h5>
-                            <p>{{ testimony.profession }}</p>
+                            <p class="custom-h5 mb-0">{{ testimony.name }}</p>
+                            {% if testimony.google_url %}
+                                <a href="{{ testimony.google_url }}" target="_blank" rel="noopener noreferrer">Ver en Google</a>
+                            {% endif %}
+                            <p>⭐️⭐️⭐️⭐️⭐️</p>
                             <div class="testimonial-text bg-light text-center p-4">
                                 <p class="mb-0">
                                     {{ testimony.description | safe }}    
@@ -174,5 +287,53 @@
         <!-- Testimonial End -->
     {% endif %}
     
+
+     <!-- Team Start -->
+     {% if instructors %}
+     <div id="instructors" class="container-xxl mb-5">
+         <div class="container">
+             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                 <h6 class="section-title bg-white text-center px-3 color-oran">Instructor</h6>
+                 <h2 class="custom-h2 mb-2 color-cafe"">Instructor</h2>
+             </div>
+             <div class="row g-4 justify-content-center">
+                 {% for instructor in instructors %}
+                 <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                     <!-- Envuelve toda la tarjeta en un enlace -->
+                     <a href="{% url 'instructor_detail' instructor.slug %}" class="card-link" style="text-decoration: none; color: inherit;">
+                         <div class="team-item bg-light">
+                             <div class="overflow-hidden">
+                                 <img class="img-fluid" src="{{ instructor.image.url }}" alt="{{ instructor.name }}" style="width: 100%; height: auto;" loading="lazy">
+                             </div>
+                             <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
+                                 <div class="bg-light d-flex justify-content-center pt-2 px-1">
+                                     <!-- Enlaces a redes sociales (se abren en una nueva pestaña) -->
+                                     <a class="btn btn-sm-square btn-orange mx-1" target="_blank" href="{{ instructor.facebook }}"><i class="fab fa-facebook-f"></i></a>
+                                     <a class="btn btn-sm-square btn-orange mx-1" target="_blank" href="{{ instructor.tiktok }}"><i class="fab fa-tiktok"></i></a>
+                                     <a class="btn btn-sm-square btn-orange mx-1" target="_blank" href="{{ instructor.instagram }}"><i class="fab fa-instagram"></i></a>
+                                 </div>
+                             </div>
+                             <div class="text-center p-4">
+                                 <!-- Nombre y especialidad del instructor -->
+                                 <p class="mb-0 custom-h5">{{ instructor.name }}</p>
+                                 <small>{{ instructor.specialty }}</small>
+                                 <div>
+                                     <!-- Botón "Mis Cursos" -->
+                                     <a href="{% url 'instructor_detail' instructor.slug %}" class="btn btn-orange py-2 px-4 mt-2" id="btn_home_instructor_courses">
+                                         Mis Cursos
+                                     </a>
+                                 </div>
+                             </div>
+                         </div>
+                     </a>
+                 </div>
+                 {% endfor %}
+                 
+             </div>
+         </div>
+     </div>
+ {% endif %}
+ <!-- Team End -->
+
 
 {% endblock content %}

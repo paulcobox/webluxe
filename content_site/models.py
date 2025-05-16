@@ -61,7 +61,13 @@ class Testimony(models.Model):
       is_active = models.BooleanField(blank = False, null = False, default = False, verbose_name = "¿Activo?")
       created_date = models.DateTimeField(auto_now_add = True, verbose_name = "Fecha de Creación")
       modified_date = models.DateTimeField(auto_now = True, verbose_name = "Fecha de Modificación")
-
+      google_url = models.URLField(
+        max_length=500, 
+        blank=True, 
+        null=True, 
+        verbose_name="URL de Reseña en Google",
+        help_text="Enlace a la reseña original en Google My Business")
+    
       class Meta:
             verbose_name = "Testimonio"
             verbose_name_plural = "Testimonios"

@@ -24,17 +24,18 @@
         })(window, document, "clarity", "script", "po9nb5gcah");
     </script>
     <meta charset="utf-8">
-    <title>{% block title %}Salsa y timba | Mejora tu estilo | Curso de baile{% endblock title %}</title>
+    <title>
+        {% block title %}Cuban Groove | Academia de Baile en Lima – Clases y Talleres de Danza para Adultos{% endblock title %}
+    </title>
+    {% block meta_description %}
+        <meta name="description" content="La academia de baile en Lima donde aprenderás salsa, ritmos afrocubanos y técnica escénica. Clases y talleres para adultos de todos los niveles.">
+    {% endblock meta_description %}
+    {% block meta_keywords %}
+        <meta name="keywords" content="academia de baile, clases de baile, clases de danza, talleres de baile, cursos de danza, estudio de baile, academia de danza, clases para bailar">
+    {% endblock meta_keywords %}
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <!-- Meta Keywords -->
-    <meta name="keywords" content="Clases de Salsa, Clases de Salsa en Lima, Clases de Salsa en Miraflores, Clases de Salsa en Surco, Clases de Salsa en San Isidro, Clases de Salsa en Lince, Clases de Baile, Clases de Baile en Miraflores, Clases de Baile en Surco, Clases de Baile en San Isidro, Clases de Baile en Lince, Academia de Baile en Surco, Academia de Baile en San Isidro, Academia de Baile en Lince, Academia de Baile en La Victoria, Escuela de Baile en Lima, Ritmos Cubanos, Danza Latina, Timba Cubana, Salsa Cubana">
-
-    <!-- Meta Description -->
-    <meta name="description" content="Te asesoramos en cursos de baile de salsa y timba cubana. Aprende el estilo y destaca tu baile en Lima. ¡Descubre más aquí!">
-
     <meta name="author" content="Cuban Groove">
     <meta name="robots" content="index, follow">
-
 
     <link rel="alternate" hreflang="es-PE" href="https://cubangrooveperu.com" />
     <link rel="canonical" href="{{ request.build_absolute_uri }}">
@@ -121,7 +122,16 @@
           <div class="collapse navbar-collapse" id="navbarCollapse">
               <div class="navbar-nav ms-auto p-4 p-lg-0">
                   <a href="{% url 'home' %}" class="nav-item nav-link {% if request.path == '/' %}active{% endif %}">Inicio</a>
-                  <a href="{% url 'courses_group' %}" class="nav-item nav-link {% if 'courses' in request.path %}active{% endif %}">Cursos de Baile</a>
+                  <div class="nav-item dropdown">
+                      <a href="#" class="nav-link dropdown-toggle {% if 'clases' in request.path %}active{% endif %}" data-bs-toggle="dropdown">Clases de Baile</a>
+                      <div class="dropdown-menu fade-down m-0">
+                          <a href="{% url 'courses_group' %}" class="dropdown-item">Grupales Presencial</a>
+                          <a href="{% url 'courses_online' %}" class="dropdown-item">Online</a>
+                          <a href="{% url 'courses_particulares' %}" class="dropdown-item">Particular</a>
+                          <a href="{% url 'courses_events' %}" class="dropdown-item">Eventos y Bodas</a>
+                      </div>
+                      
+                  </div>                    
                   <div class="nav-item dropdown">
                       <a href="#" class="nav-link dropdown-toggle {% if 'instructor' in request.path %}active{% endif %}" data-bs-toggle="dropdown">Nuestro Profesor</a>
                       <div class="dropdown-menu fade-down m-0">

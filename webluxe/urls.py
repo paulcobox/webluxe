@@ -14,16 +14,31 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.shortcuts import redirect
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('courses.urls')),
+    path('clases-baile/', include('courses.urls')),
     path('', include('content_site.urls')),
     path('', include('instructors.urls')),
     path('', include('leads.urls')),
     path('blog/', include('blog.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+redirect_patterns = [
+    re_path(r'^courses/salsa-cubana-basico/$', lambda r: redirect('/clases-baile/salsa-principiantes/', permanent=True)),
+    re_path(r'^courses/afrocubano/$', lambda r: redirect('/clases-baile/afro/', permanent=True)),
+    re_path(r'^courses/tecnica-para-la-danza-y-disociacion-corporal/$', lambda r: redirect('/clases-baile/danza/', permanent=True)),
+    re_path(r'^courses/timba-pasos-sueltos/$', lambda r: redirect('/clases-baile/salsa/', permanent=True)),
+    re_path(r'^courses/reparto/$', lambda r: redirect('/clases-baile/salsa/', permanent=True)),
+    re_path(r'^courses/cuban-lady-style/$', lambda r: redirect('/clases-baile/salsa/', permanent=True)),
+    re_path(r'^courses/timba-session-coreografico/$', lambda r: redirect('/clases-baile/salsa/', permanent=True)),
+    re_path(r'^courses-group/$', lambda r: redirect('/clases-baile/', permanent=True)),
+
+]
+
+urlpatterns += redirect_patterns

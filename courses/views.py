@@ -8,43 +8,101 @@ from random import sample
 from leads.models import Lead
 from pytube import YouTube
 from django.db.models import Case, When, Value, IntegerField
+from itertools import chain
 # Create your views here.
 
-class CoursesVirtualTemplateView(TemplateView):
-  template_name = 'courses/courses.html'
+
+class CoursesDetailOnlineTemplateView(TemplateView):
+  
+  template_name = 'courses/course_detail_otros.html'
 
   def get_context_data(self, *args, **kwargs):
-    context = super(CoursesVirtualTemplateView, self).get_context_data(*args, **kwargs)
-    courses =  Course.objects.filter(is_active = True, type = "Virtual").all()
+    context = super(CoursesDetailOnlineTemplateView, self).get_context_data(*args, **kwargs)
+    course_slug = 'online'  # Assuming 'course_slug' is the URL parameter
+    course = get_object_or_404(Course, slug=course_slug)
+    # video_id = YouTube(course.video_url).video_id
+    # course.video_url = f"https://www.youtube.com/embed/{video_id}"
+    salsa_basico = Course.objects.filter(is_active=True, title="Salsa Cubana Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
     
-    list_course_you_might_like = Course.objects.filter(is_active=True).exclude(id__in=courses.values_list('id', flat=True))
-    if list_course_you_might_like.count() >= 3:
-      list_course_you_might_like = sample(list(list_course_you_might_like), 3)
-
+    other_courses = Course.objects.filter(is_active=True).exclude(title="Salsa Cubana Principiantes").annotate(
+            order_priority=Case(
+                When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
+                default=Value(0),  # El resto tiene mayor prioridad
+                output_field=IntegerField(),
+            )
+        ).order_by('order_priority')  # Ordenar por prioridad
+        
+    combined_qs = list(chain(salsa_basico, other_courses))
+    list_course_you_might_like = [c for c in combined_qs if c.pk != course.pk]
+    
+    context['course'] = course
     context['list_course_you_might_like'] = list_course_you_might_like
-    
-    context['title'] = 'Clases de Baile Virtual'
-    context['list_courses'] = courses
+   
     
     return context
 
-class CoursesPersonalTemplateView(TemplateView):
-  template_name = 'courses/courses.html'
+class CoursesDetailParticularTemplateView(TemplateView):
+  
+  template_name = 'courses/course_detail_otros.html'
 
   def get_context_data(self, *args, **kwargs):
-    context = super(CoursesPersonalTemplateView, self).get_context_data(*args, **kwargs)
-    courses =  Course.objects.filter(is_active = True, type = "Personalizada").all()
+    context = super(CoursesDetailParticularTemplateView, self).get_context_data(*args, **kwargs)
+    course_slug = 'particulares'  # Assuming 'course_slug' is the URL parameter
+    course = get_object_or_404(Course, slug=course_slug)
+    # video_id = YouTube(course.video_url).video_id
+    # course.video_url = f"https://www.youtube.com/embed/{video_id}"
+    salsa_basico = Course.objects.filter(is_active=True, title="Salsa Cubana Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
     
-    list_course_you_might_like = Course.objects.filter(is_active=True).exclude(id__in=courses.values_list('id', flat=True))
-    if list_course_you_might_like.count() >= 3:
-      list_course_you_might_like = sample(list(list_course_you_might_like), 3)
+    other_courses = Course.objects.filter(is_active=True).exclude(title="Salsa Cubana Principiantes").annotate(
+            order_priority=Case(
+                When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
+                default=Value(0),  # El resto tiene mayor prioridad
+                output_field=IntegerField(),
+            )
+        ).order_by('order_priority')  # Ordenar por prioridad
+        
+    combined_qs = list(chain(salsa_basico, other_courses))
+    list_course_you_might_like = [c for c in combined_qs if c.pk != course.pk]
+    
 
+    context['course'] = course
     context['list_course_you_might_like'] = list_course_you_might_like
-    
-    context['title'] = 'Clases de Baile Personalizadas'
-    context['list_courses'] = courses
+   
     
     return context
+  
+  
+class CoursesDetailEventsTemplateView(TemplateView):
+  
+  template_name = 'courses/course_detail_otros.html'
+
+  def get_context_data(self, *args, **kwargs):
+    context = super(CoursesDetailEventsTemplateView, self).get_context_data(*args, **kwargs)
+    course_slug = 'novios-eventos'  # Assuming 'course_slug' is the URL parameter
+    course = get_object_or_404(Course, slug=course_slug)
+    # video_id = YouTube(course.video_url).video_id
+    # course.video_url = f"https://www.youtube.com/embed/{video_id}"
+    salsa_basico = Course.objects.filter(is_active=True, title="Salsa Cubana Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
+    
+    other_courses = Course.objects.filter(is_active=True).exclude(title="Salsa Cubana Principiantes").annotate(
+            order_priority=Case(
+                When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
+                default=Value(0),  # El resto tiene mayor prioridad
+                output_field=IntegerField(),
+            )
+        ).order_by('order_priority')  # Ordenar por prioridad
+        
+    combined_qs = list(chain(salsa_basico, other_courses))
+    list_course_you_might_like = [c for c in combined_qs if c.pk != course.pk]
+    
+
+    context['course'] = course
+    context['list_course_you_might_like'] = list_course_you_might_like
+   
+    
+    return context
+  
+  
 
 class CoursesGroupAllTemplateView(TemplateView):
     template_name = 'courses/courses.html'
@@ -55,14 +113,14 @@ class CoursesGroupAllTemplateView(TemplateView):
         # Obtener el curso "Salsa Cubana Basico" si existe
         salsa_basico = Course.objects.filter(
             is_active=True, 
-            title="Salsa Cubana Basico"
+            title="Salsa Cubana Principiantes"
         ).annotate(
             order_priority=Value(-1, output_field=IntegerField())  # Prioridad máxima
         )
 
         # Obtener el resto de los cursos
         other_courses = Course.objects.filter(is_active=True).exclude(
-            title="Salsa Cubana Basico"
+            title="Salsa Cubana Principiantes"
         ).annotate(
             order_priority=Case(
                 When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
@@ -80,43 +138,7 @@ class CoursesGroupAllTemplateView(TemplateView):
         return context
 
 
-
-class CoursesGroupTemplateView(TemplateView):
-  template_name = 'courses/courses.html'
-
-  def get_context_data(self, *args, **kwargs):
-    context = super(CoursesGroupTemplateView, self).get_context_data(*args, **kwargs)
-    courses =  Course.objects.filter(is_active = True, type = "Grupal").all()
-    
-    list_course_you_might_like = Course.objects.filter(is_active=True).exclude(id__in=courses.values_list('id', flat=True))
-    if list_course_you_might_like.count() >= 3:
-      list_course_you_might_like = sample(list(list_course_you_might_like), 3)
-
-    context['list_course_you_might_like'] = list_course_you_might_like
-    context['title'] = 'Clases de Baile en Grupo'
-    context['list_courses'] = courses
-    
-    return context
-
-class CoursesChoreographyTemplateView(TemplateView):
-  template_name = 'courses/courses.html'
-
-  def get_context_data(self, *args, **kwargs):
-    context = super(CoursesChoreographyTemplateView, self).get_context_data(*args, **kwargs)
-    courses =  Course.objects.filter(is_active = True, type = "Coreografia").all()
-    
-    list_course_you_might_like = Course.objects.filter(is_active=True).exclude(id__in=courses.values_list('id', flat=True))
-    if list_course_you_might_like.count() >= 3:
-      list_course_you_might_like = sample(list(list_course_you_might_like), 3)
-
-    context['list_course_you_might_like'] = list_course_you_might_like
-    
-    context['title'] = 'Coreografias para Eventos (Concursos, Matrimonios, Empresas, Etc)'
-    context['list_courses'] = courses
-    
-    return context
-
-  
+ 
 class CoursesDetailTemplateView(TemplateView):
   
   template_name = 'courses/course_detail.html'
@@ -125,8 +147,7 @@ class CoursesDetailTemplateView(TemplateView):
     context = super(CoursesDetailTemplateView, self).get_context_data(*args, **kwargs)
     course_slug = kwargs.get('course_slug')  # Assuming 'course_slug' is the URL parameter
     course = get_object_or_404(Course.objects.filter(is_active=True), slug=course_slug)
-    # video_id = YouTube(course.video_url).video_id
-    # course.video_url = f"https://www.youtube.com/embed/{video_id}"
+
     list_course_you_might_like = Course.objects.filter(is_active=True).exclude(pk=course.pk)
     
     list_course_you_might_like = list_course_you_might_like.filter(is_active=True).annotate(
@@ -139,9 +160,11 @@ class CoursesDetailTemplateView(TemplateView):
     
 
     context['course'] = course
+    print('entroooooooooooooo', course.body_title)
     context['list_course_you_might_like'] = list_course_you_might_like
-   
     
     return context
+   
+
   
    

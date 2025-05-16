@@ -34,17 +34,18 @@ class HomePageView(TemplateView):
   def get_context_data(self, *args, **kwargs):
     context = super(HomePageView, self).get_context_data(*args, **kwargs)
     # Anotar prioridad para ordenar los cursos
-    list_course_you_might_like = Course.objects.filter(is_active=True).annotate(
-        order_priority=Case(
-            When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
-            default=Value(0),  # El resto tiene mayor prioridad
-            output_field=IntegerField(),
-        )
-    ).order_by('order_priority')[:6]  # Seleccionar los primeros 6 registros
+    # Obtener el curso "Salsa Cubana Basico" si existe
+    salsa_basico = Course.objects.filter(is_active=True, title="Salsa Cubana Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
     
-    # # Select 6 random courses (if there are at least 3 active courses)
-    # if list_course_you_might_like.count() >= 6:
-    #     list_course_you_might_like = sample(list(list_course_you_might_like), 6)
+    other_courses = Course.objects.filter(is_active=True).exclude(title="Salsa Cubana Principiantes").annotate(
+            order_priority=Case(
+                When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
+                default=Value(0),  # El resto tiene mayor prioridad
+                output_field=IntegerField(),
+            )
+        ).order_by('order_priority')  # Ordenar por prioridad
+        
+    list_course_you_might_like = list(salsa_basico) + list(other_courses)
         
     list_course_banner_top =  Course.objects.filter(is_active = True, is_banner_home=True)
     if list_course_banner_top.count() >= 3:
@@ -87,13 +88,17 @@ class ThankYouTemplateView(TemplateView):
 
   def get_context_data(self, *args, **kwargs):
     context = super(ThankYouTemplateView, self).get_context_data(*args, **kwargs)
-    list_course_you_might_like = Course.objects.filter(is_active=True).annotate(
-        order_priority=Case(
-            When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
-            default=Value(0),  # El resto tiene mayor prioridad
-            output_field=IntegerField(),
-        )
-    ).order_by('order_priority')[:6]  # Seleccionar los primeros 6 registros
+    salsa_basico = Course.objects.filter(is_active=True, title="Salsa Cubana Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
+    
+    other_courses = Course.objects.filter(is_active=True).exclude(title="Salsa Cubana Principiantes").annotate(
+            order_priority=Case(
+                When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
+                default=Value(0),  # El resto tiene mayor prioridad
+                output_field=IntegerField(),
+            )
+        ).order_by('order_priority')  # Ordenar por prioridad
+        
+    list_course_you_might_like = list(salsa_basico) + list(other_courses)
     context['list_course_you_might_like'] = list_course_you_might_like
     return context
   

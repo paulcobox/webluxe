@@ -1,84 +1,122 @@
 {% extends '_base.html' %}
 {% load static %}
-{% block title %}Cursos {% if title %}| {{ title }}{% endif %}{% endblock title %}
-{% block meta_description %}Explora nuestros cursos y talleres en Cuban Groove. Aprende a bailar con instructores expertos y obtén descuentos especiales. ¡Inscríbete hoy!{% endblock meta_description %}
-{% block meta_keywords %}cursos, talleres, baile, salsa, timba, Cuban Groove{% endblock meta_keywords %}
+{% block title %}Clases de baile en Lima | Salsa, Afro y Técnica para todos los niveles{% endblock title %}
+{% block meta_description %}
+    <meta name="description" content="Explora nuestras clases de salsa, técnica de danza y ritmos afrocubanos en Lima. Aprende desde cero o mejora tu nivel con Cuban Groove. ¡Inscríbete hoy!">
+{% endblock meta_description %}
+
+
+{% block meta_keywords %}
+    <meta name="keywords" content="clases de baile, clases de salsa cubana, clases de baile cerca de mí, técnica de danza en Lima, clases afrocubanas, clases de salsa para principiantes, bailar salsa en Lima">
+{% endblock meta_keywords %}
 
 {% block content %}
+
+    <div class="container-xxl mt-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h1 class="section-title bg-white text-center px-3 color-oran custom-h6">Clases de Baile en Lima</h1>
+                <h2 class="custom-h2 mb-2">Salsa, tecnica de danza, afro y mas</h2>
+            </div>
+        </div>
+    </div>
+   
     {% if list_courses %}
         <!-- Courses Start -->
         <div class="container-xxl py-2">
             <div class="container">
-                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h1 class=" section-title bg-white text-center px-3 color-oran custom-h6">{% if title %}{{ title }}{% endif %}</h1>
-                    <h2 class="mb-2 color-cafe custom-h6">Te ayudamos a encontrar el curso de baile perfecto para ti.</h2>
-                    <p>Practicaras lo aprendido con la profesora y alumn@s en diferentes eventos sociales de baile.</p>
-
-                </div>
+                <!-- list Courses Start -->
                 <div class="row g-4 justify-content-center">
-
                     {% for course in list_courses %}
-                    <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                        <!-- Envuelve toda la tarjeta en un enlace -->
-                        <a href="{% url 'courses_detail' course.slug %}" class="card-link" style="text-decoration: none; color: inherit;">
-                            <div class="course-item bg-light">
-                                <div class="position-relative overflow-hidden d-flex align-items-center">
-                                    <img class="img-fluid" src="{{ course.image.url }}" alt="{{ course.title }} - Curso de Baile en Cuban Groove" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
-                                    <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                                        <!-- Botón "Leer Más" -->
-                                        <span class="flex-shrink-0 btn btn-sm btn-warning px-3 border-end" style="border-radius: 30px 30px 30px 30px;">
-                                            Leer Más
-                                        </span>
+                        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <!-- Envuelve toda la tarjeta en un enlace -->
+                            <a href="{% url 'courses_detail' course.slug %}" class="card-link" style="text-decoration: none; color: inherit;">
+                                <div class="course-item bg-light">
+                                    <div class="position-relative overflow-hidden d-flex align-items-center">
+                                        <img class="img-fluid" src="{{ course.image.url }}" alt="{{ course.title }} - Curso de Baile en Cuban Groove" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
+                                        <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
+                                            <!-- Botón "Leer Más" -->
+                                            <span class="flex-shrink-0 btn btn-sm btn-warning px-3 border-end" style="border-radius: 30px 30px 30px 30px;">
+                                                Leer Más
+                                            </span>
+                                        </div>
+                                        <div class="infoPrice">
+                                            <strong>S/.{{ course.price }}</strong>
+                                        </div>
                                     </div>
-                                    <div class="infoPrice">
-                                        <strong>S/.{{ course.price }}</strong>
+                                    <div class="text-center p-4 pb-0 border border-secondary rounded">
+                                        <!-- Título del curso -->
+                                        <h3 class="mb-0 custom-h5">{{ course.title }}</h3>
+                                    
+                                        <!-- Horario del curso -->
+                                        <div class="mb-0">
+                                            <small class="fa fa-star color-oran"></small>
+                                            <small>{{ course.schedule }}</small>
+                                            <small class="fa fa-star color-oran"></small>
+                                        </div>
+                                    
+                                        <!-- Ubicación -->
+                                        <div class="d-flex align-items-center justify-content-center my-2">
+                                            <i class="fas fa-map-marker-alt me-2"></i>
+                                            <p class="h2-small m-0">{{ course.district | safe }}</p>
+                                        </div>
+                                    
+                                        <!-- Instructor -->
+                                        <div class="d-flex align-items-center justify-content-center my-2">
+                                            <i class="fas fa-chalkboard-teacher me-2"></i>
+                                            <p class="mb-2 h2-small m-0">{{ course.instructor }}</p>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="text-center p-4 pb-0 border border-secondary rounded">
-                                    <!-- Título del curso -->
-                                    <h2 class="mb-0 custom-h5">{{ course.title }}</h2>
-                                
-                                    <!-- Horario del curso -->
-                                    <div class="mb-0">
-                                        <small class="fa fa-star color-oran"></small>
-                                        <small>{{ course.schedule }}</small>
-                                        <small class="fa fa-star color-oran"></small>
-                                    </div>
-                                
-                                    <!-- Ubicación -->
-                                    <div class="d-flex align-items-center justify-content-center my-2">
-                                        <i class="fas fa-map-marker-alt me-2"></i>
-                                        <h2 class="h2-small m-0">{{ course.district | safe }}</h2>
-                                    </div>
-                                
-                                    <!-- Instructor -->
-                                    <div class="d-flex align-items-center justify-content-center my-2">
-                                        <i class="fas fa-chalkboard-teacher me-2"></i>
-                                        <h2 class="mb-2 h2-small m-0">{{ course.instructor }}</h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                            </a>
+                        </div>
                     {% endfor %}
-                </div>
-            </div>
-        </div>
-        <!-- Courses End -->
-    {% else %}
-        <!-- Courses Start -->
-        <div class="container-xxl mb-5">
-            <div class="container">
-                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h2 class="section-title bg-white text-center px-3 color-oran custom-h6">{% if title %}{{ title }}{% endif %}</h2>
-                    <h2 class="text-center mb-2 color-cafe">Próximamente.</h2>
-                    
                 </div>
             </div>
         </div>
         <!-- Courses End -->
     {% endif %}
 
+     <!-- About Start -->
+     <div class="container-xxl py-3">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-12 wow fadeInUp" data-wow-delay="0.3s">
+                    <p class="custom-h2 mb-4 color-cafe">¿Por qué aprender a bailar con nosotros?</p>
+                    <p class="mb-4">
+                        En Cuban Groove, las clases de baile se dictan en grupos reducidos, lo que nos permite brindar correcciones individuales y acelerar tu aprendizaje.
+                        Ya sea que quieras comenzar desde cero o perfeccionar tus conocimientos, tenemos un curso para ti: salsa cubana, técnica de danza y ritmos afrocubanos.
+                        Cada clase está diseñada para ayudarte a sentir la música, desarrollar tu expresión y conectar con ella desde el cuerpo.
+                        Aprenderás con una metodología clara, seguimiento personalizado, energía positiva y compañeros que te ayudarán a practicar y crecer.
+                    </p>
+                    
+                    <div class="row gy-2 gx-4 mb-4">
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right color-oran me-2"></i>Clases con grupos reducidos con enfoque de correciones individuales</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right color-oran me-2"></i>Salsa cubana, técnica escénica y ritmos afrocubanos</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right color-oran me-2"></i>Cursos desde nivel básico hasta intermedio</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right color-oran me-2"></i>Aprendizaje técnico con conciencia corporal y musicalidad</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right color-oran me-2"></i>Ambiente seguro para liberar el cuerpo y la creatividad</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right color-oran me-2"></i>Comunidad vibrante y motivadora que te acompaña en tu proceso</p>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+    
     {% if list_course_you_might_like %}
     <!-- Courses might Like -->
         <div class="container-xxl mb-5">

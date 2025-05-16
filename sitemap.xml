@@ -1,73 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<url>
-<loc>https://cubangrooveperu.com/</loc>
-<lastmod>2024-12-10T04:00:22+00:00</lastmod>
-<priority>1.00</priority>
-</url>
-<url>
-<loc>https://cubangrooveperu.com/instructor/luxe-coronado/</loc>
-<lastmod>2024-12-10T04:00:22+00:00</lastmod>
-<priority>0.80</priority>
-</url>
-<url>
-<loc>https://cubangrooveperu.com/courses-group</loc>
-<lastmod>2024-12-10T04:00:22+00:00</lastmod>
-<priority>0.80</priority>
-</url>
-<url>
-<loc>https://cubangrooveperu.com/contact</loc>
-<lastmod>2024-12-10T04:00:22+00:00</lastmod>
-<priority>0.80</priority>
-</url>
-<url>
-<loc>https://cubangrooveperu.com/blog/</loc>
-<lastmod>2024-12-10T04:00:22+00:00</lastmod>
-<priority>0.80</priority>
-</url>
-<url>
-<loc>https://cubangrooveperu.com/courses/salsa-cubana-basico/</loc>
-<lastmod>2024-12-10T04:00:22+00:00</lastmod>
-<priority>0.80</priority>
-</url>
-<url>
-<loc>https://cubangrooveperu.com/courses/tecnica-para-la-danza-y-disociacion-corporal/</loc>
-<lastmod>2024-12-10T04:00:22+00:00</lastmod>
-<priority>0.80</priority>
-</url>
-<url>
-<loc>https://cubangrooveperu.com/courses/cuban-lady-style/</loc>
-<lastmod>2024-12-10T04:00:22+00:00</lastmod>
-<priority>0.80</priority>
-</url>
-<url>
-<loc>https://cubangrooveperu.com/terms-conditions</loc>
-<lastmod>2024-12-10T04:00:22+00:00</lastmod>
-<priority>0.80</priority>
-</url>
-<url>
-<loc>https://cubangrooveperu.com/privacy-policies</loc>
-<lastmod>2024-12-10T04:00:22+00:00</lastmod>
-<priority>0.80</priority>
-</url>
-<url>
-<loc>https://cubangrooveperu.com/courses/timba-pasos-sueltos/</loc>
-<lastmod>2024-12-10T04:00:22+00:00</lastmod>
-<priority>0.64</priority>
-</url>
-<url>
-<loc>https://cubangrooveperu.com/courses/reparto/</loc>
-<lastmod>2024-12-10T04:00:22+00:00</lastmod>
-<priority>0.64</priority>
-</url>
-<url>
-<loc>https://cubangrooveperu.com/courses/timba-session-coreografico/</loc>
-<lastmod>2024-12-10T04:00:22+00:00</lastmod>
-<priority>0.64</priority>
-</url>
-<url>
-<loc>https://cubangrooveperu.com/courses/afrocubano/</loc>
-<lastmod>2024-12-10T04:00:22+00:00</lastmod>
-<priority>0.64</priority>
-</url>
+<urlset 
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 
+    http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+    <!-- Página principal -->
+    <url>
+        <loc>https://cubangrooveperu.com/</loc>
+        <priority>1.0</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+
+    <!-- Sección de clases -->
+    <url>
+        <loc>https://cubangrooveperu.com/clases-baile/</loc>
+        <priority>0.9</priority>
+        <changefreq>weekly</changefreq>
+    </url>
+
+    <!-- Cursos específicos -->
+    <url>
+        <loc>https://cubangrooveperu.com/clases-baile/salsa/</loc>
+        <priority>0.8</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://cubangrooveperu.com/clases-baile/salsa-principiantes/</loc>
+        <priority>0.8</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://cubangrooveperu.com/clases-baile/afro/</loc>
+        <priority>0.8</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://cubangrooveperu.com/clases-baile/danza/</loc>
+        <priority>0.8</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://cubangrooveperu.com/clases-baile/particular/</loc>
+        <priority>0.8</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://cubangrooveperu.com/clases-baile/salsa-online/</loc>
+        <priority>0.8</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+
+    <url>
+        <loc>https://cubangrooveperu.com/clases-baile/eventos_bodas/</loc>
+        <priority>0.8</priority>
+        <changefreq>monthly</changefreq>
+    </url>
+
 </urlset>
