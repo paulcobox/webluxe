@@ -22,9 +22,9 @@ class CoursesDetailOnlineTemplateView(TemplateView):
     course = get_object_or_404(Course, slug=course_slug)
     # video_id = YouTube(course.video_url).video_id
     # course.video_url = f"https://www.youtube.com/embed/{video_id}"
-    salsa_basico = Course.objects.filter(is_active=True, title="Salsa Cubana Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
+    salsa_basico = Course.objects.filter(is_active=True, title="Salsa Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
     
-    other_courses = Course.objects.filter(is_active=True).exclude(title="Salsa Cubana Principiantes").annotate(
+    other_courses = Course.objects.filter(is_active=True).exclude(title="Salsa Principiantes").annotate(
             order_priority=Case(
                 When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
                 default=Value(0),  # El resto tiene mayor prioridad
@@ -51,9 +51,9 @@ class CoursesDetailParticularTemplateView(TemplateView):
     course = get_object_or_404(Course, slug=course_slug)
     # video_id = YouTube(course.video_url).video_id
     # course.video_url = f"https://www.youtube.com/embed/{video_id}"
-    salsa_basico = Course.objects.filter(is_active=True, title="Salsa Cubana Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
+    salsa_basico = Course.objects.filter(is_active=True, title="Salsa Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
     
-    other_courses = Course.objects.filter(is_active=True).exclude(title="Salsa Cubana Principiantes").annotate(
+    other_courses = Course.objects.filter(is_active=True).exclude(title="Salsa Principiantes").annotate(
             order_priority=Case(
                 When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
                 default=Value(0),  # El resto tiene mayor prioridad
@@ -82,9 +82,9 @@ class CoursesDetailEventsTemplateView(TemplateView):
     course = get_object_or_404(Course, slug=course_slug)
     # video_id = YouTube(course.video_url).video_id
     # course.video_url = f"https://www.youtube.com/embed/{video_id}"
-    salsa_basico = Course.objects.filter(is_active=True, title="Salsa Cubana Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
+    salsa_basico = Course.objects.filter(is_active=True, title="Salsa Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
     
-    other_courses = Course.objects.filter(is_active=True).exclude(title="Salsa Cubana Principiantes").annotate(
+    other_courses = Course.objects.filter(is_active=True).exclude(title="Salsa Principiantes").annotate(
             order_priority=Case(
                 When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
                 default=Value(0),  # El resto tiene mayor prioridad
@@ -113,14 +113,14 @@ class CoursesGroupAllTemplateView(TemplateView):
         # Obtener el curso "Salsa Cubana Basico" si existe
         salsa_basico = Course.objects.filter(
             is_active=True, 
-            title="Salsa Cubana Principiantes"
+            title="Salsa Principiantes"
         ).annotate(
             order_priority=Value(-1, output_field=IntegerField())  # Prioridad máxima
         )
 
         # Obtener el resto de los cursos
         other_courses = Course.objects.filter(is_active=True).exclude(
-            title="Salsa Cubana Principiantes"
+            title="Salsa Principiantes"
         ).annotate(
             order_priority=Case(
                 When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad

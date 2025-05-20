@@ -35,9 +35,9 @@ class HomePageView(TemplateView):
     context = super(HomePageView, self).get_context_data(*args, **kwargs)
     # Anotar prioridad para ordenar los cursos
     # Obtener el curso "Salsa Cubana Basico" si existe
-    salsa_basico = Course.objects.filter(is_active=True, title="Salsa Cubana Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
+    salsa_basico = Course.objects.filter(is_active=True, title="Salsa Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
     
-    other_courses = Course.objects.filter(is_active=True).exclude(title="Salsa Cubana Principiantes").annotate(
+    other_courses = Course.objects.filter(is_active=True).exclude(title="Salsa Principiantes").annotate(
             order_priority=Case(
                 When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
                 default=Value(0),  # El resto tiene mayor prioridad
@@ -88,9 +88,9 @@ class ThankYouTemplateView(TemplateView):
 
   def get_context_data(self, *args, **kwargs):
     context = super(ThankYouTemplateView, self).get_context_data(*args, **kwargs)
-    salsa_basico = Course.objects.filter(is_active=True, title="Salsa Cubana Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
+    salsa_basico = Course.objects.filter(is_active=True, title="Salsa Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
     
-    other_courses = Course.objects.filter(is_active=True).exclude(title="Salsa Cubana Principiantes").annotate(
+    other_courses = Course.objects.filter(is_active=True).exclude(title="Salsa Principiantes").annotate(
             order_priority=Case(
                 When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
                 default=Value(0),  # El resto tiene mayor prioridad
