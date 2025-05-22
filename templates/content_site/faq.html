@@ -1,0 +1,77 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}Preguntas Frecuentes | Cuban Groove | Clases de Baile{% endblock title %}
+{% block extrahead %}
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {% for category, items in faqs.items %}
+            {% for faq in items %}
+                {
+                "@type": "Question",
+                "name": "{{ faq.question|escapejs }}",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "{{ faq.answer|striptags|escapejs }}"
+                }
+                }{% if not forloop.last or not forloop.parentloop.last %},{% endif %}
+            {% endfor %}
+            {% endfor %}
+        ]
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+
+<!-- FAQ Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+
+            <h1 class="section-title bg-white text-center px-3 color-oran custom-h6">Preguntas Frecuentes sobre Clases de Baile en Lima</h1>
+            <h2 class="custom-h2 mb-2">FAQ</h2>
+
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10 wow fadeInUp" data-wow-delay="0.3s">
+                {% if faqs %}
+                    {% for category, items in faqs.items %}
+                        <h4 class="color-oran mt-4 mb-3 text-uppercase">{{ category|title }}</h4>
+                        <div class="accordion mb-4" id="faqAccordion{{ forloop.counter }}">
+                            {% for faq in items %}
+                                <div class="accordion-item mb-2">
+                                    <h2 class="accordion-header" id="heading{{ forloop.parentloop.counter }}{{ forloop.counter }}">
+                                        <button class="accordion-button collapsed fw-bold color-cafe" type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#collapse{{ forloop.parentloop.counter }}{{ forloop.counter }}"
+                                            aria-expanded="false"
+                                            aria-controls="collapse{{ forloop.parentloop.counter }}{{ forloop.counter }}">
+                                            {{ faq.question }}
+                                        </button>
+                                    </h2>
+                                    <div id="collapse{{ forloop.parentloop.counter }}{{ forloop.counter }}"
+                                        class="accordion-collapse collapse"
+                                        aria-labelledby="heading{{ forloop.parentloop.counter }}{{ forloop.counter }}"
+                                        data-bs-parent="#faqAccordion{{ forloop.parentloop.counter }}">
+                                        <div class="accordion-body">
+                                            {{ faq.answer|safe }}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-center">Aún no hay preguntas registradas.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FAQ End -->
+
+{% endblock content %}

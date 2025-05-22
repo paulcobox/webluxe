@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 # from .models import MissionVision
 from courses.models import Course
-from .models import Invitated
+from .models import Invitated, FAQ
 from random import sample
 from django.http import FileResponse
 from django.http import FileResponse, Http404
@@ -13,7 +13,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.conf import settings
 from django.template.loader import render_to_string
-
+from collections import defaultdict
 
 import logging
 from django.core.mail import send_mail
@@ -26,7 +26,20 @@ logger = logging.getLogger(__name__)
 
 # from instructors.models import Instructors
 # Create your views here.
+class FAQListView(TemplateView):
+    template_name = "content_site/faq.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        faqs = FAQ.objects.filter(is_active=True).order_by('category', 'question')
+        
+        grouped_faqs = defaultdict(list)
+        for faq in faqs:
+            grouped_faqs[faq.get_category_display()] += [faq]  # Usa display para nombre legible
+        
+        context['faqs'] = dict(grouped_faqs)
+        return context
+    
 class HomePageView(TemplateView):
   template_name = 'index.html'
   

@@ -94,7 +94,7 @@
         }
     </script>
     
-
+    {% block extrahead %}{% endblock %}
   </head>
 
 
@@ -142,6 +142,10 @@
                   </div>                  
                   <a href="{% url 'contact' %}" class="nav-item nav-link {% if 'contact' in request.path %}active{% endif %}">Contacto</a>
                   <a href="{% url 'post_list' %}" class="nav-item nav-link {% if 'post_list' in request.path %}active{% endif %}">Blog</a>
+                  <a href="{% url 'faq' %}" class="nav-item nav-link {% if 'preguntas-frecuentes' in request.path %}active{% endif %}">
+                    Preguntas Frecuentes
+                  </a>
+
               </div>
               <a href="" id="btn_home_menu_free_class" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block"  style="background-color: #ff6a09;color: white; align-items: center;" data-bs-toggle="modal" data-bs-target="#exampleModal">Prueba GRATIS<i class="fa fa-arrow-right ms-3"></i></a>
           </div>

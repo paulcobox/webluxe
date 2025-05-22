@@ -86,3 +86,49 @@ class Invitated(models.Model):
 
     def __str__(self):
         return f"Invitación de {self.student_name} para {self.friend_name}"
+  
+  
+class FAQ(models.Model):
+    question = models.CharField(
+        max_length=500,
+        blank=False,
+        null=False,
+        verbose_name="Pregunta"
+    )
+    answer = RichTextField(
+        verbose_name="Respuesta"
+    )
+    category = models.CharField(
+        max_length=100,
+        choices=[
+            ('principiantes', 'Principiantes'),
+            ('adultos', 'Adultos'),
+            ('modalidades', 'Modalidades'),
+            ('ubicacion', 'Ubicación'),
+            ('ropa', 'Ropa y Horarios'),
+            ('general', 'General')
+        ],
+        default='general',
+        verbose_name="Categoría"
+    )
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name="¿Activo?"
+    )
+    created_date = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name="Fecha de Creación"
+    )
+    modified_date = models.DateTimeField(
+        auto_now=True,
+        verbose_name="Fecha de Modificación"
+    )
+
+    class Meta:
+        verbose_name = "Pregunta Frecuente"
+        verbose_name_plural = "Preguntas Frecuentes"
+        ordering = ['category', 'question']
+
+    def __str__(self):
+        return self.question
+
