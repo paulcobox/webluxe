@@ -404,9 +404,15 @@
     //sube mas el icono de whatsapp
     document.addEventListener("DOMContentLoaded", function () {
         var whatsappIcon = document.querySelector(".whatsapp-icon");
-    
-        if (window.location.href.includes("/courses/")) {
-            whatsappIcon.style.bottom = "80px"; // Sube más en la página de cursos
+        var url = window.location.href.toLowerCase();
+        var keywords = ["salsa", "danza", "afro", "online", "particulares", "novios"];
+
+        var shouldRaiseIcon = keywords.some(function(keyword) {
+            return url.includes(keyword);
+        });
+
+        if (shouldRaiseIcon) {
+            whatsappIcon.style.bottom = "80px"; // Ajusta según lo que necesites
         }
     });
 
