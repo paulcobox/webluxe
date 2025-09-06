@@ -1,6 +1,9 @@
 {% extends '_base.html' %}
 {% load static %}
-{% block title %}Blog | Cuban Groove{% endblock title %}
+{% block title %}{{ post.title }}{% endblock title %}
+{% block meta_description %}
+    <meta name="description" content="{{ post.title }}">
+{% endblock meta_description %}
 
 {% block content %}
 
