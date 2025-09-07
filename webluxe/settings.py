@@ -41,6 +41,17 @@ DEBUG = os.getenv('DEBUG') == 'True'  # Convertir a booleano
 
 ALLOWED_HOSTS = ['cubangrooveperu.com', 'www.cubangrooveperu.com', 'localhost', '127.0.0.1']
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/var/tmp/django_cache',
+        # 'LOCATION': r'C:\django_cache',  # ruta en tu Windows
+        'TIMEOUT': 60 * 60,  # 1 hora
+        'OPTIONS': {
+            'MAX_ENTRIES': 1000
+        }
+    }
+}
 
 
 
@@ -75,6 +86,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 AUTH_USER_MODEL = 'users.CustomUser' # new
 
 MIDDLEWARE = [
+    'django.middleware.cache.UpdateCacheMiddleware',    # 1. Guarda en caché
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -82,6 +94,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware', # 2. Sirve desde caché
 ]
 
 ROOT_URLCONF = 'webluxe.urls'
@@ -185,4 +198,6 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  # Tu dirección de Gmail (se obt
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # Tu contraseña o contraseña de aplicación (se obtiene de .env)
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')  # Remitente (se obtiene de .env)
 
+CACHE_MIDDLEWARE_SECONDS = 60 * 60  # 1 hora
+CACHE_MIDDLEWARE_KEY_PREFIX = ""   # opcional
 
