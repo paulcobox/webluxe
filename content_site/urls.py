@@ -19,6 +19,7 @@ urlpatterns = [
   path('sitemap.xml', sitemap_view, name='sitemap'),
   path('robots.txt', robots_view, name='robots'),
   path('favicon.ico', RedirectView.as_view(url=settings.STATIC_URL + 'img/logos/favicon.ico')),
+  path('favicon.png', RedirectView.as_view(url=settings.STATIC_URL + 'img/logos/favicon.png')),
   path("invite-friend/", InvitatedTemplateView.as_view(), name="invite_friend"),
   path("invite-success/", InvitatedSuccessTemplateView.as_view(), name="invite_success"),
   path("enviar-correo/", test_email, name="enviar_correo"),

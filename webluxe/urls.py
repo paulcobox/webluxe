@@ -38,6 +38,7 @@ redirect_patterns = [
     re_path(r'^courses/cuban-lady-style/$', lambda r: redirect('/clases-baile/salsa/', permanent=True)),
     re_path(r'^courses/timba-session-coreografico/$', lambda r: redirect('/clases-baile/salsa/', permanent=True)),
     re_path(r'^courses-group/$', lambda r: redirect('/clases-baile/', permanent=True)),
+    re_path(r'^courses_virtual/$', lambda r: redirect('/clases-baile/online/', permanent=True)),
 
 ]
 
