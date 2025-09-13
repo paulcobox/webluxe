@@ -547,8 +547,10 @@
     }
 }
 .custom-h1 {
-    font-size: 2.5rem;       /* Tamaño personalizado para el h2 */
-    font-weight: bold;     /* Peso de la fuente */
+    color: #000000; /* negro puro */
+    font-size: 2rem;       /* Tamaño personalizado para el h2 */
+    font-weight: bold;   
+    line-height: 1.2;  /* Peso de la fuente */
 }
 
 .h2-small {
