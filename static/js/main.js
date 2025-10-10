@@ -74,7 +74,7 @@
         smartSpeed: 1500,
         items: 1,
         dots: false,
-        loop: true,
+        loop: false,
         nav : true,
         navText : [
             '<i class="bi bi-chevron-left"></i>',

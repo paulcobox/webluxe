@@ -16,7 +16,7 @@
                                 <div class="container">
                                     <div class="row justify-content-start">
                                         <div class="col-sm-10 col-lg-8">
-                                            <p class="custom-h5 color-oran text-uppercase mb-3">Curso destacado</p>
+                                            <h1 class="custom-h5 color-oran text-uppercase mb-3">Clases de Salsa</h1>
                                             <p class="display-3 text-white custom-h1">{{ course.title }}</p>
                                             <div class="custom-content">
                                                 <p class="text-white mb-4 pb-2">{{ course.body | safe | truncatewords:30 }}</p>
@@ -87,7 +87,7 @@
     <div class="container-xxl py-5">
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h1 class="section-title bg-white text-center px-3 color-oran custom-h6 mb-3">Clases de salsa y baile cubano en Lima para adultos</h1>
+                <p class="section-title bg-white text-center px-3 color-oran custom-h6 mb-3">Escuela de Salsa Cubana en Lima</p>
             </div>
             <div class="row g-5">
                 <!-- Imagen (izquierda) -->
@@ -144,7 +144,7 @@
         <div class="container-xxl py-0 category">
             <div class="container">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h2 class="section-title bg-white text-center px-3 color-oran custom-h6">Modalidades</h2>
+                    <h2 class="section-title bg-white text-center px-3 color-oran custom-h6">Clases de Salsa en Lima</h2>
                     <p class="custom-h2 mb-2">Clases de baile grupal, online, particular y para eventos</strong>?</p>
                 </div>
                 <div class="row g-3">
@@ -154,7 +154,7 @@
                                 <a class="position-relative d-block overflow-hidden" href="{% url 'courses_group' %}">
                                     <img class="img-fluid" src="{% static 'img/categories/cat-1.jpg' %}" alt="clases-de-baile-presencial">
                                     <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-                                        <h3 class="m-0 custom-h5">Clases de Baile</h3>
+                                        <h3 class="m-0 custom-h5">Clases de Salsa para adultos</h3>
                                         <small  style="color: #FF6B35; font-weight: 500;">Aprende en un salon</small>
                                     </div>
                                 </a>
@@ -163,7 +163,7 @@
                                 <a class="position-relative d-block overflow-hidden" href="{% url 'courses_online' %}">
                                     <img class="img-fluid" src="{% static 'img/categories/cat-2.jpg' %}" alt="clases-de-baile-online">
                                     <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-                                        <h3 class="m-0 custom-h5">Clases Online</h3>
+                                        <h3 class="m-0 custom-h5">Clases de Salsa Online</h3>
                                         <small  style="color: #FF6B35; font-weight: 500;">Aprende desde casa</small>
                                     </div>
                                 </a>
@@ -172,7 +172,7 @@
                                 <a class="position-relative d-block overflow-hidden" href="{% url 'courses_particulares' %}">
                                     <img class="img-fluid" src="{% static 'img/categories/cat-3.jpg' %}" alt="clases-de-baile-particular">
                                     <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-                                        <h3 class="m-0 custom-h5">Clases Particulares</h3>
+                                        <h3 class="m-0 custom-h5">Clases de Salsa Particulares</h3>
                                         <small  style="color: #FF6B35; font-weight: 500;">1 a 1 con profesor experto</small>
                                     </div>
                                 </a>
@@ -183,7 +183,7 @@
                         <a class="position-relative d-block h-100 overflow-hidden" href="{% url 'courses_events' %}">
                             <img class="img-fluid position-absolute w-100 h-100" src="{% static 'img/categories/cat-4.jpg' %}" alt="clases-de-baile-eventos-bodas" style="object-fit: cover;">
                             <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin:  1px;">
-                                <h3 class="m-0 custom-h5">Eventos y Bodas</h3>
+                                <h3 class="m-0 custom-h5">Clases de Salsa en Pareja</h3>
                                 <small  style="color: #FF6B35; font-weight: 500;">Para empresas, bodas o fiestas</small>
                             </div>
                         </a>
@@ -198,7 +198,7 @@
         <div class="container-xxl mt-5 mb-5">
             <div class="container">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h2 class="section-title bg-white text-center px-3 color-oran custom-h6">Cursos destacados</h2>
+                    <h2 class="section-title bg-white text-center px-3 color-oran custom-h6">Cursos destacados de Salsa y Baile en Lima</h2>
                     <p class="custom-h2 mb-2">Salsa, tecnica de danza, afro y más en un ambiente divertido</p>
                 </div>
                 <!-- list Courses Start -->
@@ -293,7 +293,7 @@
      <div id="instructors" class="container-xxl mb-5">
          <div class="container">
              <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                 <h2 class="custom-h6 section-title bg-white text-center px-3 color-oran">Nuestro Instructor</h2>
+                 <h2 class="custom-h6 section-title bg-white text-center px-3 color-oran">Profesora de Salsa</h2>
                  <p class="custom-h2 mb-2">Instructor</p>
                  
              </div>
@@ -316,9 +316,16 @@
                              </div>
                              <div class="text-center p-4">
                                  <!-- Nombre y especialidad del instructor -->
-                                 <h3 class="mb-0 custom-h5">
+                                 <!-- <h3 class="mb-0 custom-h5">
                                   {{ instructor.name }} – <span class="text-muted">{{ instructor.specialty }}</span>
+                                 </h3>-->
+                                 <h3 class="mb-0 custom-h5">
+                                    Especialista en salsa
                                  </h3>
+                                 <h3 class="mb-0 custom-h5">
+                                  Más de 10 años formando bailarines en Lima
+                                 </h3>
+                                 
                                  <div>
                                      <!-- Botón "Mis Cursos" -->
                                      <a href="{% url 'instructor_detail' instructor.slug %}" class="btn btn-orange py-2 px-4 mt-2" id="btn_home_instructor_courses">
