@@ -187,15 +187,7 @@
                   </a>
 
               </div>
-              <button type="button"
-                    id="btn_home_menu_free_class"
-                    class="btn btn-primary py-4 px-lg-5 d-none d-lg-block"
-                    style="background-color: #ff6a09; color: white; align-items: center;"
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                    title="Probar una clase gratis en Cuban Groove">
-                Prueba GRATIS <i class="fa fa-arrow-right ms-3"></i>
-            </button>
+              <a href="" id="btn_home_menu_free_class" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block"  style="background-color: #ff6a09;color: white; align-items: center;" data-bs-toggle="modal" data-bs-target="#exampleModal">Prueba GRATIS<i class="fa fa-arrow-right ms-3"></i></a>
 
 
           </div>
@@ -299,13 +291,6 @@
                     <div class="modal-body">
                         <form id="leadForm" style="border: 1px solid #ddd; border-radius: 10px; padding: 15px;">
                             {% csrf_token %}
-                            <input type="hidden" id="utm_source" name="utm_source">
-                            <input type="hidden" id="utm_medium" name="utm_medium">
-                            <input type="hidden" id="utm_campaign" name="utm_campaign">
-                            <input type="hidden" id="utm_term" name="utm_term">
-                            <input type="hidden" id="utm_content" name="utm_content">
-                            <input type="hidden" id="referer" name="referer">
-                            <input type="hidden" id="user_agent" name="user_agent">
                             <input type="hidden" id="course_of_interest" name="course_of_interest">
                             <div class="row g-3">
                                 <div class="col-md-6">
@@ -475,7 +460,7 @@
 
       <!-- Template Javascript -->
       <script src="{% static 'js/main.js' %}"></script>
-      <script defer>
+      <script>
 
         
         var exampleModal = document.getElementById('exampleModal')
@@ -487,25 +472,7 @@
             var recipient = button.getAttribute('data-bs-course')
             var messageField = document.getElementById('message');
             var courseField = document.getElementById('course_of_interest');
-            const urlParams = new URLSearchParams(window.location.search);
-            const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
-                // Capturar UTM
-            utmParams.forEach(param => {
-                const value = urlParams.get(param);
-                if (value) {
-                    document.getElementById(param).value = value;
-                }
-            });
-
-            //console.log(document.getElementById('utm_source').value)
-            //console.log(localStorage.getItem("utm_source"))
-            // Capturar Referer
-            const referer = document.referrer;
-            document.getElementById('referer').value = referer;
-
-            // Capturar User-Agent
-            const userAgent = navigator.userAgent;
-            document.getElementById('user_agent').value = userAgent;
+            
             if (recipient) {
                 messageField.value = "Quiero informes y promociones sobre el Curso " + recipient;
                 courseField.value = recipient; // Asigna el valor al campo oculto
