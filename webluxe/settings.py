@@ -39,7 +39,7 @@ DEBUG = os.getenv('DEBUG') == 'True'  # Convertir a booleano
 #     'srv618887.hstgr.nube'
 # ]
 
-ALLOWED_HOSTS = ['cubangrooveperu.com', 'www.cubangrooveperu.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['cubangrooveperu.com', 'www.cubangrooveperu.com', 'localhost','104.248.113.83', '127.0.0.1']
 
 CACHES = {
     'default': {
