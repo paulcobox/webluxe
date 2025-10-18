@@ -92,13 +92,13 @@ def create_lead(request):
         plain_message_client = strip_tags(html_message_client)  # Versión en texto plano del correo
         to_email_client = [email]  # Correo del cliente
 
-        send_mail(
-            subject_client,
-            plain_message_client,
-            from_email,
-            to_email_client,
-            html_message=html_message_client,  # Enviar el correo en formato HTML
-        )
+        # send_mail(
+        #     subject_client,
+        #     plain_message_client,
+        #     from_email,
+        #     to_email_client,
+        #     html_message=html_message_client,  # Enviar el correo en formato HTML
+        # )
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
 
