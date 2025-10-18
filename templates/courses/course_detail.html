@@ -3,7 +3,7 @@
 
 {% block title %}
     {% if course.seo_title %}
-        {{ course.seo_title }}
+        <title>{{ course.seo_title }}</title>
     {% endif %}
 {% endblock title %}
 
@@ -120,7 +120,7 @@
                         <div class="row g-3">
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <h4 class="text-dark">Solicita más info y reserva tu clase GRATIS hoy mismo!.</h4>
+                                    <p class="custom-h4 text-dark">Solicita más info y reserva tu clase GRATIS hoy mismo!.</p>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -178,7 +178,7 @@
                         </div>
                     </form>
                     <div id="thankYouMessage_curso_detail" class="d-none text-center" style="border: 2px solid #ddd; border-radius: 15px; padding: 20px;"> 
-                        <h4 class="text-success">¡Gracias por contactarnos!</h4>
+                        <p class="custom-h4 text-success">¡Gracias por contactarnos!</p>
                         <p>Hemos recibido tus datos. Pronto te contactaremos para brindarte más información.</p>
                     </div>
                     <div id="processingOverlay_curso_detail" class="position-fixed top-0 start-0 w-100 h-100 d-none d-flex align-items-center justify-content-center" style="background-color: rgba(255, 255, 255, 0.8); z-index: 1050;">
@@ -203,7 +203,7 @@
         <div class="container">
             <div class="row g-5">
                 <div class="col-lg-12 wow fadeInUp" data-wow-delay="0.3s">
-                    <p class="custom-h2 color-cafe">{{ course.body_title | safe }}</p>
+                    <h2 class="custom-h2 color-cafe">{{ course.body_title | safe }} - {{ course.title | safe }}</h2>
                     <p class="mb-4">{{ course.technical_details | safe }}</p>
                   </div>
             </div>
@@ -234,11 +234,11 @@
                     <div class="accordion" id="faqAccordion">
                         {% for faq in course.faqs.all %}
                         <div class="accordion-item">
-                            <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                            <p class="custom-h2 accordion-header" id="heading{{ forloop.counter }}">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
                                     {{ faq.question }}
                                 </button>
-                            </h2>
+                            </p>
                             <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#faqAccordion">
                                 <div class="accordion-body">
                                     {{ faq.answer }}
@@ -264,7 +264,7 @@
         <div class="container-xxl mt-5 mb-5">
             <div class="container">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <p class="section-title bg-white text-center px-3 color-oran custom-h6">Otros Cursos de Baile</p>
+                    <h2 class="section-title bg-white text-center px-3 color-oran custom-h6">Otros Cursos de Baile Destacados</h2>
                     <p class="custom-h2 mb-2">Salsa, tecnica de danza, afro y más en un ambiente divertido</p>
                 </div>
                 <!-- list Courses Start -->
@@ -335,7 +335,7 @@
                         <div class="testimonial-item text-center">
                             <p class="custom-h5 mb-0">{{ testimony.name }}</p>
                             {% if testimony.google_url %}
-                                <a href="{{ testimony.google_url }}" target="_blank" rel="noopener noreferrer">Ver en Google</a>
+                                <a href="{{ testimony.google_url }}" target="_blank" rel="noopener noreferrer nofollow">Ver en Google</a>
                             {% endif %}
                             <p>⭐️⭐️⭐️⭐️⭐️</p>
                             <div class="testimonial-text bg-light text-center p-4">

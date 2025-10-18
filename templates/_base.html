@@ -24,9 +24,11 @@
         })(window, document, "clarity", "script", "po9nb5gcah");
     </script>
     <meta charset="utf-8">
-    <title>
-        {% block title %}Cuban Groove | Academia de Baile en Lima – Clases y Talleres de Danza para Adultos{% endblock title %}
-    </title>
+    {% block title %}
+        <title>
+            Academia de Baile en Lima – Clases de Salsa
+        </title>
+    {% endblock title %}
     {% block meta_description %}
         <meta name="description" content="La academia de baile en Lima donde aprenderás salsa, ritmos afrocubanos y técnica escénica. Clases y talleres para adultos de todos los niveles.">
     {% endblock meta_description %}
@@ -36,6 +38,56 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta name="author" content="Cuban Groove">
     <meta name="robots" content="index, follow">
+
+    <!-- 🔹 OPEN GRAPH / FACEBOOK -->
+    <meta property="og:title" content="Academia de Baile en Lima | Cuban Groove">
+    <meta property="og:description" content="Aprende salsa cubana, ritmos afrocubanos y técnica escénica en Lima. Clases presenciales y online para adultos de todos los niveles.">
+    <meta property="og:image" content="https://cubangrooveperu.com/static/img/logos/logo_desk.webp">
+    <meta property="og:url" content="https://cubangrooveperu.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Cuban Groove">
+    <meta property="og:locale" content="es_PE">
+
+    <!-- 🔹 TWITTER CARD -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Academia de Baile en Lima | Cuban Groove">
+    <meta name="twitter:description" content="Aprende salsa cubana y danza afrocubana con profesores expertos en Lima. ¡Descubre tu ritmo y sabor!">
+    <meta name="twitter:image" content="https://cubangrooveperu.com/static/img/logos/logo_desk.webp">
+    <meta name="twitter:site" content="@luxecoronado">
+
+    <!-- 🔹 IMAGE SOURCE (para previsualización universal) -->
+    <link rel="image_src" href="https://cubangrooveperu.com/static/img/logos/logo_desk.webp">
+
+    <!-- 🔹 SCHEMA.ORG (ya tienes uno, pero puedes actualizarlo levemente) -->
+    <script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@type": "DanceSchool",
+    "name": "Cuban Groove Perú",
+    "url": "https://cubangrooveperu.com",
+    "logo": "https://cubangrooveperu.com/static/img/logos/logo_desk.webp",
+    "image": "https://cubangrooveperu.com/static/img/logos/logo_desk.webp",
+    "description": "Cuban Groove ofrece clases de salsa, timba y ritmos afrocubanos en Lima. Aprende con metodología técnica, musicalidad y conexión.",
+    "telephone": "+51 991 337 159",
+    "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Lima",
+        "addressRegion": "Lima",
+        "postalCode": "15001",
+        "addressCountry": "PE"
+    },
+    "priceRange": "$$",
+    "sameAs": [
+        "https://www.instagram.com/cubangroove/",
+        "https://www.facebook.com/muevetecuba",
+        "https://www.tiktok.com/@cubangrooveperu",
+        "https://www.youtube.com/@CubanGroovePeru"
+    ]
+    }
+    </script>
+
+
+
 
     <link rel="alternate" hreflang="es-PE" href="https://cubangrooveperu.com" />
     <link rel="canonical" href="{{ request.build_absolute_uri }}">
@@ -73,33 +125,6 @@
     <link rel="icon" href="{% static 'img/logos/favicon.ico' %}" type="image/x-icon">
     
 
-    <script type="application/ld+json" defer>
-        {
-          "@context": "https://schema.org",
-          "@type": "DanceSchool",
-          "name": "Cuban Groove Peru",
-          "url": "https://cubangrooveperu.com",
-          "logo": "https://cubangrooveperu.com/static/img/logos/logo_desk.webp",
-          "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Lima",
-            "addressRegion": "Lima",
-            "postalCode": "15001",
-            "addressCountry": "PE"
-          },
-          "telephone": "+51 123 456 789",
-          "priceRange": "$$",
-          "description": "Cuban Groove ofrece clases de Salsa y Timba en Lima, donde aprenderás ritmos afrocubanos y otros géneros como son, chachachá, rumba y reguetón cubano.",
-          "openingHours": [
-            "Mo-Fr 09:00-23:00",
-            "Sa-Su 09:00-22:00"
-          ],
-          "sameAs": [
-            "https://instagram.com/cubangroove",
-            "https://instagram.com/luxecoronado"
-          ]
-        }
-    </script>
     
     {% block extrahead %}{% endblock %}
   </head>
@@ -118,9 +143,9 @@
   
       <!-- Navbar Start -->
       <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
-          <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+          <a href="{% url 'home' %}" class="navbar-brand d-flex align-items-center px-4 px-lg-5" title="Cuban Groove – Academia de Salsa en Lima">
             <p class="m-0 text-primary">
-                <img src="{% static 'img/logos/logo_desk.webp' %}" style="width: 200px; height: auto;" alt="Clases de Salsa en Lima">
+                <img src="{% static 'img/logos/logo_desk.webp' %}" style="width: 200px; height: auto;" alt="Cuban Groove – Academia de Salsa en Lima" title="Cuban Groove – Clases de Salsa y Baile Cubano">
             </p>
           </a>
           <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -128,33 +153,51 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
               <div class="navbar-nav ms-auto p-4 p-lg-0">
-                  <a href="{% url 'home' %}" class="nav-item nav-link {% if request.path == '/' %}active{% endif %}">Inicio</a>
+                  <a href="{% url 'home' %}" class="nav-item nav-link {% if request.path == '/' %}active{% endif %}" title="Cuban Groove – Academia de Salsa en Lima">Inicio</a>
+
                   <div class="nav-item dropdown">
-                      <a href="#" class="nav-link dropdown-toggle {% if 'clases' in request.path %}active{% endif %}" data-bs-toggle="dropdown">Clases de Baile</a>
+                      <a href="{% url 'courses_group' %}" class="nav-link dropdown-toggle {% if 'clases' in request.path %}active{% endif %}" data-bs-toggle="dropdown" title="Explora nuestras clases de baile en Lima">Clases de Baile</a>
                       <div class="dropdown-menu fade-down m-0">
-                          <a href="{% url 'courses_group' %}" class="dropdown-item">Grupales Presencial</a>
-                          <a href="{% url 'courses_online' %}" class="dropdown-item">Online</a>
-                          <a href="{% url 'courses_particulares' %}" class="dropdown-item">Particular</a>
-                          <a href="{% url 'courses_events' %}" class="dropdown-item">Eventos y Bodas</a>
+                          <a href="{% url 'courses_group' %}" class="dropdown-item" title="Clases grupales de baile en Lima">Grupales Presencial</a>
+                          <a href="{% url 'courses_online' %}" class="dropdown-item" title="Clases de salsa online">Online</a>
+                          <a href="{% url 'courses_particulares' %}" class="dropdown-item" title="Clases particulares de salsa en Lima">Particular</a>
+                          <a href="{% url 'courses_events' %}" class="dropdown-item" title="Clases de baile para eventos y bodas">Eventos y Bodas</a>
                       </div>
                       
                   </div>                    
                   <div class="nav-item dropdown">
-                      <a href="#" class="nav-link dropdown-toggle {% if 'instructor' in request.path %}active{% endif %}" data-bs-toggle="dropdown">Nuestro Profesor</a>
+                      <a href="{% url 'home' %}" class="nav-link dropdown-toggle {% if 'instructor' in request.path %}active{% endif %}" data-bs-toggle="dropdown"
+                        title="Ver opciones de profesores de baile en Cuban Groove" 
+                        role="button" 
+                        aria-haspopup="true" 
+                        aria-expanded="false" 
+                        onclick="return false;">
+                        Nuestro Profesor
+                    </a>
                       <div class="dropdown-menu fade-down m-0">
                         {% for instructor in instructors %}
-                          <a href="{% url 'instructor_detail' instructor.slug %}" class="dropdown-item">{{ instructor.name }}</a>
+                          <a href="{% url 'instructor_detail' instructor.slug %}" class="dropdown-item" title="Instructor de baile {{instructor.name}}">{{ instructor.name }}</a>
                         {% endfor %}
                       </div>
                   </div>                  
-                  <a href="{% url 'contact' %}" class="nav-item nav-link {% if 'contact' in request.path %}active{% endif %}">Contacto</a>
-                  <a href="{% url 'post_list' %}" class="nav-item nav-link {% if 'post_list' in request.path %}active{% endif %}">Blog</a>
-                  <a href="{% url 'faq' %}" class="nav-item nav-link {% if 'preguntas-frecuentes' in request.path %}active{% endif %}">
+                  <a href="{% url 'contact' %}" class="nav-item nav-link {% if 'contact' in request.path %}active{% endif %}" title="Contáctanos para clases de salsa, horarios y precios en Cuban Groove">Contacto</a>
+                  <a href="{% url 'post_list' %}" class="nav-item nav-link {% if 'post_list' in request.path %}active{% endif %}" title="Lee artículos sobre baile, salsa cubana y consejos de danza en nuestro blog">Blog</a>
+                  <a href="{% url 'faq' %}" class="nav-item nav-link {% if 'preguntas-frecuentes' in request.path %}active{% endif %}" title="Preguntas frecuentes sobre nuestras clases de baile, precios y niveles">
                     Preguntas Frecuentes
                   </a>
 
               </div>
-              <a href="" id="btn_home_menu_free_class" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block"  style="background-color: #ff6a09;color: white; align-items: center;" data-bs-toggle="modal" data-bs-target="#exampleModal">Prueba GRATIS<i class="fa fa-arrow-right ms-3"></i></a>
+              <button type="button"
+                    id="btn_home_menu_free_class"
+                    class="btn btn-primary py-4 px-lg-5 d-none d-lg-block"
+                    style="background-color: #ff6a09; color: white; align-items: center;"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    title="Probar una clase gratis en Cuban Groove">
+                Prueba GRATIS <i class="fa fa-arrow-right ms-3"></i>
+            </button>
+
+
           </div>
       </nav>
         <!-- Navbar End -->
@@ -180,10 +223,10 @@
                         <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+51 991 337 159</p>
                         <p class="mb-2"><i class="fa fa-envelope me-3"></i> info@cubangrooveperu.com</p>
                         <div class="d-flex mb-5 justify-content-center">
-                            <a class="btn btn-outline-light btn-social" href="https://www.instagram.com/luxecoronado/" target="_blank"><i class="fab fa-instagram"></i></a>
-                            <a class="btn btn-outline-light btn-social" href="https://www.facebook.com/muevetecuba" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-outline-light btn-social" href="https://www.tiktok.com/@luxecoronado" target="_blank"><i class="fab fa-tiktok"></i></a>
-                            <a class="btn btn-outline-light btn-social" href="https://www.youtube.com/@CubanGroovePeru" target="_blank"><i class="fab fa-youtube"></i></a>
+                            <a class="btn btn-outline-light btn-social" href="https://www.instagram.com/cubangroove/" target="_blank" title="Instagram oficial de Cuban Groove"><i class="fab fa-instagram"></i></a>
+                            <a class="btn btn-outline-light btn-social" href="https://www.facebook.com/muevetecuba" target="_blank"  title="Facebook de Cuban Groove - Clases de Salsa y Baile en Lima"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-outline-light btn-social" href="https://www.tiktok.com/@cubangrooveperu" target="_blank" title="TikTok de Cuban Groove - Aprende Salsa Cubana con estilo y sabor"><i class="fab fa-tiktok"></i></a>
+                            <a class="btn btn-outline-light btn-social" href="https://www.youtube.com/@CubanGroovePeru" target="_blank" title="YouTube Cuban Groove Perú - Tutoriales y clases de salsa cubana"><i class="fab fa-youtube"></i></a>
                         </div>
                     </div>
                     
@@ -191,40 +234,42 @@
                     <div class="col-lg-3 col-md-6 text-center">
                         <p class="custom-h4 text-white mb-3">Clases de Baile</p>
                         <ul class="list-unstyled">
-                            <li><a href="{% url 'courses_group' %}" class="text-white">Clases de Salsa</a></li>
-                            <li><a href="{% url 'courses_group' %}" class="text-white">Clases de Salsa en Lima</a></li>
-                            <li><a href="{% url 'courses_group' %}" class="text-white">Clases de Salsa en Miraflores</a></li>
-                            <li><a href="{% url 'courses_group' %}" class="text-white">Clases de Salsa en Surco</a></li>
-                            <li><a href="{% url 'courses_group' %}" class="text-white">Clases de Salsa en San Isidro</a></li>
-                            <li><a href="{% url 'courses_group' %}" class="text-white">Clases de Salsa en Lince</a></li>
-                        </ul>
-                    </div>
-                    
-                    <div class="col-lg-3 col-md-6 text-center">
-                        <p class="custom-h4 text-white mb-3">Academias y Cursos</p>
-                        <ul class="list-unstyled">
-                            <li><a href="{% url 'courses_group' %}" class="text-white">Clases de Baile</a></li>
-                            <li><a href="{% url 'courses_group' %}" class="text-white">Clases de Baile en Miraflores</a></li>
-                            <li><a href="{% url 'courses_group' %}" class="text-white">Clases de Baile en Surco</a></li>
-                            <li><a href="{% url 'courses_group' %}" class="text-white">Clases de Baile en San Isidro</a></li>
-                            <li><a href="{% url 'courses_group' %}" class="text-white">Clases de Baile en Lince</a></li>
+                            <li><a href="{% url 'courses_group' %}" class="text-white" title="Clases de Salsa en Lima con Cuban Groove, academia de baile cubano">Clases de Salsa en Lima</a></li>
+                            <li><a href="{% url 'courses_miraflores' %}" class="text-white" title="Clases de Salsa en Miraflores - Aprende con ritmo y técnica cubana">Clases de Salsa en Miraflores</a></li>
+                            <li><a href="{% url 'courses_surco' %}" class="text-white" title="Clases de Salsa en Surco - Academia Cuban Groove">Clases de Salsa en Surco</a></li>
+                            <li><a href="{% url 'courses_san_isidro' %}" class="text-white" title="Clases de Salsa en San Isidro - Estilo cubano con sabor y energía">Clases de Salsa en San Isidro</a></li>
+                            <li><a href="{% url 'courses_lince' %}" class="text-white" title="Clases de Salsa en Lince - Aprende con los mejores instructores cubanos">Clases de Salsa en Lince</a></li>
                         </ul>
                     </div>
 
                     <div class="col-lg-3 col-md-6 text-center">
-                        <p class="custom-h4 text-white mb-3">Academias de Baile</p>
+                        <p class="custom-h4 text-white mb-3">Contenido</p>
                         <ul class="list-unstyled">
-                            <li><a href="{% url 'courses_group' %}" class="text-white">Academia de Baile en Surco</a></li>
-                            <li><a href="{% url 'courses_group' %}" class="text-white">Academia de Baile en San Isidro</a></li>
-                            <li><a href="{% url 'courses_group' %}" class="text-white">Academia de Baile en Lince</a></li>
-                            <li><a hhref="{% url 'courses_group' %}" class="text-white">Academia de Baile en La Victoria</a></li>
+                            <li><a href="{% url 'home' %}" class="text-white" title="Clases de Salsa en Lima - Home">Home</a></li>
+                            <li><a href="{% url 'courses_group' %}" class="text-white" title="Clases de Salsa en Lima">Clases de Baile</a></li>
+                            <li><a href="{% url 'contact' %}" class="text-white" title="Clases de Salsa en Lima - Contacto">Contacto</a></li>
+                            <li><a href="{% url 'post_list' %}" class="text-white" title="Clases de Salsa en Lima - Blog">Blog</a></li>
+                            <li><a href="{% url 'faq' %}" class="text-white" title="Clases de Salsa en Lima - faq">Preguntas Frecuentes</a></li>
                         </ul>
                     </div>
+                    
                 </div>
                  <!-- Texto de términos y políticas -->
                 <div class="text-center text-white mt-4">
                     <p class="small">
-                        Al hacer clic en "Contactar", aceptas nuestros <a href="{% url 'terms_conditions' %}" class="text-white text-decoration-underline">Términos y Condiciones</a> y <a href="{% url 'privacy_policies' %}" class="text-white text-decoration-underline">Políticas de Privacidad</a>.
+                        Al hacer clic en "Contactar", aceptas nuestros 
+                        <a href="{% url 'terms_conditions' %}" 
+                        class="text-white text-decoration-underline" 
+                        title="Lee los Términos y Condiciones de Cuban Groove sobre nuestras clases de baile y servicios">
+                        Términos y Condiciones
+                        </a> 
+                        y 
+                        <a href="{% url 'privacy_policies' %}" 
+                        class="text-white text-decoration-underline" 
+                        title="Consulta la Política de Privacidad de Cuban Groove sobre el uso de tus datos personales">
+                        Políticas de Privacidad
+                        </a>.
+
                     </p>
                 </div>
                 <div class="text-center text-white text-rights mt-4">
@@ -407,10 +452,15 @@
 
       <!-- Back to Top -->
         <div class="whatsapp-icon">
-            <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button type="button"
+                    class="btn p-0 border-0 bg-transparent"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    title="Contáctanos por WhatsApp">
                 <i class="fab fa-whatsapp fa-2x"></i>
-            </a>
+            </button>
         </div>
+
 
 
       <!-- JavaScript Libraries -->

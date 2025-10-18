@@ -1,11 +1,13 @@
 {% extends '_base.html' %}
 {% load static %}
 
-{% block title %}
-    {% if course.seo_title %}
+
+{% if course.seo_title %}
+    {% block title %}
         <title>{{ course.seo_title }}</title>
-    {% endif %}
-{% endblock title %}
+    {% endblock title %}
+{% endif %}
+
 
 {% if course.meta_description %}
     {% block meta_description %}
@@ -28,7 +30,12 @@
             <nav aria-label="breadcrumb" class="mt-3">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{% url 'home' %}" class="color-cafe">Inicio</a>
+                        <a href="{% url 'home' %}" 
+                            class="color-cafe" 
+                            title="Volver a la página principal de Cuban Groove"
+                            aria-label="Ir al inicio del sitio Cuban Groove">
+                        Inicio
+                        </a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">{{ course.title }}</li>
                 </ol>
@@ -48,6 +55,8 @@
 
 
             <div class="row g-3">
+
+
                 <div class="col-lg-7 col-md-6">
                     <div class="row g-3">
 
@@ -57,7 +66,7 @@
                                 <p class="mb-4">{{ course.technical_details | safe }}</p>
                             </div>
                             <div class="col-lg-12 wow fadeInUp" data-wow-delay="0.3s">
-                                <p class="custom-h2 color-cafe">Beneficios</p>
+                                <h2 class="custom-h2 color-cafe">Beneficios de tomar clases de salsa cubana</h2>
                                 <p class="mb-4">{{ course.benefits | safe }}</p>
                             </div>
                         </div>
@@ -74,7 +83,7 @@
                         <div class="row g-3">
                             <div class="col-12">
                                 <div class="form-floating">
-                                    <h4 class="text-dark">Solicita más informacion.</h4>
+                                    <p class="custom-h4 text-dark">Solicita más informacion.</p>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -132,7 +141,7 @@
                         </div>
                     </form>
                     <div id="thankYouMessage_curso_detail" class="d-none text-center" style="border: 2px solid #ddd; border-radius: 15px; padding: 20px;"> 
-                        <h4 class="text-success">¡Gracias por contactarnos!</h4>
+                        <p class="custom-h4 text-success">¡Gracias por contactarnos!</p>
                         <p>Hemos recibido tus datos. Pronto te contactaremos para brindarte más información.</p>
                     </div>
                     <div id="processingOverlay_curso_detail" class="position-fixed top-0 start-0 w-100 h-100 d-none d-flex align-items-center justify-content-center" style="background-color: rgba(255, 255, 255, 0.8); z-index: 1050;">
@@ -152,47 +161,13 @@
     <!-- Detail Course and call to action -->
 
     
-    <!-- About Start -->
-    <div class="container-xxl mb-5">
-        <div class="container">
-            <div class="row g-5">
-                <div class="col-lg-12 wow fadeInUp" data-wow-delay="0.3s">
-                    <p class="custom-h2 color-cafe">Preguntas Frecuentes</p> 
-
-                    <div class="accordion" id="faqAccordion">
-                        {% for faq in course.faqs.all %}
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="heading{{ forloop.counter }}">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
-                                    {{ faq.question }}
-                                </button>
-                            </h2>
-                            <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#faqAccordion">
-                                <div class="accordion-body">
-                                    {{ faq.answer }}
-                                </div>
-                            </div>
-                        </div>
-                        {% empty %}
-                        <p>No hay preguntas frecuentes registradas aún.</p>
-                        {% endfor %}
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- About End -->
-
-
-
 
     <!-- Courses might Like -->
     {% if list_course_you_might_like %}
-        <div class="container-xxl mt-5 mb-5">
+        <div class="container-xxl mt-0 mb-5">
             <div class="container">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <p class="section-title bg-white text-center px-3 color-oran custom-h6">Otros Cursos de Baile</p>
+                    <h2 class="section-title bg-white text-center px-3 color-oran custom-h6">Cursos de Baile en {{ course_title_zone }}</h2>
                     <p class="custom-h2 mb-2">Salsa, tecnica de danza, afro y más en un ambiente divertido</p>
                 </div>
                 <!-- list Courses Start -->
@@ -200,10 +175,10 @@
                     {% for course in list_course_you_might_like %}
                         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                             <!-- Envuelve toda la tarjeta en un enlace -->
-                            <a href="{% url 'courses_detail' course.slug %}" class="card-link" style="text-decoration: none; color: inherit;">
+                            <a href="{% url 'courses_detail' course.slug %}" class="card-link" style="text-decoration: none; color: inherit;" title="{{ course.title }} - Curso de Baile en Cuban Groove">
                                 <div class="course-item bg-light">
                                     <div class="position-relative overflow-hidden d-flex align-items-center">
-                                        <img class="img-fluid" src="{{ course.image.url }}" alt="{{ course.title }} - Curso de Baile en Cuban Groove" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
+                                        <img class="img-fluid" src="{{ course.image.url }}" alt="{{ course.meta_description }} - Cuban Groove" title="{{ course.title }} - Cuban Groove"  loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
                                         <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
                                             <!-- Botón "Leer Más" -->
                                             <span class="flex-shrink-0 btn btn-sm btn-warning px-3 border-end" style="border-radius: 30px 30px 30px 30px;">
@@ -247,6 +222,42 @@
         </div>
     {% endif %}
     <!-- Courses might like End -->
+
+    
+    <!-- About Start -->
+    <div class="container-xxl mb-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-12 wow fadeInUp" data-wow-delay="0.3s">
+                    <h2 class="custom-h2 color-cafe">Preguntas Frecuentes sobre las clases de salsa</h2> 
+
+                    <div class="accordion" id="faqAccordion">
+                        {% for faq in course.faqs.all %}
+                        <div class="accordion-item">
+                            <p class="custom-h2 accordion-header" id="heading{{ forloop.counter }}">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
+                                    {{ faq.question }}
+                                </button>
+                            </p>
+                            <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    {{ faq.answer }}
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p>No hay preguntas frecuentes registradas aún.</p>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+
+
+
     
     
     
@@ -263,7 +274,7 @@
                         <div class="testimonial-item text-center">
                             <p class="custom-h5 mb-0">{{ testimony.name }}</p>
                             {% if testimony.google_url %}
-                                <a href="{{ testimony.google_url }}" target="_blank" rel="noopener noreferrer nofollow">Ver en Google</a>
+                                <a href="{{ testimony.google_url }}" target="_blank" title="Leer esta reseña de {{ testimony.name }} en Google" rel="noopener noreferrer nofollow">Ver en Google</a>
                             {% endif %}
                             <p>⭐️⭐️⭐️⭐️⭐️</p>
                             <div class="testimonial-text bg-light text-center p-4">

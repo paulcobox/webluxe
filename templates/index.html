@@ -9,26 +9,54 @@
             <div class="owl-carousel header-carousel position-relative">
                 {% for course in list_course_banner_top %}
                     <div class="owl-carousel-item position-relative">
+                        <img class="img-fluid" 
+                            src="{{ course.image_banner_top.url }}" 
+                            alt="Curso destacado de baile en Lima - {{ course.title }}" 
+                            title="Clases de salsa cubana en Lima – {{ course.title }}">
                         
-                            <img class="img-fluid" src="{{ course.image_banner_top.url }}" alt="Curso destacado de baile en Lima">
-                            <a href="{% url 'courses_detail' course.slug %}">
-                            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" style="background: rgba(24, 29, 56, .7);">
-                                <div class="container">
-                                    <div class="row justify-content-start">
-                                        <div class="col-sm-10 col-lg-8">
-                                            <h1 class="custom-h5 color-oran text-uppercase mb-3">Clases de Salsa</h1>
+                        <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center" 
+                            style="background: rgba(24, 29, 56, .7);">
+                            <div class="container">
+                                <div class="row justify-content-start">
+                                    <div class="col-sm-10 col-lg-8">
+                                        
+                                        <h1 class="custom-h5 color-oran text-uppercase mb-3">
+                                            Clases de Salsa
+                                        </h1>
+                                        
+                                        <a href="{% url 'courses_detail' course.slug %}" 
+                                        title="Ver detalles del curso {{ course.title }}">
                                             <p class="display-3 text-white custom-h1">{{ course.title }}</p>
-                                            <div class="custom-content">
-                                                <p class="text-white mb-4 pb-2">{{ course.body | safe | truncatewords:30 }}</p>
-                                            </div>
-                                            <a href="{% url 'courses_detail' course.slug %}" id="btn_home_bt_read" class="btn btn-orange py-md-3 px-md-5 me-3 slideInRight" >Leer Mas</a>
-                                            <a href="" id="btn_home_bt_contact" class="btn btn-light py-md-3 px-md-5" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-course="{{ course.title }}">Probar Clase</a>
+                                        </a>
+
+                                        <div class="custom-content">
+                                            <p class="text-white mb-4 pb-2">
+                                                {{ course.body | safe | truncatewords:30 }}
+                                            </p>
                                         </div>
+                                        
+                                        <a href="{% url 'courses_detail' course.slug %}" 
+                                        id="btn_home_bt_read" 
+                                        class="btn btn-orange py-md-3 px-md-5 me-3 slideInRight"
+                                        title="Leer más sobre {{ course.title }}">
+                                        Leer Más
+                                        </a>
+
+                                        <button type="button"
+                                                id="btn_home_bt_contact"
+                                                class="btn btn-light py-md-3 px-md-5"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal"
+                                                data-bs-course="{{ course.title }}"
+                                                title="Probar una clase de {{ course.title }}">
+                                            Probar Clase
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        </a>
+                        </div>
                     </div>
+
                 {% endfor %}
             </div>
         </div>
@@ -93,7 +121,7 @@
                 <!-- Imagen (izquierda) -->
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
                     <div class="position-relative h-100">
-                        <img class="img-fluid position-absolute w-100 h-100" src="{% static 'img/about/adultos-bailando-salsa.jpg' %}" alt="Clases de baile para adultos en Cuban Groove" style="object-fit: cover;">
+                        <img class="img-fluid position-absolute w-100 h-100" src="{% static 'img/about/adultos-bailando-salsa.jpg' %}" alt="Clases de baile para adultos en Cuban Groove" title="Clases de Salsa y Baile para Adultos – Cuban Groove" style="object-fit: cover;">
                     </div>
                 </div>
     
@@ -151,40 +179,40 @@
                     <div class="col-lg-7 col-md-6">
                         <div class="row g-3">
                             <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s">
-                                <a class="position-relative d-block overflow-hidden" href="{% url 'courses_group' %}">
-                                    <img class="img-fluid" src="{% static 'img/categories/cat-1.jpg' %}" alt="clases-de-baile-presencial">
+                                <a class="position-relative d-block overflow-hidden" href="{% url 'courses_surco' %}" title='clases de baile en surco'>
+                                    <img class="img-fluid" src="{% static 'img/categories/cat-1.jpg' %}" alt="clases-de-salsa-Surco" title="Clases de Salsa en Surco estilo cubano">
                                     <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-                                        <h3 class="m-0 custom-h5">Clases de Salsa para adultos</h3>
-                                        <small  style="color: #FF6B35; font-weight: 500;">Aprende en un salon</small>
+                                        <h3 class="m-0 custom-h5">Clases de Salsa en Surco</h3>
+                                        <small  style="color: #FF6B35; font-weight: 500;">Pasos libres y Pareja</small>
                                     </div>
                                 </a>
                             </div>
                             <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
-                                <a class="position-relative d-block overflow-hidden" href="{% url 'courses_online' %}">
-                                    <img class="img-fluid" src="{% static 'img/categories/cat-2.jpg' %}" alt="clases-de-baile-online">
+                                <a class="position-relative d-block overflow-hidden" href="{% url 'courses_lince' %}" title='clases de baile en lince'>
+                                    <img class="img-fluid" src="{% static 'img/categories/cat-2.jpg' %}" alt="clases-de-salsa-en-lince" title="Clases de Salsa en Lince cerca de Miraflores cuban groove">
                                     <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-                                        <h3 class="m-0 custom-h5">Clases de Salsa Online</h3>
-                                        <small  style="color: #FF6B35; font-weight: 500;">Aprende desde casa</small>
+                                        <h3 class="m-0 custom-h5">Clases de Salsa Lince</h3>
+                                        <small  style="color: #FF6B35; font-weight: 500;">Pasos libres, Lady style y Pareja</small>
                                     </div>
                                 </a>
                             </div>
                             <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.5s">
-                                <a class="position-relative d-block overflow-hidden" href="{% url 'courses_particulares' %}">
-                                    <img class="img-fluid" src="{% static 'img/categories/cat-3.jpg' %}" alt="clases-de-baile-particular">
+                                <a class="position-relative d-block overflow-hidden" href="{% url 'courses_miraflores' %}" title='clases de baile en miraflores'>
+                                    <img class="img-fluid" src="{% static 'img/categories/cat-3.jpg' %}" alt="clases-de-salsa-en-miraflores" title="Clases de Salsa en Miraflores y alrededores">
                                     <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin: 1px;">
-                                        <h3 class="m-0 custom-h5">Clases de Salsa Particulares</h3>
-                                        <small  style="color: #FF6B35; font-weight: 500;">1 a 1 con profesor experto</small>
+                                        <h3 class="m-0 custom-h5">Clases de Salsa Miraflores</h3>
+                                        <small  style="color: #FF6B35; font-weight: 500;">Pasos libres y Pareja</small>
                                     </div>
                                 </a>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-5 col-md-6 wow zoomIn" data-wow-delay="0.7s" style="min-height: 350px;">
-                        <a class="position-relative d-block h-100 overflow-hidden" href="{% url 'courses_events' %}">
-                            <img class="img-fluid position-absolute w-100 h-100" src="{% static 'img/categories/cat-4.jpg' %}" alt="clases-de-baile-eventos-bodas" style="object-fit: cover;">
+                        <a class="position-relative d-block h-100 overflow-hidden" href="{% url 'courses_san_isidro' %}" title='clases de baile en san isidro'>
+                            <img class="img-fluid position-absolute w-100 h-100" src="{% static 'img/categories/cat-4.jpg' %}" alt="clases-de-salsa-en-san-isidro" title="Clases de Salsa en San Isidro cuban groove" style="object-fit: cover;">
                             <div class="bg-white text-center position-absolute bottom-0 end-0 py-2 px-3" style="margin:  1px;">
-                                <h3 class="m-0 custom-h5">Clases de Salsa en Pareja</h3>
-                                <small  style="color: #FF6B35; font-weight: 500;">Para empresas, bodas o fiestas</small>
+                                <h3 class="m-0 custom-h5">Clases de Salsa en San Isidro</h3>
+                                <small  style="color: #FF6B35; font-weight: 500;">Tecnica, Afro y Pasos Libres</small>
                             </div>
                         </a>
                     </div>
@@ -206,10 +234,10 @@
                     {% for course in list_course_you_might_like %}
                         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                             <!-- Envuelve toda la tarjeta en un enlace -->
-                            <a href="{% url 'courses_detail' course.slug %}" class="card-link" style="text-decoration: none; color: inherit;">
+                            <a href="{% url 'courses_detail' course.slug %}" class="card-link" style="text-decoration: none; color: inherit;" title="{{ course.title }} - Curso de Baile en Cuban Groove">
                                 <div class="course-item bg-light">
                                     <div class="position-relative overflow-hidden d-flex align-items-center">
-                                        <img class="img-fluid" src="{{ course.image.url }}" alt="{{ course.title }} - Curso de Baile en Cuban Groove" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
+                                        <img class="img-fluid" src="{{ course.image.url }}" alt="{{ course.title }} - Curso de Baile" title="{{ course.title }} - clases de baile" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
                                         <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
                                             <!-- Botón "Leer Más" -->
                                             <span class="flex-shrink-0 btn btn-sm btn-warning px-3 border-end" style="border-radius: 30px 30px 30px 30px;">
@@ -271,7 +299,7 @@
                         <div class="testimonial-item text-center">
                             <p class="custom-h5 mb-0">{{ testimony.name }}</p>
                             {% if testimony.google_url %}
-                                <a href="{{ testimony.google_url }}" target="_blank" rel="noopener noreferrer">Ver en Google</a>
+                                <a href="{{ testimony.google_url }}" target="_blank" title="Leer esta reseña de {{ testimony.name }} en Google" rel="noopener noreferrer nofollow">Ver en Google</a>
                             {% endif %}
                             <p>⭐️⭐️⭐️⭐️⭐️</p>
                             <div class="testimonial-text bg-light text-center p-4">
@@ -301,17 +329,35 @@
                  {% for instructor in instructors %}
                  <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                      <!-- Envuelve toda la tarjeta en un enlace -->
-                     <a href="{% url 'instructor_detail' instructor.slug %}" class="card-link" style="text-decoration: none; color: inherit;">
+                     <a href="{% url 'instructor_detail' instructor.slug %}" class="card-link" style="text-decoration: none; color: inherit;" title="Instructor de salsa {{ instructor.name }}">
                          <div class="team-item bg-light">
                              <div class="overflow-hidden">
-                                 <img class="img-fluid" src="{{ instructor.image.url }}" alt="{{ instructor.name }}" style="width: 100%; height: auto;" loading="lazy">
+                                 <img class="img-fluid" src="{{ instructor.image.url }}" alt="{{ instructor.name }}" title="Instructor de salsa {{ instructor.name }}" style="width: 100%; height: auto;" loading="lazy">
                              </div>
                              <div class="position-relative d-flex justify-content-center" style="margin-top: -23px;">
                                  <div class="bg-light d-flex justify-content-center pt-2 px-1">
                                      <!-- Enlaces a redes sociales (se abren en una nueva pestaña) -->
-                                     <a class="btn btn-sm-square btn-orange mx-1" target="_blank" href="{{ instructor.facebook }}"><i class="fab fa-facebook-f"></i></a>
-                                     <a class="btn btn-sm-square btn-orange mx-1" target="_blank" href="{{ instructor.tiktok }}"><i class="fab fa-tiktok"></i></a>
-                                     <a class="btn btn-sm-square btn-orange mx-1" target="_blank" href="{{ instructor.instagram }}"><i class="fab fa-instagram"></i></a>
+                                     <a class="btn btn-sm-square btn-orange mx-1" 
+                                        target="_blank" rel="noopener noreferrer" 
+                                        href="{{ instructor.facebook }}" 
+                                        title="Facebook de {{ instructor.name }}" 
+                                        aria-label="Facebook de {{ instructor.name }}">
+                                            <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a class="btn btn-sm-square btn-orange mx-1" 
+                                        target="_blank" rel="noopener noreferrer" 
+                                        href="{{ instructor.tiktok }}" 
+                                        title="TikTok de {{ instructor.name }}" 
+                                        aria-label="TikTok de {{ instructor.name }}">
+                                            <i class="fab fa-tiktok"></i>
+                                    </a>
+                                    <a class="btn btn-sm-square btn-orange mx-1" 
+                                        target="_blank" rel="noopener noreferrer" 
+                                        href="{{ instructor.instagram }}" 
+                                        title="Instagram de {{ instructor.name }}" 
+                                        aria-label="Instagram de {{ instructor.name }}">
+                                            <i class="fab fa-instagram"></i>
+                                    </a>
                                  </div>
                              </div>
                              <div class="text-center p-4">
