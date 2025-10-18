@@ -70,13 +70,13 @@ def create_lead(request):
         to_email = ["paulcofiis@gmail.com"]  # Tu dirección de correo para recibir el aviso
 
         # Enviar el correo
-        send_mail(
-            subject,
-            plain_message,
-            from_email,
-            to_email,
-            html_message=html_message,  # Enviar el correo en formato HTML
-        )
+        # send_mail(
+        #     subject,
+        #     plain_message,
+        #     from_email,
+        #     to_email,
+        #     html_message=html_message,  # Enviar el correo en formato HTML
+        # )
 
         # Enviar correo de confirmación al cliente
         subject_client = f"¡Gracias por contactarnos, {first_name}!"
