@@ -477,23 +477,7 @@
       <script src="{% static 'js/main.js' %}"></script>
       <script defer>
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const urlParams = new URLSearchParams(window.location.search);
-            const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
-
-            utmParams.forEach(param => {
-                const value = urlParams.get(param);
-                if (value) {
-                    localStorage.setItem(param, value); // Guardar en localStorage
-                }
-                // Cargar desde localStorage si existe
-                const saved = localStorage.getItem(param);
-                if (saved) {
-                    document.getElementById(param).value = saved;
-                }
-            });
-        });
-
+        
         var exampleModal = document.getElementById('exampleModal')
         exampleModal.addEventListener('show.bs.modal', function (event) {
             //console.log('entroooooooooooooooo')
