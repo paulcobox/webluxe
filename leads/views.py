@@ -1,3 +1,4 @@
+import threading
 from django.shortcuts import render, redirect
 from .forms import BasicInfoForm, AdditionalInfoForm
 from .models import CastingRegistration
@@ -70,13 +71,13 @@ def create_lead(request):
         to_email = ["paulcofiis@gmail.com"]  # Tu dirección de correo para recibir el aviso
 
         # Enviar el correo
-        # send_mail(
-        #     subject,
-        #     plain_message,
-        #     from_email,
-        #     to_email,
-        #     html_message=html_message,  # Enviar el correo en formato HTML
-        # )
+        send_async_email(
+            subject,
+            plain_message,
+            from_email,
+            to_email,
+            html_message=html_message,  # Enviar el correo en formato HTML
+        )
 
         # Enviar correo de confirmación al cliente
         subject_client = f"¡Gracias por contactarnos, {first_name}!"
@@ -92,16 +93,27 @@ def create_lead(request):
         plain_message_client = strip_tags(html_message_client)  # Versión en texto plano del correo
         to_email_client = [email]  # Correo del cliente
 
-        # send_mail(
-        #     subject_client,
-        #     plain_message_client,
-        #     from_email,
-        #     to_email_client,
-        #     html_message=html_message_client,  # Enviar el correo en formato HTML
-        # )
+        send_async_email(
+            subject_client,
+            plain_message_client,
+            from_email,
+            to_email_client,
+            html_message=html_message_client,  # Enviar el correo en formato HTML
+        )
         return JsonResponse({'success': True})
     return JsonResponse({'success': False})
 
+
+def send_async_email(subject, plain_message, from_email, to_email, html_message=None):
+    def _send():
+        send_mail(
+            subject,
+            plain_message,
+            from_email,
+            to_email,
+            html_message=html_message,
+        )
+    threading.Thread(target=_send).start()
 
 
 def casting_registration(request):
