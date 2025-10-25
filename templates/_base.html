@@ -291,6 +291,13 @@
                     <div class="modal-body">
                         <form id="leadForm" style="border: 1px solid #ddd; border-radius: 10px; padding: 15px;">
                             {% csrf_token %}
+                            <input type="hidden" id="utm_source" name="utm_source">
+                            <input type="hidden" id="utm_medium" name="utm_medium">
+                            <input type="hidden" id="utm_campaign" name="utm_campaign">
+                            <input type="hidden" id="utm_term" name="utm_term">
+                            <input type="hidden" id="utm_content" name="utm_content">
+                            <input type="hidden" id="referer" name="referer">
+                            <input type="hidden" id="user_agent" name="user_agent">
                             <input type="hidden" id="course_of_interest" name="course_of_interest">
                             <div class="row g-3">
                                 <div class="col-md-6">
@@ -463,7 +470,54 @@
       <!-- Template Javascript -->
       <script src="{% static 'js/main.js' %}"></script>
       <script>
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
 
+            utmParams.forEach(param => {
+                const value = urlParams.get(param);
+                if (value) {
+                    localStorage.setItem(param, value); // Guardar en localStorage
+                }
+                // Cargar desde localStorage si existe
+                const saved = localStorage.getItem(param);
+                if (saved) {
+                    document.getElementById(param).value = saved;
+                }
+            });
+            // 🟡 NUEVO: asignar referer y user_agent
+            const refererField = document.getElementById('referer');
+            const userAgentField = document.getElementById('user_agent');
+
+            if (refererField) {
+                refererField.value = document.referrer || "Acceso directo";
+            }
+            if (userAgentField) {
+                userAgentField.value = navigator.userAgent;
+            }
+
+        });
+
+        // Función para asignar UTM a los inputs cuando se abre el modal
+        function setUTMFields() {
+            const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+            utmParams.forEach(param => {
+                const saved = localStorage.getItem(param);
+                if (saved && document.getElementById(param)) {
+                    document.getElementById(param).value = saved;
+                }
+            });
+            // Reasignar también referer y user agent (por seguridad)
+            const refererField = document.getElementById('referer');
+            const userAgentField = document.getElementById('user_agent');
+            if (refererField && !refererField.value) {
+                refererField.value = document.referrer || "Acceso directo";
+            }
+            if (userAgentField && !userAgentField.value) {
+                userAgentField.value = navigator.userAgent;
+            }
+        }
         
         var exampleModal = document.getElementById('exampleModal')
         exampleModal.addEventListener('show.bs.modal', function (event) {
@@ -480,8 +534,10 @@
                 courseField.value = recipient; // Asigna el valor al campo oculto
             } else {
                 messageField.value = "Quiero informes y promociones sobre los cursos.";
+                courseField.value = "";
             }
-
+            // 👇 Reasignar los valores UTM cada vez que se abre el modal
+            setUTMFields();
 
         })
 
@@ -492,6 +548,7 @@
             if (form.checkValidity()) {    
                 var formData = new FormData(document.getElementById('leadForm'));
                 
+                const processingOverlay = document.getElementById('processingOverlay');
                 processingOverlay.classList.remove('d-none');
                 fetch('/create-lead/', {
                     method: 'POST',

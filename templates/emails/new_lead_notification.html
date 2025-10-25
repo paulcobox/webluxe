@@ -75,6 +75,16 @@
                 <li><strong>User Agent:</strong> {{ user_agent }}</li>
             </ul>
         </div>
+        <div class="utm-details mt-4">
+            <h2>Datos de Seguimiento (UTM)</h2>
+            <ul>
+                <li><strong>utm_source:</strong> {{ utm_source|default:"-" }}</li>
+                <li><strong>utm_medium:</strong> {{ utm_medium|default:"-" }}</li>
+                <li><strong>utm_campaign:</strong> {{ utm_campaign|default:"-" }}</li>
+                <li><strong>utm_term:</strong> {{ utm_term|default:"-" }}</li>
+                <li><strong>utm_content:</strong> {{ utm_content|default:"-" }}</li>
+            </ul>
+        </div>
         <div class="text-center mt-4">
             <p>Este es un correo automático. Por favor, no respondas a este mensaje.</p>
         </div>
