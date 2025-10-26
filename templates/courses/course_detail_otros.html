@@ -70,7 +70,15 @@
                 <div class="col-lg-5 col-md-12 wow fadeInUp d-none d-md-block" data-wow-delay="0.5s">
                     <form id="leadForm_curso_detail" style="border: 2px solid #ddd; border-radius: 15px; padding: 20px;">
                         {% csrf_token %}
+                        <input type="hidden" id="utm_source" name="utm_source">
+                        <input type="hidden" id="utm_medium" name="utm_medium">
+                        <input type="hidden" id="utm_campaign" name="utm_campaign">
+                        <input type="hidden" id="utm_term" name="utm_term">
+                        <input type="hidden" id="utm_content" name="utm_content">
+                        <input type="hidden" id="referer" name="referer">
+                        <input type="hidden" id="user_agent" name="user_agent">
                         <input type="hidden" id="course_of_interest" name="course_of_interest">
+                        
                         <div class="row g-3">
                             <div class="col-12">
                                 <div class="form-floating">
@@ -387,6 +395,34 @@
                 video.style.display = "block";
                 video.play();
             });
+        }
+    });
+
+     // Capturar UTM, referer y user_agent también en la ficha del curso
+    document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+
+        // Guardar y cargar UTM en localStorage
+        utmParams.forEach(param => {
+            const value = urlParams.get(param);
+            if (value) {
+                localStorage.setItem(param, value);
+            }
+            const saved = localStorage.getItem(param);
+            if (saved && document.getElementById(param)) {
+                document.getElementById(param).value = saved;
+            }
+        });
+
+        // Capturar referer y user agent
+        const refererField = document.getElementById('referer');
+        const userAgentField = document.getElementById('user_agent');
+        if (refererField) {
+            refererField.value = document.referrer || "Acceso directo";
+        }
+        if (userAgentField) {
+            userAgentField.value = navigator.userAgent;
         }
     });
 
