@@ -314,177 +314,119 @@
 {% endblock content %}
 
 {% block javascript %}
-
-<script>
-    //Este script detecta cuando el modal se abre o se cierra, y oculta o muestra la barra fija.
+    <script>
+    // ======================================================
+    // 1️⃣ Mostrar/Ocultar barra fija inferior en móviles
+    // ======================================================
     document.addEventListener("DOMContentLoaded", function () {
-        var mobileContactBar = document.getElementById("mobileContactBar");
-        var contactModal = document.getElementById("exampleModal");
-        var successModal = document.getElementById("successModal");
-    
-        function hideMobileBar() {
-            if (mobileContactBar) {
-                mobileContactBar.classList.add("d-none");
-            }
-        }
-    
-        function showMobileBar() {
-            if (mobileContactBar) {
-                mobileContactBar.classList.remove("d-none");
-            }
-        }
-    
-        // Ocultar la barra al abrir cualquiera de los modales
-        if (contactModal) {
-            contactModal.addEventListener("show.bs.modal", hideMobileBar);
-            contactModal.addEventListener("hidden.bs.modal", showMobileBar);
-        }
-    
-        if (successModal) {
-            successModal.addEventListener("show.bs.modal", hideMobileBar);
-            successModal.addEventListener("hidden.bs.modal", showMobileBar);
-        }
+    const mobileContactBar = document.getElementById("mobileContactBar");
+    const contactModal = document.getElementById("exampleModal");
+    const successModal = document.getElementById("successModal");
+
+    function hideMobileBar() {
+        if (mobileContactBar) mobileContactBar.classList.add("d-none");
+    }
+    function showMobileBar() {
+        if (mobileContactBar) mobileContactBar.classList.remove("d-none");
+    }
+
+    if (contactModal) {
+        contactModal.addEventListener("show.bs.modal", hideMobileBar);
+        contactModal.addEventListener("hidden.bs.modal", showMobileBar);
+    }
+    if (successModal) {
+        successModal.addEventListener("show.bs.modal", hideMobileBar);
+        successModal.addEventListener("hidden.bs.modal", showMobileBar);
+    }
     });
-    
 
-    //sube mas el icono de whatsapp
+
+    // ======================================================
+    // 2️⃣ Ajuste del ícono de WhatsApp según página
+    // ======================================================
     document.addEventListener("DOMContentLoaded", function () {
-        var whatsappIcon = document.querySelector(".whatsapp-icon");
-        var url = window.location.href.toLowerCase();
-        var keywords = ["salsa", "danza", "afro", "online", "particulares", "novios"];
+    const whatsappIcon = document.querySelector(".whatsapp-icon");
+    const url = window.location.href.toLowerCase();
+    const keywords = ["salsa", "danza", "afro", "online", "particulares", "novios"];
+    const shouldRaiseIcon = keywords.some(k => url.includes(k));
+    if (shouldRaiseIcon && whatsappIcon) whatsappIcon.style.bottom = "80px";
+    });
 
-        var shouldRaiseIcon = keywords.some(function(keyword) {
-            return url.includes(keyword);
+
+    // ======================================================
+    // 3️⃣ Mantener color del botón “Reserva Ahora”
+    // ======================================================
+    document.addEventListener("DOMContentLoaded", function () {
+    const contactButton = document.getElementById("openContactForm");
+    if (contactButton) {
+        const original = {
+        backgroundColor: contactButton.style.backgroundColor,
+        color: contactButton.style.color,
+        border: contactButton.style.border,
+        boxShadow: contactButton.style.boxShadow
+        };
+        const modal = document.getElementById("exampleModal");
+        if (modal) {
+        modal.addEventListener("hidden.bs.modal", function () {
+            Object.assign(contactButton.style, original);
         });
-
-        if (shouldRaiseIcon) {
-            whatsappIcon.style.bottom = "80px"; // Ajusta según lo que necesites
         }
+    }
     });
 
 
-    
-    //mantiene el color del boton
-    document.addEventListener("DOMContentLoaded", function () {
-        var contactButton = document.getElementById("openContactForm");
-    
-        if (contactButton) {
-            // Guardamos los estilos originales del botón al cargar la página
-            var originalStyles = {
-                backgroundColor: contactButton.style.backgroundColor,
-                color: contactButton.style.color,
-                border: contactButton.style.border,
-                boxShadow: contactButton.style.boxShadow
-            };
-    
-            // Restaurar estilos cuando el modal se cierra
-            var modal = document.getElementById("exampleModal");
-            if (modal) {
-                modal.addEventListener("hidden.bs.modal", function () {
-                    contactButton.style.backgroundColor = originalStyles.backgroundColor;
-                    contactButton.style.color = originalStyles.color;
-                    contactButton.style.border = originalStyles.border;
-                    contactButton.style.boxShadow = originalStyles.boxShadow;
-                });
-            }
-        }
-    });
-    
-    
-
-    document.addEventListener("DOMContentLoaded", function () {
-        const videoWrapper = document.querySelector(".video-wrapper");
-        const video = document.getElementById("mobileVideo");
-        const playIcon = document.querySelector(".play-icon");
-
-        if (videoWrapper && video && playIcon) {
-            videoWrapper.addEventListener("click", function () {
-                // Ocultar el ícono de reproducción
-                playIcon.style.display = "none";
-                // Mostrar el video y reproducirlo
-                video.style.display = "block";
-                video.play();
-            });
-        }
-    });
-
-    // Capturar UTM, referer y user_agent también en la ficha del curso
-    document.addEventListener("DOMContentLoaded", function () {
-        const urlParams = new URLSearchParams(window.location.search);
-        const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
-
-        // Guardar y cargar UTM en localStorage
-        utmParams.forEach(param => {
-            const value = urlParams.get(param);
-            if (value) {
-                localStorage.setItem(param, value);
-            }
-            const saved = localStorage.getItem(param);
-            if (saved && document.getElementById(param)) {
-                document.getElementById(param).value = saved;
-            }
-        });
-
-        // Capturar referer y user agent
-        const refererField = document.getElementById('referer');
-        const userAgentField = document.getElementById('user_agent');
-        if (refererField) {
-            refererField.value = document.referrer || "Acceso directo";
-        }
-        if (userAgentField) {
-            userAgentField.value = navigator.userAgent;
-        }
-    });
-
-
+    // ======================================================
+    // 4️⃣ Envío de formulario de la ficha (Lead + WhatsApp)
+    // ======================================================
     document.getElementById('submitForm_curso_detail').addEventListener('click', function () {
-        var form = document.getElementById('leadForm_curso_detail');
-        var processingMessage = document.getElementById('processingMessage_curso_detail');
-        var thankYouMessage = document.getElementById('thankYouMessage_curso_detail');
-        if (form.checkValidity()) {    
-            var formData = new FormData(document.getElementById('leadForm_curso_detail'));
-            processingOverlay_curso_detail.classList.remove('d-none');
-            fetch('/create-lead/', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-                }
-            }).then(response => response.json()).then(data => {
-                if (data.success) {
-                    // Ocultar formulario y mostrar mensaje de agradecimiento
-                    form.classList.add('d-none');
-                    thankYouMessage.classList.remove('d-none');
+    assignUTMsToAllForms(); // ✅ función global definida en _base.html
 
-                    // Preparar y abrir WhatsApp
-                    var firstName = document.getElementById('name').value;
-                    var lastName = document.getElementById('last_name').value;
-                    var notes = document.getElementById('message').value;
-                    var whatsappMessage = `Hola, me llamo ${firstName} ${lastName}. Estoy interesado en los cursos. ${notes}`;
+    const form = document.getElementById('leadForm_curso_detail');
+    const processingOverlay = document.getElementById('processingOverlay_curso_detail');
+    const thankYouMessage = document.getElementById('thankYouMessage_curso_detail');
 
-                    var whatsappNumber = '51991337159'; // Reemplaza con el número de teléfono de WhatsApp deseado
-                    var whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-                    console.log(whatsappURL)
-                    window.open(whatsappURL, '_blank');
+    if (form.checkValidity()) {
+        const formData = new FormData(form);
+        processingOverlay.classList.remove('d-none');
 
+        fetch('/create-lead/', {
+        method: 'POST',
+        body: formData,
+        headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value }
+        })
+        .then(r => r.json())
+        .then(data => {
+        if (data.success) {
+            // Ocultar formulario y mostrar mensaje de agradecimiento
+            form.classList.add('d-none');
+            thankYouMessage.classList.remove('d-none');
 
-                } else {
-                    alert('Error al crear el lead');
-                }
-            }).catch(error => {
-                processingOverlay_curso_detail.classList.add('d-none'); // Ocultar el overlay
-                console.error('Error:', error);
-                alert('Ocurrió un error al enviar el formulario');
-            }).finally(() => {
-                // Ocultar mensaje de procesamiento y habilitar botón
-                processingOverlay_curso_detail.classList.add('d-none');
+            // Preparar mensaje de WhatsApp
+            const firstName = document.getElementById('name').value;
+            const lastName = document.getElementById('last_name').value;
+            const courseTitle = document.getElementById('course_of_interest').value;
+            const notes = document.getElementById('message').value;
 
-            });
+            const whatsappMessage = `Hola, me llamo ${firstName} ${lastName}. Estoy interesado en el curso ${courseTitle}. ${notes}`;
+            const whatsappNumber = '51991337159';
+            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+            window.open(whatsappURL, '_blank');
         } else {
-            form.classList.add('was-validated');
+            alert('Error al crear el lead');
         }
+        })
+        .catch(error => {
+        console.error('Error:', error);
+        alert('Ocurrió un error al enviar el formulario');
+        })
+        .finally(() => {
+        processingOverlay.classList.add('d-none');
+        });
+
+    } else {
+        form.classList.add('was-validated');
+    }
     });
-    
-</script>
+    </script>
 {% endblock javascript %}
 

@@ -4,25 +4,6 @@
 
   <head>
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-M24NDJ63FD"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-M24NDJ63FD');
-    </script>
-
-
-
-    <script type="text/javascript" defer>
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "po9nb5gcah");
-    </script>
     <meta charset="utf-8">
     {% block title %}
         <title>
@@ -456,9 +437,7 @@
         </div>
 
 
-
-      <!-- JavaScript Libraries -->
-
+      <!-- 🔹 Librerías base -->
       <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
       <script src="{% static 'lib/wow/wow.min.js' %}"></script>
@@ -467,164 +446,147 @@
       <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
 
 
-      <!-- Template Javascript -->
-      <script src="{% static 'js/main.js' %}"></script>
-      <script>
-        
+      <!-- ========== JAVASCRIPT GLOBAL BASE ========== -->
+        <script src="{% static 'js/main.js' %}"></script>
+
+        <script>
+        /* =========================================================
+        1️⃣ CAPTURA GLOBAL DE UTM Y DATOS DE SESIÓN
+        ========================================================= */
         document.addEventListener("DOMContentLoaded", function () {
-            const urlParams = new URLSearchParams(window.location.search);
-            const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+        const urlParams = new URLSearchParams(window.location.search);
+        const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
 
-            utmParams.forEach(param => {
-                const value = urlParams.get(param);
-                if (value) {
-                    localStorage.setItem(param, value); // Guardar en localStorage
-                }
-                // Cargar desde localStorage si existe
-                const saved = localStorage.getItem(param);
-                if (saved) {
-                    document.getElementById(param).value = saved;
-                }
-            });
-            // 🟡 NUEVO: asignar referer y user_agent
-            const refererField = document.getElementById('referer');
-            const userAgentField = document.getElementById('user_agent');
-
-            if (refererField) {
-                refererField.value = document.referrer || "Acceso directo";
+        utmParams.forEach(param => {
+            const value = urlParams.get(param);
+            if (value) localStorage.setItem(param, value); // guardar si viene por URL
+            const saved = localStorage.getItem(param);
+            if (saved && document.getElementById(param)) {
+            document.getElementById(param).value = saved;
             }
-            if (userAgentField) {
-                userAgentField.value = navigator.userAgent;
-            }
-
         });
 
-        // Función para asignar UTM a los inputs cuando se abre el modal
-        function setUTMFields() {
-            const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
-            utmParams.forEach(param => {
-                const saved = localStorage.getItem(param);
-                if (saved && document.getElementById(param)) {
-                    document.getElementById(param).value = saved;
-                }
+        // Guardar referer y user agent
+        const refererField = document.getElementById('referer');
+        const userAgentField = document.getElementById('user_agent');
+        if (refererField) refererField.value = document.referrer || "Acceso directo";
+        if (userAgentField) userAgentField.value = navigator.userAgent;
+        });
+
+
+        /* =========================================================
+        2️⃣ FUNCIÓN GLOBAL PARA ASIGNAR UTM EN CUALQUIER FORMULARIO
+        ========================================================= */
+        function assignUTMsToAllForms() {
+        const utmParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+
+        utmParams.forEach(param => {
+            const saved = localStorage.getItem(param);
+            document.querySelectorAll(`[name="${param}"], [id="${param}"]`).forEach(el => {
+            if (saved) el.value = saved;
             });
-            // Reasignar también referer y user agent (por seguridad)
-            const refererField = document.getElementById('referer');
-            const userAgentField = document.getElementById('user_agent');
-            if (refererField && !refererField.value) {
-                refererField.value = document.referrer || "Acceso directo";
-            }
-            if (userAgentField && !userAgentField.value) {
-                userAgentField.value = navigator.userAgent;
-            }
+        });
+
+        const referer = document.referrer || "Acceso directo";
+        const userAgent = navigator.userAgent;
+
+        document.querySelectorAll('[name="referer"], [id="referer"]').forEach(el => el.value = referer);
+        document.querySelectorAll('[name="user_agent"], [id="user_agent"]').forEach(el => el.value = userAgent);
         }
-        
-        var exampleModal = document.getElementById('exampleModal')
+
+
+        /* =========================================================
+        3️⃣ MODAL DE CONTACTO GLOBAL
+        ========================================================= */
+        var exampleModal = document.getElementById('exampleModal');
+        if (exampleModal) {
         exampleModal.addEventListener('show.bs.modal', function (event) {
-            //console.log('entroooooooooooooooo')
-            // Button that triggered the modal
-            var button = event.relatedTarget
-            // Extract info from data-bs-* attributes
-            var recipient = button.getAttribute('data-bs-course')
-            var messageField = document.getElementById('message');
-            var courseField = document.getElementById('course_of_interest');
-            
+            const button = event.relatedTarget;
+            const recipient = button?.getAttribute('data-bs-course');
+            const messageField = document.getElementById('message');
+            const courseField = document.getElementById('course_of_interest');
+
+            // Texto dinámico del curso
             if (recipient) {
-                messageField.value = "Quiero informes y promociones sobre el Curso " + recipient;
-                courseField.value = recipient; // Asigna el valor al campo oculto
+            messageField.value = "Quiero informes y promociones sobre el curso " + recipient;
+            courseField.value = recipient;
             } else {
-                messageField.value = "Quiero informes y promociones sobre los cursos.";
-                courseField.value = "";
+            messageField.value = "Quiero informes y promociones sobre los cursos.";
+            courseField.value = "";
             }
-            // 👇 Reasignar los valores UTM cada vez que se abre el modal
-            setUTMFields();
 
-        })
-
-
-        document.getElementById('submitForm').addEventListener('click', function () {
-            var form = document.getElementById('leadForm');
-            var processingMessage = document.getElementById('processingMessage');
-            if (form.checkValidity()) {    
-                var formData = new FormData(document.getElementById('leadForm'));
-                
-                const processingOverlay = document.getElementById('processingOverlay');
-                processingOverlay.classList.remove('d-none');
-                fetch('/create-lead/', {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-                    }
-                }).then(response => response.json()).then(data => {
-                    if (data.success) {
-
-                        // **Cerrar el modal de contacto**
-                        var contactModal = bootstrap.Modal.getInstance(document.getElementById('exampleModal'));
-                        if (contactModal) {
-                            contactModal.hide();
-                        }
-
-                        // **Mostrar el modal de éxito después de cerrar el modal de contacto**
-                        setTimeout(() => {
-                            var successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                            successModal.show();
-                        }, 500); // Pequeño delay para asegurar el cierre del primer modal
+            // Asegurar UTM, referer y user agent
+            assignUTMsToAllForms();
+        });
+        }
 
 
+        /* =========================================================
+        4️⃣ ENVÍO DE FORMULARIO DEL MODAL (LEAD + WHATSAPP)
+        ========================================================= */
+        const submitButton = document.getElementById('submitForm');
+        if (submitButton) {
+        submitButton.addEventListener('click', function () {
+            assignUTMsToAllForms(); // ✅ asegurar datos antes de enviar
 
-                        // Preparar y abrir WhatsApp
-                        var firstName = document.getElementById('name').value;
-                        var lastName = document.getElementById('last_name').value;
-                        var courseOfInterest = document.getElementById('course_of_interest').value;
-                        var notes = document.getElementById('message').value;
+            const form = document.getElementById('leadForm');
+            const overlay = document.getElementById('processingOverlay');
 
-                        if (courseOfInterest) {
-                            var whatsappMessage = `Hola, me llamo ${firstName} ${lastName}. Estoy interesado en el curso: ${courseOfInterest}. ${notes}`;
-                        } else {
-                            var whatsappMessage = `Hola, me llamo ${firstName} ${lastName}. Estoy interesado en los cursos. ${notes}`;
-                        }
+            if (form.checkValidity()) {
+            const formData = new FormData(form);
+            overlay.classList.remove('d-none');
 
-                        var whatsappNumber = '51991337159'; // Reemplaza con el número de teléfono de WhatsApp deseado
-                        var whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-                        console.log(whatsappURL)
-                        window.open(whatsappURL, '_blank');
+            fetch('/create-lead/', {
+                method: 'POST',
+                body: formData,
+                headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                // Cerrar modal principal
+                const contactModal = bootstrap.Modal.getInstance(exampleModal);
+                if (contactModal) contactModal.hide();
 
+                // Mostrar modal de éxito
+                setTimeout(() => {
+                    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                    successModal.show();
+                }, 500);
 
-                    } else {
-                        alert('Error al crear el lead');
-                    }
-                }).catch(error => {
-                    processingOverlay.classList.add('d-none'); // Ocultar el overlay
-                    console.error('Error:', error);
-                    alert('Ocurrió un error al enviar el formulario');
-                }).finally(() => {
-                    // Ocultar mensaje de procesamiento y habilitar botón
-                    processingOverlay.classList.add('d-none');
-
-                });
+                // Abrir WhatsApp con mensaje dinámico
+                const firstName = document.getElementById('name').value;
+                const lastName = document.getElementById('last_name').value;
+                const course = document.getElementById('course_of_interest').value;
+                const notes = document.getElementById('message').value;
+                const whatsappMessage = `Hola, me llamo ${firstName} ${lastName}. Estoy interesado en ${course || "los cursos"}. ${notes}`;
+                const whatsappURL = `https://wa.me/51991337159?text=${encodeURIComponent(whatsappMessage)}`;
+                window.open(whatsappURL, '_blank');
+                } else {
+                alert('Error al crear el lead');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Ocurrió un error al enviar el formulario');
+            })
+            .finally(() => {
+                overlay.classList.add('d-none');
+            });
             } else {
-                form.classList.add('was-validated');
+            form.classList.add('was-validated');
             }
         });
+        }
+        </script>
+        <!-- ========== END GLOBAL SCRIPT ========== -->
 
-    </script>
 
     {% block javascript %}
     
     {% endblock javascript %}
 
-    <script defer type="text/javascript">
-            window.omnisend = window.omnisend || [];
-            omnisend.push(["brandID", "67f74837b7f0a3dba0637399"]);
-            omnisend.push(["track", "$pageViewed"]);
-            !function(){var e=document.createElement("script");
-            e.type="text/javascript",e.async=!0,
-            e.src="https://omnisnippet1.com/inshop/launcher-v2.js";
-            var t=document.getElementsByTagName("script")[0];
-            t.parentNode.insertBefore(e,t)}();
-    </script>
-
+    <script src="{% static 'js/analytics.js' %}" defer></script>
   </body>
 
 </html>
