@@ -3,6 +3,8 @@ from django.db import models
 from django.utils.text import slugify
 from django.conf import settings  # Importar settings
 from ckeditor.fields import RichTextField
+from django.utils.html import strip_tags
+import html
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
@@ -14,6 +16,12 @@ class Post(models.Model):
     published_date = models.DateTimeField(auto_now_add=True)
     visible = models.BooleanField(default=True)  # Publicación visible o no
 
+    @property
+    def clean_excerpt(self):
+        """Devuelve el excerpt sin etiquetas ni entidades HTML."""
+        text = strip_tags(self.excerpt)
+        return html.unescape(text)
+    
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)

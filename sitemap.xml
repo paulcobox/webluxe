@@ -76,6 +76,66 @@
     <priority>0.75</priority>
   </url>
 
+  <url>
+    <loc>https://cubangrooveperu.com/blog/10-beneficios-de-bailar-salsa-y-timba-para-el-cuer/</loc>
+    <lastmod>2025-10-11T00:00:00+00:00</lastmod>
+    <priority>0.70</priority>
+    <image:image>
+      <image:loc>https://cubangrooveperu.com/media/images/blog_images/10-beneficios-de-bailar-salsa-y-timba-para-el-cuer.png</image:loc>
+      <image:title>10 Beneficios de Bailar Salsa y Timba para el Cuerpo</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://cubangrooveperu.com/blog/que-es-la-danza-y-por-que-deberias-empezar-hoy/</loc>
+    <lastmod>2025-10-11T00:00:00+00:00</lastmod>
+    <priority>0.70</priority>
+    <image:image>
+      <image:loc>https://cubangrooveperu.com/media/images/blog_images/que-es-la-danza-y-por-que-deberias-empezar-hoy.png</image:loc>
+      <image:title>Qué es la danza y por qué deberías empezar hoy</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://cubangrooveperu.com/blog/como-aprender-a-bailar-salsa-desde-cero-guia-para/</loc>
+    <lastmod>2025-10-11T00:00:00+00:00</lastmod>
+    <priority>0.70</priority>
+    <image:image>
+      <image:loc>https://cubangrooveperu.com/media/images/blog_images/como-aprender-a-bailar-salsa-desde-cero-guia-para.png</image:loc>
+      <image:title>Cómo aprender a bailar salsa desde cero — Guía para principiantes</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://cubangrooveperu.com/blog/baile-para-principiantes-consejos-beneficios-y-err/</loc>
+    <lastmod>2025-10-11T00:00:00+00:00</lastmod>
+    <priority>0.70</priority>
+    <image:image>
+      <image:loc>https://cubangrooveperu.com/media/images/blog_images/baile-para-principiantes-consejos-beneficios-y-err.png</image:loc>
+      <image:title>Baile para principiantes: consejos, beneficios y errores comunes</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://cubangrooveperu.com/blog/clases-de-salsa-en-lima-guia-completa-para-empezar/</loc>
+    <lastmod>2025-10-11T00:00:00+00:00</lastmod>
+    <priority>0.70</priority>
+    <image:image>
+      <image:loc>https://cubangrooveperu.com/media/images/blog_images/clases-de-salsa-en-lima-guia-completa-para-empezar.png</image:loc>
+      <image:title>Clases de salsa en Lima — Guía completa para empezar a bailar</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://cubangrooveperu.com/blog/academia-de-baile-en-lima-como-elegir-la-mejor-opc/</loc>
+    <lastmod>2025-10-11T00:00:00+00:00</lastmod>
+    <priority>0.70</priority>
+    <image:image>
+      <image:loc>https://cubangrooveperu.com/media/images/blog_images/academia-de-baile-en-lima-como-elegir-la-mejor-opc.png</image:loc>
+      <image:title>Academia de baile en Lima — Cómo elegir la mejor opción para ti</image:title>
+    </image:image>
+  </url>
+
   <!-- Páginas de confianza -->
   <url>
     <loc>https://cubangrooveperu.com/contact</loc>

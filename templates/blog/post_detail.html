@@ -5,6 +5,41 @@
     <meta name="description" content="{{ post.title }}">
 {% endblock meta_description %}
 
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{{ post.title|escapejs }}",
+  "description": "{{ post.clean_excerpt|truncatechars:250|escapejs }}",
+  {% if post.image %}
+  "image": "{{ post.image.url }}",
+  {% endif %}
+  "author": {
+    "@type": "Person",
+    "name": "{{ post.author.get_full_name|default:'Cuban Groove'|escapejs }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Cuban Groove",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cubangrooveperu.com/static/img/logos/logo_desk.webp"
+    }
+  },
+  "datePublished": "{{ post.published_date|date:'Y-m-d' }}",
+  "dateModified": "{{ post.published_date|date:'Y-m-d' }}",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://cubangrooveperu.com/{{ post.slug }}/"
+  }
+}
+</script>
+{% endblock structured_data %}
+
+
+
 {% block content %}
 
     <div class="container">
@@ -12,7 +47,7 @@
             <div class="col-md-8 offset-md-2">
                 <h1>{{ post.title }}</h1>
                 <p class="text-muted">Publicado el {{ post.published_date|date:"F j, Y" }}</p>
-                <img src="{{ post.image.url }}" class="img-fluid mb-4" alt="{{ post.title }} - Imagen destacada" loading="lazy">
+                <img src="{{ post.image.url }}" class="img-fluid mb-4" alt="{{ post.title }} - Imagen destacada"  title="{{ post.title }} - Cuban Groove" loading="lazy">
                 <div class="rich-text">
                     {{ post.content|safe }}
                 </div>
