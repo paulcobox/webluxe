@@ -87,6 +87,7 @@ AUTH_USER_MODEL = 'users.CustomUser' # new
 
 MIDDLEWARE = [
     'django.middleware.cache.UpdateCacheMiddleware',    # 1. Guarda en caché
+    # 'webluxe.middleware.slash_flexible.SlashFlexibleMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -203,4 +204,6 @@ DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
 
 CACHE_MIDDLEWARE_SECONDS = 60 * 60  # 1 hora
 CACHE_MIDDLEWARE_KEY_PREFIX = ""   # opcional
+
+APPEND_SLASH = True
 

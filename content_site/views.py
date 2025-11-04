@@ -116,7 +116,16 @@ class ThankYouTemplateView(TemplateView):
     return context
   
 def sitemap_view(request):
-    return FileResponse(open('sitemap.xml', 'rb'), content_type='application/xml')
+    return FileResponse(open('sitemap.xml', 'rb'), content_type='application/xml')  
+
+def sitemap_blog_view(request):
+    return FileResponse(open('sitemap-blog.xml', 'rb'), content_type='application/xml')  
+
+def sitemap_general_view(request):
+    return FileResponse(open('sitemap-general.xml', 'rb'), content_type='application/xml')  
+
+def sitemap_miraflores_view(request):
+    return FileResponse(open('sitemap-miraflores.xml', 'rb'), content_type='application/xml')
 
 def robots_view(request):
     try:

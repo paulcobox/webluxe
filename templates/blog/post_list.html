@@ -1,38 +1,154 @@
 {% extends '_base.html' %}
 {% load static %}
 {% block title %}<title>Blog | Cuban Groove</title>{% endblock title %}
+{% block meta_description %}
+    <meta name="description" content="Descubre los mejores artículos de Cuban Groove Perú sobre baile, salsa cubana, timba y danza en Lima. Aprende consejos, técnicas y estilos con nuestras guías y clases.">
+{% endblock meta_description %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{{ blog_schema|safe }}
+</script>
+{% endblock %}
 
 {% block content %}
 
-    <!-- Blog Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h6 class="section-title bg-white text-center px-3 color-oran">Blog</h6>
-                <h2 class="text-center mb-2 color-cafe">Últimas Noticias y Artículos</h2>
-            </div>
-            <div class="row">
-                {% for post in posts %}
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm ">
-                        <a href="{% url 'post_detail' post.slug %}" title="{{ post.title }}" aria-label="Leer más sobre {{ post.title }}" >
-                            <img class="card-img-top" src="{{ post.image.url }}" alt="{{ post.title }} - Imagen destacada" loading="lazy">
-                        </a>
-                        <div class="card-body">
-                            <h2 class="post-title-alt">
-                                <a href="{% url 'post_detail' post.slug %}" class="color-oran" title="{{ post.title }}" aria-label="Leer más sobre {{ post.title }}">{{ post.title }}</a>
-                            </h2>
-                            <p class="card-text">{{ post.excerpt |safe }}</p>
-                            <a href="{% url 'post_detail' post.slug %}" style="background-color: #ff6a09;color: white;" class="btn btn-primary" title="Leer más sobre {{ post.title }}">Leer más</a>
-                        </div>
-                    </div>
-                </div>
-                {% empty %}
-                <p>No hay publicaciones disponibles.</p>
-                {% endfor %}
-            </div>
-        </div>
+<!-- Blog Start -->
+<div class="container-xxl py-5">
+  <div class="container">
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+      <h1>Blog de Salsa y Danza en Lima</h1>
+      <h2 class="custom-h6 section-title bg-white text-center px-3 color-oran">Salsa en Lima</h2>
+      <p class="text-center mb-2 color-cafe">Últimas Noticias y Artículos</p>
     </div>
-    <!-- Blog End -->
+
+    <!-- 🔸 Posts generales -->
+    <div class="row">
+      {% for post in posts %}
+      <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+          <a href="{% url 'post_general' post.slug %}" title="{{ post.title }}">
+            <img class="card-img-top" src="{{ post.image.url }}" alt="{{ post.title }} - Imagen destacada"  title="{{ post.title }}" loading="lazy">
+          </a>
+          <div class="card-body">
+            <h3 class="post-title-alt color-oran">
+              {{ post.title }}
+            </h3>
+            <p class="card-text">{{ post.excerpt|safe }}</p>
+            <a href="{% url 'post_general' post.slug %}" class="btn btn-primary" style="background-color:#ff6a09;color:white;">Leer más</a>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p>No hay publicaciones generales disponibles.</p>
+      {% endfor %}
+    </div>
+
+    <!-- 🔸 Posts Miraflores -->
+    {% if miraflores_posts %}
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+      <h2 class="custom-h6 section-title bg-white text-center px-3 color-oran">Salsa en Miraflores</h2>
+      <p class="text-center mb-2 color-cafe">Últimas Noticias y Artículos</p>
+    </div>
+    <div class="row">
+      {% for post in miraflores_posts %}
+      <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+          <a href="{% url 'post_miraflores' post.slug %}" title="{{ post.title }}">
+            <img class="card-img-top" src="{{ post.image.url }}" alt="{{ post.title }}" title="{{ post.title }}"  loading="lazy">
+          </a>
+          <div class="card-body">
+            <h3 class="post-title-alt color-oran">
+              {{ post.title }}
+            </h3>
+            <p class="card-text">{{ post.excerpt|safe }}</p>
+            <a href="{% url 'post_miraflores' post.slug %}" class="btn btn-primary" style="background-color:#ff6a09;color:white;">Leer más</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- 🔸 Posts San Isidro -->
+    {% if sanisidro_posts %}
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+      <h2 class="custom-h6 section-title bg-white text-center px-3 color-oran">Salsa en San Isidro</h2>
+      <p class="text-center mb-2 color-cafe">Últimas Noticias y Artículos</p>
+    </div>
+    <div class="row">
+      {% for post in sanisidro_posts %}
+      <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+          <a href="{% url 'post_sanisidro' post.slug %}" title="{{ post.title }}">
+            <img class="card-img-top" src="{{ post.image.url }}" alt="{{ post.title }}" title="{{ post.title }}"  loading="lazy">
+          </a>
+          <div class="card-body">
+            <h3 class="post-title-alt color-oran">
+              {{ post.title }}
+            </h3>
+            <p class="card-text">{{ post.excerpt|safe }}</p>
+            <a href="{% url 'post_sanisidro' post.slug %}" class="btn btn-primary" style="background-color:#ff6a09;color:white;">Leer más</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- 🔸 Posts Surco -->
+    {% if surco_posts %}
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+      <h2 class="custom-h6 section-title bg-white text-center px-3 color-oran">Salsa en Surco</h2>
+      <p class="text-center mb-2 color-cafe">Últimas Noticias y Artículos</p>
+    </div>
+    <div class="row">
+      {% for post in surco_posts %}
+      <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+          <a href="{% url 'post_surco' post.slug %}" title="{{ post.title }}">
+            <img class="card-img-top" src="{{ post.image.url }}" alt="{{ post.title }}" title="{{ post.title }}"  loading="lazy">
+          </a>
+          <div class="card-body">
+            <h3 class="post-title-alt color-oran">
+              {{ post.title }}
+            </h3>
+            <p class="card-text">{{ post.excerpt|safe }}</p>
+            <a href="{% url 'post_surco' post.slug %}" class="btn btn-primary" style="background-color:#ff6a09;color:white;">Leer más</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- 🔸 Posts Lince -->
+    {% if lince_posts %}
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+      <h2 class="custom-h6 section-title bg-white text-center px-3 color-oran">Salsa en Lince</h2>
+      <p class="text-center mb-2 color-cafe">Últimas Noticias y Artículos</p>
+    </div>
+    <div class="row">
+      {% for post in lince_posts %}
+      <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+          <a href="{% url 'post_general' post.slug %}" title="{{ post.title }}">
+            <img class="card-img-top" src="{{ post.image.url }}" alt="{{ post.title }}" title="{{ post.title }}"  loading="lazy">
+          </a>
+          <div class="card-body">
+            <h3 class="post-title-alt color-oran">
+              {{ post.title }}
+            </h3>
+            <p class="card-text">{{ post.excerpt|safe }}</p>
+            <a href="{% url 'post_general' post.slug %}" class="btn btn-primary" style="background-color:#ff6a09;color:white;">Leer más</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</div>
+<!-- Blog End -->
 
 {% endblock content %}

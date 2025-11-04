@@ -137,7 +137,7 @@
                       </div>
                   </div>                  
                   <a href="{% url 'contact' %}" class="nav-item nav-link {% if 'contact' in request.path %}active{% endif %}" title="Contáctanos para clases de salsa, horarios y precios en Cuban Groove">Contacto</a>
-                  <a href="{% url 'post_list' %}" class="nav-item nav-link {% if 'post_list' in request.path %}active{% endif %}" title="Lee artículos sobre baile, salsa cubana y consejos de danza en nuestro blog">Blog</a>
+                  <a href="{% url 'post_list' %}" class="nav-item nav-link {% if 'blog' in request.path %}active{% endif %}" title="Lee artículos sobre baile, salsa cubana y consejos de danza en nuestro blog">Blog</a>
                   <a href="{% url 'faq' %}" class="nav-item nav-link {% if 'preguntas-frecuentes' in request.path %}active{% endif %}" title="Preguntas frecuentes sobre nuestras clases de baile, precios y niveles">
                     Preguntas Frecuentes
                   </a>

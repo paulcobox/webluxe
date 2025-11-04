@@ -7,6 +7,14 @@ from django.utils.html import strip_tags
 import html
 
 class Post(models.Model):
+    LOCATION_CHOICES = [
+        ('miraflores', 'Miraflores'),
+        ('sanisidro', 'San Isidro'),
+        ('surco', 'Santiago de Surco'),
+        ('lince', 'Lince'),
+        ('general', 'General'),
+    ]
+    location = models.CharField(max_length=50, choices=LOCATION_CHOICES, default='general')
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)  # Usar AUTH_USER_MODEL

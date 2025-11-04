@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Página principal -->
+  <url>
+    <loc>https://cubangrooveperu.com/</loc>
+    <lastmod>2025-10-11T00:00:00+00:00</lastmod>
+    <priority>1.00</priority>
+  </url>
+
+  <!-- Clases locales de salsa -->
+  <url>
+    <loc>https://cubangrooveperu.com/clases-de-salsa-en-miraflores/</loc>
+    <lastmod>2025-10-11T00:00:00+00:00</lastmod>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://cubangrooveperu.com/clases-de-salsa-en-surco/</loc>
+    <lastmod>2025-10-11T00:00:00+00:00</lastmod>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://cubangrooveperu.com/clases-de-salsa-en-lince/</loc>
+    <lastmod>2025-10-11T00:00:00+00:00</lastmod>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://cubangrooveperu.com/clases-de-salsa-en-san-isidro/</loc>
+    <lastmod>2025-10-11T00:00:00+00:00</lastmod>
+    <priority>0.95</priority>
+  </url>
+
+  <!-- Catálogo general -->
+  <url>
+    <loc>https://cubangrooveperu.com/clases-baile/</loc>
+    <lastmod>2025-10-11T00:00:00+00:00</lastmod>
+    <priority>0.90</priority>
+  </url>
+
+  <!-- Cursos principales -->
+  <url>
+    <loc>https://cubangrooveperu.com/clases-baile/salsa-principiantes/</loc>
+    <lastmod>2025-10-11T00:00:00+00:00</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://cubangrooveperu.com/clases-baile/afro/</loc>
+    <lastmod>2025-10-11T00:00:00+00:00</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://cubangrooveperu.com/clases-baile/salsa-lady-style-mujeres/</loc>
+    <lastmod>2025-10-11T00:00:00+00:00</lastmod>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://cubangrooveperu.com/clases-baile/salsa/</loc>
+    <lastmod>2025-10-11T00:00:00+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://cubangrooveperu.com/clases-baile/danza/</loc>
+    <lastmod>2025-10-11T00:00:00+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://cubangrooveperu.com/clases-baile/online/</loc>
+    <lastmod>2025-10-11T00:00:00+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+
+  <!-- Blog -->
+  <url>
+    <loc>https://cubangrooveperu.com/blog/</loc>
+    <lastmod>2025-10-11T00:00:00+00:00</lastmod>
+    <priority>0.75</priority>
+  </url>
+
+  
+
+  <!-- Páginas de confianza -->
+  <url>
+    <loc>https://cubangrooveperu.com/contact/</loc>
+    <lastmod>2025-10-11T00:00:00+00:00</lastmod>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://cubangrooveperu.com/preguntas-frecuentes/</loc>
+    <lastmod>2025-10-11T00:00:00+00:00</lastmod>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://cubangrooveperu.com/terms-conditions/</loc>
+    <lastmod>2025-10-11T00:00:00+00:00</lastmod>
+    <priority>0.50</priority>
+  </url>
+  <url>
+    <loc>https://cubangrooveperu.com/privacy-policies/</loc>
+    <lastmod>2025-10-11T00:00:00+00:00</lastmod>
+    <priority>0.50</priority>
+  </url>
+
+</urlset>
