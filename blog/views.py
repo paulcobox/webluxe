@@ -44,7 +44,12 @@ def get_blog_schema(posts):
             "headline": post.title,
             "url": f"https://cubangrooveperu.com/blog/{post.slug}/",
             "image": f"https://cubangrooveperu.com{post.image.url}",
-            "datePublished": post.published_date.strftime("%Y-%m-%d")
+            "datePublished": post.published_date.strftime("%Y-%m-%dT%H:%M:%S-05:00"),
+            "author": {
+                "@type": "Organization",
+                "name": "Cuban Groove Perú",
+                "url": "https://cubangrooveperu.com/"
+            }
         })
     schema = {
         "@context": "https://schema.org",
@@ -58,6 +63,7 @@ def get_blog_schema(posts):
         }
     }
     return mark_safe(json.dumps(schema, ensure_ascii=False, indent=2))
+
 
 # class PostDetailView(DetailView):
 #     model = Post
