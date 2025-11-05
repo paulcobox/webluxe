@@ -12,5 +12,38 @@
       <image:title>Encuentra tu estilo ideal en las clases de salsa en Miraflores</image:title>
     </image:image>
   </url>
+  
+  <url>
+    <loc>https://cubangrooveperu.com/clases-de-salsa-en-miraflores/beneficios-de-bailar-salsa/</loc>
+    <lastmod>2025-11-05T00:00:00+00:00</lastmod>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://cubangrooveperu.com/media/images/blog_images/beneficios-de-bailar-salsa.png</image:loc>
+      <image:title>Beneficios de bailar salsa</image:title>
+    </image:image>
+  </url>
+
+  
+  <url>
+    <loc>https://cubangrooveperu.com/clases-de-salsa-en-miraflores/casa-de-la-salsa/</loc>
+    <lastmod>2025-11-05T00:00:00+00:00</lastmod>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://cubangrooveperu.com/media/images/blog_images/la-casa-de-la-salsa_MMgdTiS.jpg</image:loc>
+      <image:title>La casa de la salsa</image:title>
+    </image:image>
+  </url>
+
+  
+  <url>
+    <loc>https://cubangrooveperu.com/clases-de-salsa-en-miraflores/donde-bailar-salsa-en-miraflores/</loc>
+    <lastmod>2025-11-05T00:00:00+00:00</lastmod>
+    <priority>0.80</priority>
+    <image:image>
+      <image:loc>https://cubangrooveperu.com/media/images/blog_images/donde-bailar-salsa-en-miraflores.png</image:loc>
+      <image:title>Dónde bailar salsa en Miraflores</image:title>
+    </image:image>
+  </url>
+
 
 </urlset>
