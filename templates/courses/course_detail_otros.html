@@ -1,25 +1,93 @@
 {% extends '_base.html' %}
 {% load static %}
 
-{% block title %}
-    {% if course.seo_title %}
+{% if course.seo_title %}
+    {% block title %}
         <title>{{ course.seo_title }}</title>
-    {% endif %}
-{% endblock title %}
-
-{% if course.meta_description %}
-    {% block meta_description %}
-        <meta name="description" content="{{ course.meta_description }}">
-    {% endblock meta_description %}
+    {% endblock title %}
 {% endif %}
 
+{% block meta_description %}
+    <meta name="description" content="{{ course.meta_description|default:course.body_title|striptags|truncatechars:160 }}">
+{% endblock meta_description %}
 
-{% if course.meta_keywords %}
-    {% block meta_keywords %}
-        <meta name="keywords" content="{{ course.meta_keywords }}">
-    {% endblock meta_keywords %}
-{% endif %}
+{% block meta_keywords %}
+    <meta name="keywords" content="{{ course.meta_keywords|default:'clases de salsa, academia de baile en Lima, salsa cubana, técnica de danza, Cuban Groove' }}">
+{% endblock meta_keywords %}
 
+
+{# ===================== 🔹 OPEN GRAPH / FACEBOOK ===================== #}
+{% block open_graph %}
+    <meta property="og:type" content="course">
+    <meta property="og:title" content="{{ course.seo_title|default:course.title }}">
+    <meta property="og:description" content="{{ course.meta_description|default:course.body_title|striptags|truncatechars:160 }}">
+    <meta property="og:image" content="https://cubangrooveperu.com/static/img/logos/logo_desk.webp">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:site_name" content="Cuban Groove Perú">
+    <meta property="og:locale" content="es_PE">
+{% endblock open_graph %}
+
+
+{# ===================== 🔹 TWITTER CARD ===================== #}
+{% block twiter_card %}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ course.seo_title|default:course.title }}">
+    <meta name="twitter:description" content="{{ course.meta_description|default:course.body_title|striptags|truncatechars:160 }}">
+    <meta name="twitter:image" content="https://cubangrooveperu.com/static/img/logos/logo_desk.webp">
+    <meta name="twitter:site" content=@CubanGroovePeru">
+{% endblock twiter_card %}
+
+
+{# ===================== 🔹 SCHEMA.ORG JSON-LD (para Google) ===================== #}
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "{{ course.title|escapejs }}",
+  "description": "{{ course.meta_description|default:course.body_title|striptags|truncatechars:160|escapejs }}",
+  "image": "https://cubangrooveperu.com/static/img/logos/logo_desk.webp",
+  "provider": {
+    "@type": "Organization",
+    "name": "Cuban Groove",
+    "url": "https://cubangrooveperu.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cubangrooveperu.com/static/img/logos/logo_desk.webp"
+    },
+    "sameAs": [
+      "https://www.instagram.com/cubangroove/",
+      "https://www.facebook.com/muevetecuba",
+      "https://www.tiktok.com/@cubangrooveperu"
+    ]
+  },
+  "hasCourseInstance": {
+    "@type": "CourseInstance",
+    "name": "{{ course.title|escapejs }}",
+    "courseMode": "Presencial",
+    "location": {
+      "@type": "Place",
+      "name": "Lima",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Lima",
+        "addressRegion": "Lima",
+        "addressCountry": "PE"
+      }
+    },
+    "startDate": "2025-01-01",
+    "endDate": "2026-12-31",
+    "offers": {
+      "@type": "Offer",
+      "price": "{{ course.price|default:'0' }}",
+      "priceCurrency": "PEN",
+      "availability": "https://schema.org/InStock",
+      "url": "{{ request.build_absolute_uri }}"
+    }
+  }
+}
+</script>
+{% endblock structured_data %}
 
 {% block content %}
     <!-- Detail Course and call to action -->

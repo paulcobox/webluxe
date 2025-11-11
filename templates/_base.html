@@ -5,10 +5,12 @@
   <head>
 
     <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="author" content="Cuban Groove">
+    <meta name="robots" content="index, follow">
+
     {% block title %}
-        <title>
-            Academia de Baile en Lima – Clases de Salsa
-        </title>
+        <title>Academia de Baile en Lima – Clases de Salsa</title>
     {% endblock title %}
     {% block meta_description %}
         <meta name="description" content="La academia de baile en Lima donde aprenderás salsa, ritmos afrocubanos y técnica escénica. Clases y talleres para adultos de todos los niveles.">
@@ -16,53 +18,39 @@
     {% block meta_keywords %}
         <meta name="keywords" content="academia de baile, clases de baile, clases de danza, talleres de baile, cursos de danza, estudio de baile, academia de danza, clases para bailar">
     {% endblock meta_keywords %}
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta name="author" content="Cuban Groove">
-    <meta name="robots" content="index, follow">
-
-    <!-- 🔹 OPEN GRAPH / FACEBOOK -->
-    <meta property="og:title" content="Academia de Baile en Lima | Cuban Groove">
-    <meta property="og:description" content="Aprende salsa cubana, ritmos afrocubanos y técnica escénica en Lima. Clases presenciales y online para adultos de todos los niveles.">
-    <meta property="og:image" content="https://cubangrooveperu.com/static/img/logos/logo_desk.webp">
-    <meta property="og:url" content="https://cubangrooveperu.com/">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Cuban Groove">
-    <meta property="og:locale" content="es_PE">
-
+     <!-- 🔹 OPEN GRAPH / FACEBOOK -->
+    {% block open_graph %}
+        <meta property="og:title" content="Academia de Baile en Lima | Cuban Groove">
+        <meta property="og:description" content="Aprende salsa cubana, ritmos afrocubanos y técnica escénica en Lima. Clases presenciales y online para adultos de todos los niveles.">
+        <meta property="og:image" content="https://cubangrooveperu.com/static/img/logos/logo_desk.webp">
+        <meta property="og:url" content="https://cubangrooveperu.com/">
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="Cuban Groove">
+        <meta property="og:locale" content="es_PE">
+    {% endblock open_graph %}
     <!-- 🔹 TWITTER CARD -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Academia de Baile en Lima | Cuban Groove">
-    <meta name="twitter:description" content="Aprende salsa cubana y danza afrocubana con profesores expertos en Lima. ¡Descubre tu ritmo y sabor!">
-    <meta name="twitter:image" content="https://cubangrooveperu.com/static/img/logos/logo_desk.webp">
-    <meta name="twitter:site" content="@luxecoronado">
-
-    <!-- 🔹 IMAGE SOURCE (para previsualización universal) -->
-    <link rel="image_src" href="https://cubangrooveperu.com/static/img/logos/logo_desk.webp">
-
+    {% block twiter_card %}
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Academia de Baile en Lima | Cuban Groove">
+        <meta name="twitter:description" content="Aprende salsa cubana y danza afrocubana con profesores expertos en Lima. ¡Descubre tu ritmo y sabor!">
+        <meta name="twitter:image" content="https://cubangrooveperu.com/static/img/logos/logo_desk.webp">
+        <meta name="twitter:site" content="@luxecoronado">
+    {% endblock twiter_card %}
     <!-- 🔹 SCHEMA.ORG (ya tienes uno, pero puedes actualizarlo levemente) -->
    {% block structured_data %}
    {% endblock structured_data %}
-
-
-
+    <!-- 🔹 IMAGE SOURCE (para previsualización universal) -->
+    <link rel="image_src" href="https://cubangrooveperu.com/static/img/logos/logo_desk.webp">
     <link rel="alternate" hreflang="es-PE" href="https://cubangrooveperu.com" />
     <link rel="canonical" href="{{ request.build_absolute_uri }}">
-
-    
-
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
-
-
-
     <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'bootstrap-icons/css/bootstrap-icons.css' %}">
 
 
     <!-- Libraries Stylesheet -->
-
     <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
     <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
 
@@ -77,10 +65,7 @@
 
     <!-- Opcional para iOS -->
     <link rel="apple-touch-icon" href="/favicon.png">
-
     <link rel="icon" href="{% static 'img/logos/favicon.ico' %}" type="image/x-icon">
-    
-
     
     {% block extrahead %}{% endblock %}
   </head>

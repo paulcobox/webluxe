@@ -1,6 +1,66 @@
 {% extends '_base.html' %}
 {% load static %}
 
+{% block title %}
+    <title>Academia de Baile en Lima – Clases de Salsa Cubana y Ritmos Afrocubanos | Cuban Groove</title>
+{% endblock title %}
+
+{% block meta_description %}
+    <meta name="description" content="Cuban Groove es una academia de baile en Lima especializada en salsa cubana, timba y danzas afrocubanas. Clases para adultos con profesores expertos, metodología profesional y ambiente divertido.">
+{% endblock meta_description %}
+
+{% block meta_keywords %}
+    <meta name="keywords" content="academia de baile en Lima, clases de salsa cubana, clases de baile para adultos, danza afrocubana, timba, salsa en pareja, clases de baile en Lima, aprender salsa cubana">
+{% endblock meta_keywords %}
+
+{% block open_graph %}
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Academia de Baile en Lima | Cuban Groove Perú">
+    <meta property="og:description" content="Aprende salsa cubana y ritmos afrocubanos con profesores profesionales en Lima. Clases grupales, online y particulares. ¡Baila con método cubano!">
+    <meta property="og:image" content="https://cubangrooveperu.com/static/img/logos/logo_desk.webp">
+    <meta property="og:image:type" content="image/webp">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://cubangrooveperu.com/">
+    <meta property="og:site_name" content="Cuban Groove Perú">
+    <meta property="og:locale" content="es_PE">
+{% endblock open_graph %}
+
+{% block twiter_card %}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Academia de Baile en Lima | Cuban Groove Perú">
+    <meta name="twitter:description" content="Aprende salsa cubana, timba y danza afrocubana en Lima. Clases para adultos con profesores expertos. ¡Baila con sabor cubano!">
+    <meta name="twitter:image" content="https://cubangrooveperu.com/static/img/logos/logo_desk.webp">
+    <meta name="twitter:site" content="@CubanGroovePeru">
+{% endblock twiter_card %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "DanceSchool",
+  "name": "Cuban Groove Perú",
+  "description": "Academia de baile en Lima especializada en salsa cubana, timba y danzas afrocubanas. Clases presenciales y online para adultos.",
+  "image": "https://cubangrooveperu.com/static/img/logos/logo_desk.webp",
+  "url": "https://cubangrooveperu.com",
+  "telephone": "+51991337159",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Lima Metropolitana",
+    "addressLocality": "Lima",
+    "addressCountry": "PE"
+  },
+  "sameAs": [
+    "https://www.instagram.com/cubangroove/",
+    "https://www.facebook.com/muevetecuba",
+    "https://www.tiktok.com/@cubangrooveperu",
+    "https://www.youtube.com/@CubanGroovePeru"
+  ]
+}
+</script>
+{% endblock structured_data %}
+
+
 {% block content %}
     
     <!-- Carousel Start -->
