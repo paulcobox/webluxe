@@ -9,6 +9,7 @@ from courses.models import Course
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from django.core.cache import cache
 
 # Create your views here.
 
@@ -18,6 +19,15 @@ def create_lead(request):
         # 1️⃣ HONEYPOT anti-bots
         if request.POST.get("website"):
             return JsonResponse({'success': False, 'error': 'bot_detected'})
+        
+        # 2️⃣ RATE LIMIT por IP (bloqueo de bots en lote)
+        ip = request.META.get('REMOTE_ADDR')
+        key = f"lead_attempts_{ip}"
+        attempts = cache.get(key, 0) + 1
+        cache.set(key, attempts, 60)  # ventana de 60 segundos
+
+        if attempts > 3:
+            return JsonResponse({'success': False, 'error': 'rate_limited'})
         
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
@@ -131,6 +141,15 @@ def casting_registration(request):
         if request.POST.get("website"):
             return JsonResponse({'success': False, 'error': 'bot_detected'})
         
+        # 2️⃣ RATE LIMIT por IP (bloqueo de bots en lote)
+        ip = request.META.get('REMOTE_ADDR')
+        key = f"lead_attempts_{ip}"
+        attempts = cache.get(key, 0) + 1
+        cache.set(key, attempts, 60)  # ventana de 60 segundos
+
+        if attempts > 3:
+            return JsonResponse({'success': False, 'error': 'rate_limited'})
+        
         form = BasicInfoForm(request.POST)
         if form.is_valid():
             registration = form.save()
@@ -147,6 +166,20 @@ def additional_info(request):
     
     registration = CastingRegistration.objects.get(id=registration_id)
     if request.method == 'POST':
+        
+        # 1️⃣ HONEYPOT anti-bots
+        if request.POST.get("website"):
+            return JsonResponse({'success': False, 'error': 'bot_detected'})
+        
+        # 2️⃣ RATE LIMIT por IP (bloqueo de bots en lote)
+        ip = request.META.get('REMOTE_ADDR')
+        key = f"lead_attempts_{ip}"
+        attempts = cache.get(key, 0) + 1
+        cache.set(key, attempts, 60)  # ventana de 60 segundos
+
+        if attempts > 3:
+            return JsonResponse({'success': False, 'error': 'rate_limited'})
+        
         form = AdditionalInfoForm(request.POST, instance=registration)
         if form.is_valid():
             form.save()
