@@ -20,6 +20,10 @@
                 {% endif %}
                 <form id="additionalInfoForm" method="POST" action="{% url 'additional_info' %}" onsubmit="showProcessingOverlay();">
                     {% csrf_token %}
+                    
+                    <!-- Honeypot -->
+                    <input type="text" name="website" id="website" style="display:none !important;">
+
                     <!-- Ocupación -->
                     <div class="mb-3">
                         <label for="occupation" class="form-label">Ocupación</label>

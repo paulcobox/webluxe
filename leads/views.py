@@ -15,6 +15,10 @@ from django.utils.html import strip_tags
 @csrf_exempt
 def create_lead(request):
     if request.method == 'POST':
+        # 1️⃣ HONEYPOT anti-bots
+        if request.POST.get("website"):
+            return JsonResponse({'success': False, 'error': 'bot_detected'})
+        
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         email = request.POST.get('email')
@@ -123,6 +127,10 @@ def send_async_email(subject, plain_message, from_email, to_email, html_message=
 
 def casting_registration(request):
     if request.method == 'POST':
+        # 1️⃣ HONEYPOT anti-bots
+        if request.POST.get("website"):
+            return JsonResponse({'success': False, 'error': 'bot_detected'})
+        
         form = BasicInfoForm(request.POST)
         if form.is_valid():
             registration = form.save()

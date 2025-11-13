@@ -19,6 +19,8 @@
                 {% endif %}
                 <form id="inviteFriendForm" method="POST" action="{% url 'invite_friend' %}" onsubmit="showProcessingOverlay();">
                     {% csrf_token %}
+                     <!-- Honeypot -->
+                    <input type="text" name="website" id="website" style="display:none !important;">
                     <!-- Nombre del alumno -->
                     <div class="mb-3">
                         <label for="studentName" class="form-label">Nombre del Alumno</label>
