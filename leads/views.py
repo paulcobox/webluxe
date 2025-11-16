@@ -49,13 +49,26 @@ def validate_recaptcha(token, ip="unknown"):
         botlog.error(f"[RECAPTCHA] ❌ ERROR al validar | {str(e)} | IP={ip}")
         return False
 
+def get_client_ip(request):
+    """Obtiene la IP real del cliente incluso detrás de proxies/NGINX."""
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        # Puede venir "IP1, IP2, IP3", tomamos la primera
+        ip = x_forwarded_for.split(',')[0].strip()
+    else:
+        ip = request.META.get('REMOTE_ADDR')
 
+    # Si por alguna razón viene vacío, lo evitamos
+    if not ip:
+        ip = "unknown"
+
+    return ip
 
 @csrf_exempt
 def create_lead(request):
 
     # === Log inicio del request ===
-    ip = request.META.get('REMOTE_ADDR', 'unknown')
+    ip = get_client_ip(request)
     ua = request.META.get('HTTP_USER_AGENT', 'unknown')
     botlog.info(f"[REQUEST] Nuevo intento | IP={ip} | UA={ua}")
 
@@ -208,7 +221,8 @@ def create_lead(request):
 
         return JsonResponse({'success': True})
 
-    botlog.info("[REQUEST] ❌ Método NO permitido | IP={ip}")
+    botlog.info(f"[REQUEST] ❌ Método NO permitido | IP={ip}")
+
     return JsonResponse({'success': False})
 
 
