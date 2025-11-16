@@ -224,6 +224,7 @@ LOGGING = {
             'filename': '/var/log/cubangroove/bot_protection.log',
             'formatter': 'detailed',
             'encoding': 'utf-8',
+            'mode': 'a',  # ← ESTO ERA LO QUE FALTABA
         },
     },
 
