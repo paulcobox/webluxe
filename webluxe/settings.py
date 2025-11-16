@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import logging
 from pathlib import Path
 import os
 from dotenv import load_dotenv
@@ -207,3 +207,31 @@ CACHE_MIDDLEWARE_KEY_PREFIX = ""   # opcional
 
 APPEND_SLASH = True
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+
+    'formatters': {
+        'detailed': {
+            'format': '{asctime} | {levelname} | {message}',
+            'style': '{',
+        },
+    },
+
+    'handlers': {
+        'bot_protection_handler': {
+            'class': 'logging.FileHandler',
+            'filename': '/var/log/cubangroove/bot_protection.log',
+            'formatter': 'detailed',
+            'encoding': 'utf-8',
+        },
+    },
+
+    'loggers': {
+        'bot_protection': {
+            'handlers': ['bot_protection_handler'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}

@@ -1,3 +1,5 @@
+import logging
+botlog = logging.getLogger("bot_protection")
 import requests
 from django.conf import settings
 import threading
@@ -14,54 +16,93 @@ from django.utils.html import strip_tags
 from django.core.cache import cache
 
 # Create your views here.
-def validate_recaptcha(token):
+def validate_recaptcha(token, ip="unknown"):
     url = "https://www.google.com/recaptcha/api/siteverify"
+
     payload = {
         'secret': settings.RECAPTCHA_SECRET_KEY,
         'response': token
     }
 
-    response = requests.post(url, data=payload)
-    result = response.json()
-    
-    print("🔹 Respuesta completa de Google reCAPTCHA:", result)
-    print("🔹 Score:", result.get("score"))
-    print("🔹 Success:", result.get("success"))
+    try:
+        response = requests.post(url, data=payload)
+        result = response.json()
 
-    # Bloquea score menor a 0.5 (bots típicos)
-    return result.get("success", False) and result.get("score", 0) >= 0.5
+        # Registrar resultado completo
+        botlog.info(f"[RECAPTCHA] Resultado: {result} | IP={ip}")
+
+        score = result.get("score", 0)
+        success = result.get("success", False)
+
+        # Registrar score y estado
+        botlog.info(f"[RECAPTCHA] Score={score} | Success={success} | IP={ip}")
+
+        # Criterio de aprobación
+        if success and score >= 0.5:
+            botlog.info(f"[RECAPTCHA] ✔️ Aprobado | Score={score} | IP={ip}")
+            return True
+        else:
+            botlog.info(f"[RECAPTCHA] ❌ Rechazado | Score={score} | IP={ip}")
+            return False
+
+    except Exception as e:
+        botlog.error(f"[RECAPTCHA] ❌ ERROR al validar | {str(e)} | IP={ip}")
+        return False
+
 
 
 @csrf_exempt
 def create_lead(request):
+
+    # === Log inicio del request ===
+    ip = request.META.get('REMOTE_ADDR', 'unknown')
+    ua = request.META.get('HTTP_USER_AGENT', 'unknown')
+    botlog.info(f"[REQUEST] Nuevo intento | IP={ip} | UA={ua}")
+
     if request.method == 'POST':
-        # 🔐 Validación reCAPTCHA
-        print("🔍 Validando reCAPTCHA...")
+
+        # =====================================================
+        # 1️⃣ Validación reCAPTCHA
+        # =====================================================
         recaptcha_token = request.POST.get("recaptcha_token")
-        if not validate_recaptcha(recaptcha_token):
-            print("❌ reCAPTCHA falló")
+        botlog.info(f"[RECAPTCHA] Token recibido: {str(recaptcha_token)[:25]}... | IP={ip}")
+
+        if not validate_recaptcha(recaptcha_token, ip):
+            botlog.info(f"[RECAPTCHA] ❌ INVALIDO | IP={ip}")
             return JsonResponse({'success': False, 'error': 'invalid_recaptcha'})
-        print("✔️ reCAPTCHA validado correctamente.")
-        # 1️⃣ HONEYPOT anti-bots
+
+        botlog.info(f"[RECAPTCHA] ✔️ VALIDO | IP={ip}")
+
+        # =====================================================
+        # 2️⃣ HONEYPOT
+        # =====================================================
         if request.POST.get("website"):
+            botlog.info(f"[HONEYPOT] 🚨 BOT DETECTADO | IP={ip} | website llenado")
             return JsonResponse({'success': False, 'error': 'bot_detected'})
-        
-        # 2️⃣ RATE LIMIT por IP (bloqueo de bots en lote)
-        ip = request.META.get('REMOTE_ADDR')
+
+        # =====================================================
+        # 3️⃣ RATE LIMIT
+        # =====================================================
         key = f"lead_attempts_{ip}"
         attempts = cache.get(key, 0) + 1
-        cache.set(key, attempts, 60)  # ventana de 60 segundos
+        cache.set(key, attempts, 60)
+
+        botlog.info(f"[RATE LIMIT] IP={ip} lleva {attempts} intentos en 60s")
 
         if attempts > 2:
+            botlog.info(f"[RATE LIMIT] 🚨 EXCEDIDO | IP={ip}")
             return JsonResponse({'success': False, 'error': 'rate_limited'})
-        
+
+        # =====================================================
+        # 4️⃣ DATOS DEL LEAD
+        # =====================================================
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         email = request.POST.get('email')
         phone_number = request.POST.get('phone_number')
-        course_of_interest_id = request.POST.get('course_of_interest')
         notes = request.POST.get('notes')
-        course_of_interest = request.POST.get('course_of_interest')
+        course_title = request.POST.get('course_of_interest')
+
         utm_source = request.POST.get('utm_source')
         utm_medium = request.POST.get('utm_medium')
         utm_campaign = request.POST.get('utm_campaign')
@@ -70,18 +111,33 @@ def create_lead(request):
         referer = request.POST.get('referer')
         user_agent = request.POST.get('user_agent')
 
-        
-        if course_of_interest:
-            course_of_interest = Course.objects.get(title=str(course_of_interest))
-        else:
-            course_of_interest = None
+        botlog.info(
+            f"[LEAD] Datos recibidos | "
+            f"Name={first_name} {last_name} | Email={email} | Phone={phone_number} | "
+            f"Course={course_title} | IP={ip}"
+        )
 
+        # =====================================================
+        # 5️⃣ Obtener curso
+        # =====================================================
+        if course_title:
+            try:
+                course = Course.objects.get(title=str(course_title))
+            except Course.DoesNotExist:
+                course = None
+                botlog.error(f"[LEAD] ❗ Curso '{course_title}' NO encontrado | IP={ip}")
+        else:
+            course = None
+
+        # =====================================================
+        # 6️⃣ Guardar lead en BD
+        # =====================================================
         lead = Lead.objects.create(
             first_name=first_name,
             last_name=last_name,
             email=email,
             phone_number=phone_number,
-            course_of_interest=course_of_interest,
+            course_of_interest=course,
             notes=notes,
             utm_source=utm_source,
             utm_medium=utm_medium,
@@ -89,64 +145,73 @@ def create_lead(request):
             utm_term=utm_term,
             utm_content=utm_content,
             referer=referer,
-            user_agent=user_agent
+            user_agent=user_agent,
         )
-        
-        # Enviar correo de aviso al admin
+
+        botlog.info(f"[LEAD] ✔️ Lead guardado con ID={lead.id} | IP={ip}")
+
+        # =====================================================
+        # 7️⃣ Enviar correo al admin
+        # =====================================================
         subject = f"Nuevo lead registrado: {first_name} {last_name}"
         context = {
             'first_name': first_name,
             'last_name': last_name,
             'email': email,
             'phone_number': phone_number,
-            'course_of_interest': course_of_interest.title if course_of_interest else "No especificado",
+            'course_of_interest': course.title if course else "No especificado",
             'notes': notes,
-            'utm_source':utm_source,
-            'utm_medium':utm_medium,
-            'utm_campaign':utm_campaign,
-            'utm_term':utm_term,
-            'utm_content':utm_content,
-            'referer':referer,
-            'user_agent':user_agent,
+            'utm_source': utm_source,
+            'utm_medium': utm_medium,
+            'utm_campaign': utm_campaign,
+            'utm_term': utm_term,
+            'utm_content': utm_content,
+            'referer': referer,
+            'user_agent': user_agent,
             'created_date': lead.created_date,
         }
-        html_message = render_to_string('emails/new_lead_notification.html', context)
-        plain_message = strip_tags(html_message)  # Versión en texto plano del correo
-        from_email = "Cuban Groove <info@cubangrooveperu.com>"  # Remitente
-        to_email = ["paulcofiis@gmail.com"]  # Tu dirección de correo para recibir el aviso
 
-        # Enviar el correo
+        html_message = render_to_string('emails/new_lead_notification.html', context)
+        plain_message = strip_tags(html_message)
+
         send_async_email(
             subject,
             plain_message,
-            from_email,
-            to_email,
-            html_message=html_message,  # Enviar el correo en formato HTML
+            "Cuban Groove <info@cubangrooveperu.com>",
+            ["paulcofiis@gmail.com"],
+            html_message=html_message
         )
 
-        # Enviar correo de confirmación al cliente
+        # =====================================================
+        # 8️⃣ Correo al cliente
+        # =====================================================
         subject_client = f"¡Gracias por contactarnos, {first_name}!"
         context_client = {
             'first_name': first_name,
             'last_name': last_name,
             'email': email,
             'phone_number': phone_number,
-            'course_of_interest': course_of_interest.title if course_of_interest else "No especificado",
+            'course_of_interest': course.title if course else "No especificado",
             'notes': notes,
         }
+
         html_message_client = render_to_string('emails/lead_confirmation.html', context_client)
-        plain_message_client = strip_tags(html_message_client)  # Versión en texto plano del correo
-        to_email_client = [email]  # Correo del cliente
+        plain_message_client = strip_tags(html_message_client)
 
         send_async_email(
             subject_client,
             plain_message_client,
-            from_email,
-            to_email_client,
-            html_message=html_message_client,  # Enviar el correo en formato HTML
+            "Cuban Groove <info@cubangrooveperu.com>",
+            [email],
+            html_message=html_message_client
         )
+
         return JsonResponse({'success': True})
+
+    botlog.info("[REQUEST] ❌ Método NO permitido | IP={ip}")
     return JsonResponse({'success': False})
+
+
 
 
 def send_async_email(subject, plain_message, from_email, to_email, html_message=None):
