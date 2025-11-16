@@ -241,6 +241,7 @@
                             <input type="hidden" id="user_agent" name="user_agent">
                             <input type="hidden" id="course_of_interest" name="course_of_interest">
                             <input type="text" name="website" id="website" style="display:none !important;">
+
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <div class="form-floating">
@@ -487,58 +488,69 @@
         ========================================================= */
         const submitButton = document.getElementById('submitForm');
         if (submitButton) {
-        submitButton.addEventListener('click', function () {
-            assignUTMsToAllForms(); // ✅ asegurar datos antes de enviar
+            submitButton.addEventListener('click', function () {
+                assignUTMsToAllForms();
+                const form = document.getElementById('leadForm');
+                const overlay = document.getElementById('processingOverlay');
 
-            const form = document.getElementById('leadForm');
-            const overlay = document.getElementById('processingOverlay');
+                if (form.checkValidity()) {
+                    overlay.classList.remove('d-none');
 
-            if (form.checkValidity()) {
-            const formData = new FormData(form);
-            overlay.classList.remove('d-none');
+                    grecaptcha.ready(function () {
+                        grecaptcha.execute('{{ RECAPTCHA_SITE_KEY }}', { action: 'submit' })
+                        .then(function (token) {
 
-            fetch('/create-lead/', {
-                method: 'POST',
-                body: formData,
-                headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                // Cerrar modal principal
-                const contactModal = bootstrap.Modal.getInstance(exampleModal);
-                if (contactModal) contactModal.hide();
+                            // preparar data
+                            const formData = new FormData(form);
+                            formData.append('recaptcha_token', token);
 
-                // Mostrar modal de éxito
-                setTimeout(() => {
-                    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                    successModal.show();
-                }, 500);
+                            fetch('/create-lead/', {
+                                method: 'POST',
+                                body: formData,
+                                headers: {
+                                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    const contactModal = bootstrap.Modal.getInstance(exampleModal);
+                                    if (contactModal) contactModal.hide();
 
-                // Abrir WhatsApp con mensaje dinámico
-                const firstName = document.getElementById('name').value;
-                const lastName = document.getElementById('last_name').value;
-                const course = document.getElementById('course_of_interest').value;
-                const notes = document.getElementById('message').value;
-                const whatsappMessage = `Hola, me llamo ${firstName} ${lastName}. Estoy interesado en ${course || "los cursos"}. ${notes}`;
-                const whatsappURL = `https://wa.me/51991337159?text=${encodeURIComponent(whatsappMessage)}`;
-                window.open(whatsappURL, '_blank');
+                                    setTimeout(() => {
+                                        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                                        successModal.show();
+                                    }, 500);
+
+                                    const firstName = document.getElementById('name').value;
+                                    const lastName = document.getElementById('last_name').value;
+                                    const course = document.getElementById('course_of_interest').value;
+                                    const notes = document.getElementById('message').value;
+
+                                    const whatsappMessage = `Hola, me llamo ${firstName} ${lastName}. Estoy interesado en ${course || "los cursos"}. ${notes}`;
+                                    const whatsappURL = `https://wa.me/51991337159?text=${encodeURIComponent(whatsappMessage)}`;
+                                    window.open(whatsappURL, '_blank');
+                                } else {
+                                    alert('Error al crear el lead.');
+                                }
+                            })
+                            .catch(error => {
+                                console.error("Error:", error);
+                                alert('Error inesperado al enviar el formulario.');
+                            })
+                            .finally(() => {
+                                overlay.classList.add('d-none');
+                            });
+
+                        });
+                    });
+
                 } else {
-                alert('Error al crear el lead');
+                    form.classList.add('was-validated');
                 }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Ocurrió un error al enviar el formulario');
-            })
-            .finally(() => {
-                overlay.classList.add('d-none');
             });
-            } else {
-            form.classList.add('was-validated');
-            }
-        });
         }
+
         </script>
         <!-- ========== END GLOBAL SCRIPT ========== -->
 
@@ -548,6 +560,8 @@
     {% endblock javascript %}
 
     <script src="{% static 'js/analytics.js' %}" defer></script>
+    <script src="https://www.google.com/recaptcha/api.js?render={{ RECAPTCHA_SITE_KEY }}"></script>
+
   </body>
 
 </html>

@@ -1,3 +1,5 @@
+import requests
+from django.conf import settings
 import threading
 from django.shortcuts import render, redirect
 from .forms import BasicInfoForm, AdditionalInfoForm
@@ -12,10 +14,34 @@ from django.utils.html import strip_tags
 from django.core.cache import cache
 
 # Create your views here.
+def validate_recaptcha(token):
+    url = "https://www.google.com/recaptcha/api/siteverify"
+    payload = {
+        'secret': settings.RECAPTCHA_SECRET_KEY,
+        'response': token
+    }
+
+    response = requests.post(url, data=payload)
+    result = response.json()
+    
+    print("🔹 Respuesta completa de Google reCAPTCHA:", result)
+    print("🔹 Score:", result.get("score"))
+    print("🔹 Success:", result.get("success"))
+
+    # Bloquea score menor a 0.5 (bots típicos)
+    return result.get("success", False) and result.get("score", 0) >= 0.5
+
 
 @csrf_exempt
 def create_lead(request):
     if request.method == 'POST':
+        # 🔐 Validación reCAPTCHA
+        print("🔍 Validando reCAPTCHA...")
+        recaptcha_token = request.POST.get("recaptcha_token")
+        if not validate_recaptcha(recaptcha_token):
+            print("❌ reCAPTCHA falló")
+            return JsonResponse({'success': False, 'error': 'invalid_recaptcha'})
+        print("✔️ reCAPTCHA validado correctamente.")
         # 1️⃣ HONEYPOT anti-bots
         if request.POST.get("website"):
             return JsonResponse({'success': False, 'error': 'bot_detected'})
@@ -26,7 +52,7 @@ def create_lead(request):
         attempts = cache.get(key, 0) + 1
         cache.set(key, attempts, 60)  # ventana de 60 segundos
 
-        if attempts > 3:
+        if attempts > 2:
             return JsonResponse({'success': False, 'error': 'rate_limited'})
         
         first_name = request.POST.get('first_name')
@@ -137,6 +163,12 @@ def send_async_email(subject, plain_message, from_email, to_email, html_message=
 
 def casting_registration(request):
     if request.method == 'POST':
+        
+        # 🔐 Validación reCAPTCHA
+        recaptcha_token = request.POST.get("recaptcha_token")
+        if not validate_recaptcha(recaptcha_token):
+            return JsonResponse({'success': False, 'error': 'invalid_recaptcha'})
+        
         # 1️⃣ HONEYPOT anti-bots
         if request.POST.get("website"):
             return JsonResponse({'success': False, 'error': 'bot_detected'})
@@ -147,7 +179,7 @@ def casting_registration(request):
         attempts = cache.get(key, 0) + 1
         cache.set(key, attempts, 60)  # ventana de 60 segundos
 
-        if attempts > 3:
+        if attempts > 2:
             return JsonResponse({'success': False, 'error': 'rate_limited'})
         
         form = BasicInfoForm(request.POST)
@@ -167,6 +199,11 @@ def additional_info(request):
     registration = CastingRegistration.objects.get(id=registration_id)
     if request.method == 'POST':
         
+        # 🔐 Validación reCAPTCHA
+        recaptcha_token = request.POST.get("recaptcha_token")
+        if not validate_recaptcha(recaptcha_token):
+            return JsonResponse({'success': False, 'error': 'invalid_recaptcha'})
+        
         # 1️⃣ HONEYPOT anti-bots
         if request.POST.get("website"):
             return JsonResponse({'success': False, 'error': 'bot_detected'})
@@ -177,7 +214,7 @@ def additional_info(request):
         attempts = cache.get(key, 0) + 1
         cache.set(key, attempts, 60)  # ventana de 60 segundos
 
-        if attempts > 3:
+        if attempts > 2:
             return JsonResponse({'success': False, 'error': 'rate_limited'})
         
         form = AdditionalInfoForm(request.POST, instance=registration)

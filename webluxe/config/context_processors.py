@@ -1,14 +1,14 @@
 from instructors.models import Instructors  # Ajusta esta importación según tu estructura de proyecto
 from content_site.models import Testimony
-from random import sample
+from django.conf import settings
+from django.core.cache import cache
 
 def global_context(request):
-    instructors = Instructors.objects.filter(is_active = True)
-    list_testimony =  Testimony.objects.filter(is_active = True)
-    # if list_testimony.count() >= 3:
-        # list_testimony = sample(list(list_testimony), 3)
+    instructors = cache.get_or_set('instructors_active', Instructors.objects.filter(is_active=True), 86400)
+    list_testimony = cache.get_or_set('testimony_active', Testimony.objects.filter(is_active=True), 86400)
+
     return {
         'instructors': instructors,
-        'list_testimony' : list_testimony
-        # Otras variables globales que necesites
+        'list_testimony': list_testimony,
+        "RECAPTCHA_SITE_KEY": settings.RECAPTCHA_SITE_KEY
     }
