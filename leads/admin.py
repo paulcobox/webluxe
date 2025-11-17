@@ -5,7 +5,11 @@ from .models import Lead, CastingRegistration
 
 
 
-admin.site.register(Lead)
+@admin.register(Lead)
+class LeadAdmin(admin.ModelAdmin):
+    list_display = ('first_name', 'last_name', 'email', 'phone_number', 'created_date')
+    list_filter = ('created_date', 'status')
+    search_fields = ('first_name', 'last_name', 'email', 'phone_number')
 
 class CastingRegistrationAdmin(admin.ModelAdmin):
     list_display = ('full_name', 'phone', 'email', 'occupation', 'district', 'created_at')
