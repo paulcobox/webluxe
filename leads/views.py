@@ -15,6 +15,61 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.cache import cache
 
+import requests
+import threading
+from django.conf import settings
+
+def send_to_omnisend_async(lead, tag="first_flow_start"):
+
+    def _send():
+        url = "https://api.omnisend.com/v5/contacts"
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-API-KEY": settings.OMNISEND_API_KEY,
+        }
+
+        payload = {
+            "firstName": lead.first_name,
+            "lastName": lead.last_name,
+            "tags": [tag],
+            "identifiers": [
+                {
+                    "id": lead.email,
+                    "type": "email",
+                    "channels": {
+                        "email": {
+                            "status": "subscribed",
+                            "statusDate": lead.created_date.isoformat()
+                        }
+                    }
+                }
+            ]
+        }
+
+        # Si tiene teléfono lo agregamos al JSON
+        if lead.phone_number:
+            payload["identifiers"].append({
+                "id": lead.phone_number,
+                "type": "phone",
+                "channels": {
+                    "sms": {
+                        "status": "subscribed",
+                        "statusDate": lead.created_date.isoformat()
+                    }
+                }
+            })
+
+        try:
+            response = requests.post(url, json=payload, headers=headers)
+            print(f"[OMNISEND] Status={response.status_code} | {response.text}")
+        except Exception as e:
+            print(f"[OMNISEND] ERROR: {str(e)}")
+
+    # Lanzamos el hilo para hacerlo NO BLOQUEANTE
+    threading.Thread(target=_send).start()
+
+
 # Create your views here.
 def validate_recaptcha(token, ip="unknown"):
     url = "https://www.google.com/recaptcha/api/siteverify"
@@ -195,29 +250,11 @@ def create_lead(request):
             html_message=html_message
         )
 
-        # =====================================================
-        # 8️⃣ Correo al cliente
-        # =====================================================
-        subject_client = f"¡Gracias por contactarnos, {first_name}!"
-        context_client = {
-            'first_name': first_name,
-            'last_name': last_name,
-            'email': email,
-            'phone_number': phone_number,
-            'course_of_interest': course.title if course else "No especificado",
-            'notes': notes,
-        }
+        # ===============================================
+        # 8️⃣ Enviar lead a Omnisend (flujo de bienvenida)
+        # ===============================================
+        send_to_omnisend_async(lead, tag="first_flow_start")
 
-        html_message_client = render_to_string('emails/lead_confirmation.html', context_client)
-        plain_message_client = strip_tags(html_message_client)
-
-        send_async_email(
-            subject_client,
-            plain_message_client,
-            "Cuban Groove <info@cubangrooveperu.com>",
-            [email],
-            html_message=html_message_client
-        )
 
         return JsonResponse({'success': True})
 
