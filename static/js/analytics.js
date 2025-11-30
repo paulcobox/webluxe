@@ -2,18 +2,6 @@
    analytics.js — scripts de seguimiento
    ========================================== */
 
-/* 🔹 Google Analytics (GA4) */
-(function() {
-  const gtagScript = document.createElement("script");
-  gtagScript.src = "https://www.googletagmanager.com/gtag/js?id=G-M24NDJ63FD";
-  gtagScript.async = true;
-  document.head.appendChild(gtagScript);
-
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
-  gtag("js", new Date());
-  gtag("config", "G-M24NDJ63FD");
-})();
 
 /* 🔹 Microsoft Clarity */
 (function(c,l,a,r,i,t,y){
