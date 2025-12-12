@@ -7,6 +7,38 @@ from itertools import chain
 # Create your views here.
 
 
+class LimaDetailTemplateView(TemplateView):
+  
+  template_name = 'courses/course_detail_district.html'
+
+  def get_context_data(self, *args, **kwargs):
+    context = super(LimaDetailTemplateView, self).get_context_data(*args, **kwargs)
+    course_slug = 'clases-de-salsa-en-lima'  # Assuming 'course_slug' is the URL parameter
+    course_title_zone = 'Lima'  # Assuming 'course_slug' is the URL parameter
+    course = get_object_or_404(Course, slug=course_slug)
+    # video_id = YouTube(course.video_url).video_id
+    # course.video_url = f"https://www.youtube.com/embed/{video_id}"
+    salsa_basico = Course.objects.filter(is_active=True, title="Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
+    
+    other_courses = Course.objects.filter(is_active=True).exclude(title="Principiantes").annotate(
+            order_priority=Case(
+                When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
+                default=Value(0),  # El resto tiene mayor prioridad
+                output_field=IntegerField(),
+            )
+        ).order_by('order_priority')  # Ordenar por prioridad
+        
+    combined_qs = list(chain(salsa_basico, other_courses))
+    list_course_you_might_like = [c for c in combined_qs if c.pk != course.pk]
+    
+
+    context['course'] = course
+    context['course_title_zone'] = course_title_zone
+    context['list_course_you_might_like'] = list_course_you_might_like
+   
+    
+    return context
+
 class SurcoDetailTemplateView(TemplateView):
   
   template_name = 'courses/course_detail_district.html'
@@ -18,9 +50,9 @@ class SurcoDetailTemplateView(TemplateView):
     course = get_object_or_404(Course, slug=course_slug)
     # video_id = YouTube(course.video_url).video_id
     # course.video_url = f"https://www.youtube.com/embed/{video_id}"
-    salsa_basico = Course.objects.filter(is_active=True, title="Salsa Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
+    salsa_basico = Course.objects.filter(is_active=True, title="Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
     
-    other_courses = Course.objects.filter(is_active=True).exclude(title="Salsa Principiantes").annotate(
+    other_courses = Course.objects.filter(is_active=True).exclude(title="Principiantes").annotate(
             order_priority=Case(
                 When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
                 default=Value(0),  # El resto tiene mayor prioridad
@@ -140,9 +172,9 @@ class CoursesDetailOnlineTemplateView(TemplateView):
     course = get_object_or_404(Course, slug=course_slug)
     # video_id = YouTube(course.video_url).video_id
     # course.video_url = f"https://www.youtube.com/embed/{video_id}"
-    salsa_basico = Course.objects.filter(is_active=True, title="Salsa Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
+    salsa_basico = Course.objects.filter(is_active=True, title="Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
     
-    other_courses = Course.objects.filter(is_active=True).exclude(title="Salsa Principiantes").annotate(
+    other_courses = Course.objects.filter(is_active=True).exclude(title="Principiantes").annotate(
             order_priority=Case(
                 When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
                 default=Value(0),  # El resto tiene mayor prioridad
@@ -169,9 +201,9 @@ class CoursesDetailParticularTemplateView(TemplateView):
     course = get_object_or_404(Course, slug=course_slug)
     # video_id = YouTube(course.video_url).video_id
     # course.video_url = f"https://www.youtube.com/embed/{video_id}"
-    salsa_basico = Course.objects.filter(is_active=True, title="Salsa Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
+    salsa_basico = Course.objects.filter(is_active=True, title="Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
     
-    other_courses = Course.objects.filter(is_active=True).exclude(title="Salsa Principiantes").annotate(
+    other_courses = Course.objects.filter(is_active=True).exclude(title="Principiantes").annotate(
             order_priority=Case(
                 When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
                 default=Value(0),  # El resto tiene mayor prioridad
@@ -200,9 +232,9 @@ class CoursesDetailEventsTemplateView(TemplateView):
     course = get_object_or_404(Course, slug=course_slug)
     # video_id = YouTube(course.video_url).video_id
     # course.video_url = f"https://www.youtube.com/embed/{video_id}"
-    salsa_basico = Course.objects.filter(is_active=True, title="Salsa Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
+    salsa_basico = Course.objects.filter(is_active=True, title="Principiantes").annotate(order_priority=Value(-1, output_field=IntegerField()))
     
-    other_courses = Course.objects.filter(is_active=True).exclude(title="Salsa Principiantes").annotate(
+    other_courses = Course.objects.filter(is_active=True).exclude(title="Principiantes").annotate(
             order_priority=Case(
                 When(schedule="Proximamente", then=Value(1)),  # Los que tienen "Proximamente" tienen menor prioridad
                 default=Value(0),  # El resto tiene mayor prioridad

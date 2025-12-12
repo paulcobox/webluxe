@@ -176,7 +176,7 @@
                     <div class="col-lg-3 col-md-6 text-center">
                         <p class="custom-h4 text-white mb-3">Clases de Baile</p>
                         <ul class="list-unstyled">
-                            <li><a href="{% url 'courses_group' %}" class="text-white" title="Clases de Salsa en Lima con Cuban Groove, academia de baile cubano">Clases de Salsa en Lima</a></li>
+                            <li><a href="{% url 'courses_lima' %}" class="text-white" title="Clases de Salsa en Lima con Cuban Groove, academia de baile cubano">Clases de Salsa en Lima</a></li>
                             <li><a href="{% url 'courses_miraflores' %}" class="text-white" title="Clases de Salsa en Miraflores - Aprende con ritmo y técnica cubana">Clases de Salsa en Miraflores</a></li>
                             <li><a href="{% url 'courses_surco' %}" class="text-white" title="Clases de Salsa en Surco - Academia Cuban Groove">Clases de Salsa en Surco</a></li>
                             <li><a href="{% url 'courses_san_isidro' %}" class="text-white" title="Clases de Salsa en San Isidro - Estilo cubano con sabor y energía">Clases de Salsa en San Isidro</a></li>
@@ -235,7 +235,7 @@
 
                 <div class="modal-content">
                     <div class="modal-header text-center" style="background-color: #ff6a09; color: white;">
-                        <p class="modal-title w-100 custom-h4">🎁¡Reserva tu clase GRATIS ahora!</p>
+                        <p class="modal-title w-100 custom-h4">🎁¡Reserva mi clase ahora!</p>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background-color: white;"></button>
                     </div>
                     <div class="modal-body">
@@ -543,6 +543,11 @@
 
                                     const whatsappMessage = `Hola, me llamo ${firstName} ${lastName}. Estoy interesado en ${course || "los cursos"}. ${notes}`;
                                     const whatsappURL = `https://wa.me/51991337159?text=${encodeURIComponent(whatsappMessage)}`;
+                                    gtag('event', 'whatsapp_send', {
+                                        categoria: 'lead',
+                                        accion: 'enviar',
+                                        etiqueta: 'form_contacto'
+                                    });
                                     window.open(whatsappURL, '_blank');
                                 } else {
                                     alert('Error al crear el lead.');

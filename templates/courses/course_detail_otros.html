@@ -481,7 +481,11 @@
 
                             const whatsappMessage =
                                 `Hola, me llamo ${firstName} ${lastName}. Estoy interesado en el curso ${courseTitle}. ${notes}`;
-
+                            gtag('event', 'whatsapp_send_otros', {
+                                        categoria: 'lead',
+                                        accion: 'enviar',
+                                        etiqueta: 'form_contacto_otros'
+                                    });
                             window.open(
                                 `https://wa.me/51991337159?text=${encodeURIComponent(whatsappMessage)}`, '_blank'
                             );

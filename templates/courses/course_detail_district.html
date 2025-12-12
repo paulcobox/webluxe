@@ -249,7 +249,7 @@
         <div class="container-xxl mt-0 mb-5">
             <div class="container">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                    <h2 class="section-title bg-white text-center px-3 color-oran custom-h6">Cursos de Baile en {{ course_title_zone }}</h2>
+                    <h2 class="section-title bg-white text-center px-3 color-oran custom-h6">Cursos de Salsa en {{ course_title_zone }}</h2>
                     <p class="custom-h2 mb-2">Salsa, tecnica de danza, afro y más en un ambiente divertido</p>
                 </div>
                 <!-- list Courses Start -->
@@ -493,7 +493,11 @@
 
                             const whatsappMessage =
                                 `Hola, me llamo ${firstName} ${lastName}. Estoy interesado en el curso ${courseTitle}. ${notes}`;
-
+                            gtag('event', 'whatsapp_send_district', {
+                                        categoria: 'lead',
+                                        accion: 'enviar',
+                                        etiqueta: 'form_contacto_district'
+                                    });
                             window.open(
                                 `https://wa.me/51991337159?text=${encodeURIComponent(whatsappMessage)}`, '_blank'
                             );

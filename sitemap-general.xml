@@ -12,6 +12,11 @@
 
   <!-- Clases locales de salsa -->
   <url>
+    <loc>https://cubangrooveperu.com/clases-de-salsa-en-lima/</loc>
+    <lastmod>2025-12-11T00:00:00+00:00</lastmod>
+    <priority>0.95</priority>
+  </url>
+  <url>
     <loc>https://cubangrooveperu.com/clases-de-salsa-en-miraflores/</loc>
     <lastmod>2025-10-11T00:00:00+00:00</lastmod>
     <priority>0.95</priority>
@@ -27,7 +32,7 @@
     <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://cubangrooveperu.com/clases-de-salsa-en-san-isidro/</loc>
+    <loc>https://cubangrooveperu.com/clases-de-salsa-en-san_isidro/</loc>
     <lastmod>2025-10-11T00:00:00+00:00</lastmod>
     <priority>0.95</priority>
   </url>
