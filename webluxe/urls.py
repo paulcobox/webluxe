@@ -39,6 +39,78 @@ redirect_patterns = [
     re_path(r'^courses/timba-session-coreografico/$', lambda r: redirect('/clases-baile/salsa/', permanent=True)),
     re_path(r'^courses-group/$', lambda r: redirect('/clases-baile/', permanent=True)),
     re_path(r'^courses_virtual/$', lambda r: redirect('/clases-baile/online/', permanent=True)),
+    
+    # =========================
+    # BLOG ANTIGUO → BLOG LOCAL MIRAFLORES
+    # =========================
+    re_path(
+        r'^blog/donde-bailar-salsa-en-miraflores/?$',
+        lambda r: redirect(
+            '/clases-de-salsa-en-miraflores/donde-bailar-salsa-en-miraflores/',
+            permanent=True
+        )
+    ),
+    re_path(
+        r'^blog/beneficios-de-bailar-salsa/?$',
+        lambda r: redirect(
+            '/clases-de-salsa-en-miraflores/beneficios-de-bailar-salsa/',
+            permanent=True
+        )
+    ),
+    re_path(
+        r'^blog/la-casa-de-la-salsa-miraflores/?$',
+        lambda r: redirect(
+            '/clases-de-salsa-en-miraflores/casa-de-la-salsa/',
+            permanent=True
+        )
+    ),
+    re_path(
+        r'^encuentra-tu-estilo-ideal/?$',
+        lambda r: redirect(
+            '/clases-de-salsa-en-miraflores/encuentra-tu-estilo-ideal/',
+            permanent=True
+        )
+    ),
+
+    
+    # =========================
+    # SLUGS CON UNDERSCORE → GUION MEDIO (SEO)
+    # =========================
+    re_path(
+        r'^clases-de-salsa-en-san_isidro/?$',
+        lambda r: redirect(
+            '/clases-de-salsa-en-san-isidro/',
+            permanent=True
+        )
+    ),
+    
+    re_path(
+        r'^terms_conditions/?$',
+        lambda r: redirect(
+            '/terms-conditions/',
+            permanent=True
+        )
+    ),
+    
+    re_path(
+        r'^instructor/lucero-coronado/?$',
+        lambda r: redirect(
+            '/instructor/luxe-coronado/',
+            permanent=True
+        )
+    ),
+    
+    re_path(
+        r'^courses/salsa-principiantes/?$',
+        lambda r: redirect('/clases-baile/salsa-principiantes/', permanent=True)
+    ),
+    
+    re_path(
+        r'^courses_choreography/?$',
+        lambda r: redirect('/clases-baile/', permanent=True)
+    ),
+
+    
 
 ]
 
