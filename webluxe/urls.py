@@ -58,7 +58,35 @@ redirect_patterns = [
         )
     ),
     re_path(
+        r'^blog/beneficios-de-bailar-salsa?$',
+        lambda r: redirect(
+            '/clases-de-salsa-en-miraflores/beneficios-de-bailar-salsa/',
+            permanent=True
+        )
+    ),
+    re_path(
+        r'^blog/beneficios-de-bailar-salsa-en-miraflores/?$',
+        lambda r: redirect(
+            '/clases-de-salsa-en-miraflores/beneficios-de-bailar-salsa/',
+            permanent=True
+        )
+    ),
+    re_path(
+        r'^blog/beneficios-de-bailar-salsa-en-miraflores?$',
+        lambda r: redirect(
+            '/clases-de-salsa-en-miraflores/beneficios-de-bailar-salsa/',
+            permanent=True
+        )
+    ),
+    re_path(
         r'^blog/la-casa-de-la-salsa-miraflores/?$',
+        lambda r: redirect(
+            '/clases-de-salsa-en-miraflores/casa-de-la-salsa/',
+            permanent=True
+        )
+    ),
+    re_path(
+        r'^blog/la-casa-de-la-salsa-miraflores?$',
         lambda r: redirect(
             '/clases-de-salsa-en-miraflores/casa-de-la-salsa/',
             permanent=True
@@ -101,7 +129,20 @@ redirect_patterns = [
     ),
     
     re_path(
+        r'^instructor/lucero-coronado?$',
+        lambda r: redirect(
+            '/instructor/luxe-coronado/',
+            permanent=True
+        )
+    ),
+    
+    re_path(
         r'^courses/salsa-principiantes/?$',
+        lambda r: redirect('/clases-baile/salsa-principiantes/', permanent=True)
+    ),
+    
+    re_path(
+        r'^courses/salsa-principiantes?$',
         lambda r: redirect('/clases-baile/salsa-principiantes/', permanent=True)
     ),
     
@@ -110,6 +151,10 @@ redirect_patterns = [
         lambda r: redirect('/clases-baile/', permanent=True)
     ),
 
+    re_path(
+        r'^courses_choreography?$',
+        lambda r: redirect('/clases-baile/', permanent=True)
+    )
     
 
 ]
