@@ -159,4 +159,5 @@ redirect_patterns = [
 
 ]
 
-urlpatterns += redirect_patterns
+# urlpatterns += redirect_patterns
+urlpatterns = redirect_patterns + urlpatterns
