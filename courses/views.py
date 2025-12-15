@@ -6,6 +6,87 @@ from django.db.models import Case, When, Value, IntegerField, Q
 from itertools import chain
 # Create your views here.
 
+class SalsaCercaDeMiTemplateView(TemplateView):
+
+    template_name = 'courses/course_detail_district.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+
+        course_slug = 'clases-de-salsa-cerca-de-mi'
+        course_title_zone = 'Cerca de ti'
+
+        course = get_object_or_404(Course, slug=course_slug)
+
+        salsa_basico = Course.objects.filter(
+            is_active=True,
+            title="Principiantes"
+        ).annotate(
+            order_priority=Value(-1, output_field=IntegerField())
+        )
+
+        other_courses = Course.objects.filter(
+            is_active=True
+        ).exclude(
+            title="Principiantes"
+        ).annotate(
+            order_priority=Case(
+                When(schedule="Proximamente", then=Value(1)),
+                default=Value(0),
+                output_field=IntegerField(),
+            )
+        ).order_by('order_priority')
+
+        combined_qs = list(chain(salsa_basico, other_courses))
+        list_course_you_might_like = [c for c in combined_qs if c.pk != course.pk]
+
+        context['course'] = course
+        context['course_title_zone'] = course_title_zone
+        context['list_course_you_might_like'] = list_course_you_might_like
+
+        return context
+
+
+class AcademiaSalsaLimaTemplateView(TemplateView):
+
+    template_name = 'courses/course_detail_district.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+
+        course_slug = 'academia-de-salsa-en-lima'
+        course_title_zone = 'Lima'
+
+        course = get_object_or_404(Course, slug=course_slug)
+
+        salsa_basico = Course.objects.filter(
+            is_active=True,
+            title="Principiantes"
+        ).annotate(
+            order_priority=Value(-1, output_field=IntegerField())
+        )
+
+        other_courses = Course.objects.filter(
+            is_active=True
+        ).exclude(
+            title="Principiantes"
+        ).annotate(
+            order_priority=Case(
+                When(schedule="Proximamente", then=Value(1)),
+                default=Value(0),
+                output_field=IntegerField(),
+            )
+        ).order_by('order_priority')
+
+        combined_qs = list(chain(salsa_basico, other_courses))
+        list_course_you_might_like = [c for c in combined_qs if c.pk != course.pk]
+
+        context['course'] = course
+        context['course_title_zone'] = course_title_zone
+        context['list_course_you_might_like'] = list_course_you_might_like
+
+        return context
+
 
 class LimaDetailTemplateView(TemplateView):
   

@@ -74,4 +74,38 @@
     </image:image>
   </url>
 
+    <!-- BLOG: nuevos artículos SEO estratégicos -->
+
+  <url>
+    <loc>https://cubangrooveperu.com/blog/clases-de-baile-para-adultos-en-lima/</loc>
+    <lastmod>2025-12-14T00:00:00+00:00</lastmod>
+    <priority>0.70</priority>
+    <image:image>
+      <image:loc>https://cubangrooveperu.com/media/images/blog_images/clases-de-baile-para-adultos-en-lima_2.png</image:loc>
+      <image:title>Clases de baile para adultos en lima</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://cubangrooveperu.com/blog/clases-de-salsa-cerca-de-mi-que-debes-saber/</loc>
+    <lastmod>2025-12-14T00:00:00+00:00</lastmod>
+    <priority>0.70</priority>
+    <image:image>
+      <image:loc>https://cubangrooveperu.com/media/images/blog_images/clases-de-salsa-cerca-de-mi-que-debes-saber.png</image:loc>
+      <image:title>Clases de salsa cerca de mí: qué debes saber</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://cubangrooveperu.com/blog/beneficios-de-aprender-salsa-cubana/</loc>
+    <lastmod>2025-12-14T00:00:00+00:00</lastmod>
+    <priority>0.70</priority>
+    <image:image>
+      <image:loc>https://cubangrooveperu.com/media/images/blog_images/beneficios-de-aprender-salsa-cubana.png</image:loc>
+      <image:title>Beneficios de aprender salsa cubana</image:title>
+    </image:image>
+  </url>
+
+
+
 </urlset>
