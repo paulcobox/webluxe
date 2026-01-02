@@ -21,6 +21,9 @@ class Lead(models.Model):
     user_agent = models.TextField(null=True, blank=True)
     created_date = models.DateTimeField(auto_now_add = True, verbose_name = "Fecha de Creación")
     modified_date = models.DateTimeField(auto_now = True, verbose_name = "Fecha de Modificación")
+    omnisend_synced_at = models.DateTimeField(null=True, blank=True)
+    omnisend_last_status = models.IntegerField(null=True, blank=True)
+    omnisend_last_error = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -43,6 +46,10 @@ class CastingRegistration(models.Model):
     other_commitments = models.TextField(blank=True, null=True)
     availability = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    omnisend_synced_at = models.DateTimeField(null=True, blank=True)
+    omnisend_last_status = models.IntegerField(null=True, blank=True)
+    omnisend_last_error = models.TextField(null=True, blank=True)
+
 
     def __str__(self):
         return self.full_name
