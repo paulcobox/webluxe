@@ -3,7 +3,7 @@ import re
 
 from django.core.management.base import BaseCommand
 from django.db.models import Q
-
+import unicodedata
 from leads.models import Lead
 
 
@@ -15,38 +15,26 @@ E164_REGEX = re.compile(r'^\+\d{10,15}$')
 
 
 def normalize_phone(raw_phone):
+    """
+    Limpia teléfono:
+    p:+519XXXXXXXX -> +519XXXXXXXX
+    """
     if not raw_phone:
         return None
 
-    phone = str(raw_phone).strip()
+    phone = raw_phone.strip()
 
     if phone.startswith("p:"):
         phone = phone[2:].strip()
 
-    # elimina todo excepto dígitos y + (luego digitizamos igual)
-    phone = phone.replace("++", "+")
-    digits = re.sub(r"\D", "", phone)
+    phone = (
+        phone.replace(" ", "")
+             .replace("-", "")
+             .replace("(", "")
+             .replace(")", "")
+    )
 
-    # Si tenía +, lo reconstruimos bien
-    if phone.startswith("+"):
-        return "+" + digits if digits else None
-
-    # 9 dígitos Perú móvil: 9XXXXXXXX -> +519XXXXXXXX
-    if len(digits) == 9 and digits.startswith("9"):
-        return "+51" + digits
-
-    # 11 dígitos: 51 + 9XXXXXXXX -> +519XXXXXXXX
-    if len(digits) == 11 and digits.startswith("51") and digits[2] == "9":
-        return "+" + digits
-
-    # 12 dígitos: 051 + 9XXXXXXXX -> +519XXXXXXXX
-    if len(digits) == 12 and digits.startswith("051") and digits[3] == "9":
-        return "+51" + digits[3:]
-
-    # fallback
-    return "+" + digits if digits else None
-
-
+    return phone or None
 
 
 def classify_phone(phone):
@@ -64,6 +52,29 @@ def classify_phone(phone):
     is_foreign = is_e164 and not is_peru
 
     return is_peru, is_foreign
+
+
+def normalize_key(value: str) -> str:
+    if not value:
+        return ""
+    v = value.strip().lower()
+
+    # quita tildes
+    v = unicodedata.normalize("NFKD", v)
+    v = "".join(c for c in v if not unicodedata.combining(c))
+
+    # normaliza guion largo
+    v = v.replace("–", "-")
+
+    # deja solo letras/numeros -> _
+    v = re.sub(r"[^a-z0-9]+", "_", v)
+    v = re.sub(r"_+", "_", v).strip("_")
+    return v
+
+
+def get_row_value(row: dict, key: str) -> str:
+    # por si viene con espacios raros
+    return (row.get(key) or "").strip()
 
 
 class Command(BaseCommand):
@@ -87,7 +98,9 @@ class Command(BaseCommand):
 
         # ✅ Tu CSV usa ';' y Windows suele venir como latin-1
         with open(file_path, newline="", encoding="cp1252") as csvfile:
+
             reader = csv.DictReader(csvfile, delimiter=";")
+            reader.fieldnames = [h.strip() for h in (reader.fieldnames or [])]
 
             # ✅ Columnas reales de TU CSV
             required_cols = {
@@ -96,7 +109,12 @@ class Command(BaseCommand):
                 "nombre_completo",
                 "correo_electronico",
                 "numero_de_telefono",
+                "¿qué_curso_te_interesa_más?",
+                "¿has_tomado_clases_de_salsa_o_danza_antes?",
+                "¿en_qué_horario_podrías_asistir_de_forma_constante?",
+                "para_tomar_clases_de_danza,_¿con_cuál_de_estas_opciones_te_identificas_más?",
             }
+            print(reader.fieldnames)
 
             missing = required_cols - set(reader.fieldnames or [])
             if missing:
@@ -148,6 +166,16 @@ class Command(BaseCommand):
                 # CREAR LEAD
                 # -----------------
                 tag = "Perú" if is_peru else "Extranjero"
+                
+                form_course_raw = get_row_value(row, "¿qué_curso_te_interesa_más?")
+                form_experience_raw = get_row_value(row, "¿has_tomado_clases_de_salsa_o_danza_antes?")
+                form_schedule_raw = get_row_value(row, "¿en_qué_horario_podrías_asistir_de_forma_constante?")
+                form_motivation_raw = get_row_value(row, "para_tomar_clases_de_danza,_¿con_cuál_de_estas_opciones_te_identificas_más?")
+
+                form_course_key = normalize_key(form_course_raw)
+                form_experience_key = normalize_key(form_experience_raw)
+                form_schedule_key = normalize_key(form_schedule_raw)
+                form_motivation_key = normalize_key(form_motivation_raw)
 
                 Lead.objects.create(
                     first_name=first_name,
@@ -156,13 +184,24 @@ class Command(BaseCommand):
                     phone_number=phone,
                     course_of_interest=None,
                     status="NEW",
-                    # utm_source="instagram",
-                    utm_source="tiktok",
+                    utm_source="instagram",
                     utm_medium="paid_social",
                     utm_campaign=(row.get("campaign_name") or "").strip(),
-                    # guardo created_time en notes para tenerlo (ya que created_date es auto_now_add)
+
+                    # 👇 NUEVO (requiere que ya existan en tu modelo)
+                    form_course_raw=form_course_raw,
+                    form_experience_raw=form_experience_raw,
+                    form_schedule_raw=form_schedule_raw,
+                    form_motivation_raw=form_motivation_raw,
+
+                    form_course_key=form_course_key,
+                    form_experience_key=form_experience_key,
+                    form_schedule_key=form_schedule_key,
+                    form_motivation_key=form_motivation_key,
+
                     notes=f"Lead importado desde Meta Lead Ads ({tag}) | created_time={row.get('created_time')}",
                 )
+
 
                 inserted += 1
                 self.stdout.write(self.style.SUCCESS(f"✔ Insertado: {email} / {phone} ({tag})"))

@@ -12,6 +12,21 @@ class Lead(models.Model):
     course_of_interest = models.ForeignKey(Course, on_delete = models.CASCADE, related_name = 'lead', blank = True, null = True, verbose_name = "Curso de Interes")
     status = models.CharField(max_length=50, choices=[('NEW', 'New'), ('PROSPECT', 'Prospect'), ('CUSTOMER', 'Customer')], default='NEW')
     notes = models.TextField(blank=True)
+    
+    
+    # --- RAW (lo que llega del formulario) ---
+    form_course_raw = models.CharField(max_length=200, blank=True, null=True)
+    form_experience_raw = models.CharField(max_length=200, blank=True, null=True)
+    form_schedule_raw = models.CharField(max_length=200, blank=True, null=True)
+    form_motivation_raw = models.CharField(max_length=220, blank=True, null=True)
+
+    # --- NORMALIZED (para reportes / filtros estables) ---
+    form_course_key = models.CharField(max_length=120, blank=True, null=True, db_index=True)
+    form_experience_key = models.CharField(max_length=120, blank=True, null=True, db_index=True)
+    form_schedule_key = models.CharField(max_length=120, blank=True, null=True, db_index=True)
+    form_motivation_key = models.CharField(max_length=120, blank=True, null=True, db_index=True)
+    
+    
     utm_source = models.CharField(max_length=100, null=True, blank=True)
     utm_medium = models.CharField(max_length=100, null=True, blank=True)
     utm_campaign = models.CharField(max_length=100, null=True, blank=True)

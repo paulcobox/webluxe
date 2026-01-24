@@ -21,6 +21,7 @@ package*
 purge*
 __pycache__/
 *.pyc
+*.csv
 # Archivos estáticos recolectados
 /staticfiles/
 
