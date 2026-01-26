@@ -61,4 +61,151 @@
         </div>
     </div>
 
+        <!-- Sección fija inferior solo para móvil -->
+    <div id="mobileContactBar" class="mobile-contact-bar d-block d-md-none">
+        <div class="container d-flex justify-content-between align-items-center">
+            <span>🌀 Febrero 2026 👉</span>
+            <button class="btn btn-lg" id="openContactForm" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-course="{{ course.title }}">
+                ¡Reserva Clase!
+            </button>
+        </div>
+    </div>
+
 {% endblock content %}
+
+
+{% block javascript %}
+    <script>
+    // ======================================================
+    // 1️⃣ Mostrar/Ocultar barra fija inferior en móviles
+    // ======================================================
+    document.addEventListener("DOMContentLoaded", function () {
+    const mobileContactBar = document.getElementById("mobileContactBar");
+    const contactModal = document.getElementById("exampleModal");
+    const successModal = document.getElementById("successModal");
+
+    function hideMobileBar() {
+        if (mobileContactBar) mobileContactBar.classList.add("d-none");
+    }
+    function showMobileBar() {
+        if (mobileContactBar) mobileContactBar.classList.remove("d-none");
+    }
+
+    if (contactModal) {
+        contactModal.addEventListener("show.bs.modal", hideMobileBar);
+        contactModal.addEventListener("hidden.bs.modal", showMobileBar);
+    }
+    if (successModal) {
+        successModal.addEventListener("show.bs.modal", hideMobileBar);
+        successModal.addEventListener("hidden.bs.modal", showMobileBar);
+    }
+    });
+
+
+    // ======================================================
+    // 2️⃣ Ajuste del ícono de WhatsApp según página
+    // ======================================================
+    document.addEventListener("DOMContentLoaded", function () {
+    const whatsappIcon = document.querySelector(".whatsapp-icon");
+    const url = window.location.href.toLowerCase();
+    const keywords = ["salsa", "danza", "afro", "online", "particulares", "novios", "principiantes", "baile"];
+    const shouldRaiseIcon = keywords.some(k => url.includes(k));
+    if (shouldRaiseIcon && whatsappIcon) whatsappIcon.style.bottom = "80px";
+    });
+
+
+    // ======================================================
+    // 3️⃣ Mantener color del botón “Reserva Ahora”
+    // ======================================================
+    document.addEventListener("DOMContentLoaded", function () {
+    const contactButton = document.getElementById("openContactForm");
+    if (contactButton) {
+        const original = {
+        backgroundColor: contactButton.style.backgroundColor,
+        color: contactButton.style.color,
+        border: contactButton.style.border,
+        boxShadow: contactButton.style.boxShadow
+        };
+        const modal = document.getElementById("exampleModal");
+        if (modal) {
+        modal.addEventListener("hidden.bs.modal", function () {
+            Object.assign(contactButton.style, original);
+        });
+        }
+    }
+    });
+
+
+    // ======================================================
+    // 4️⃣ Envío de formulario de la ficha (Lead + WhatsApp)
+    // ======================================================
+    document.getElementById('submitForm_curso_detail').addEventListener('click', function () {
+        assignUTMsToAllForms();
+
+        const form = document.getElementById('leadForm_curso_detail');
+        const processingOverlay = document.getElementById('processingOverlay_curso_detail');
+        const thankYouMessage = document.getElementById('thankYouMessage_curso_detail');
+
+        if (form.checkValidity()) {
+
+            processingOverlay.classList.remove('d-none');
+
+            grecaptcha.ready(function () {
+                grecaptcha.execute('{{ RECAPTCHA_SITE_KEY }}', { action: 'submit' })
+                .then(function (token) {
+
+                    // Colocar token
+                    const formData = new FormData(form);
+                    formData.append('recaptcha_token', token);
+
+                    fetch('/create-lead/', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                        }
+                    })
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Mostrar gracias
+                            form.classList.add('d-none');
+                            thankYouMessage.classList.remove('d-none');
+
+                            // Whatsapp
+                            const firstName = document.getElementById('name').value;
+                            const lastName = document.getElementById('last_name').value;
+                            const courseTitle = document.getElementById('course_of_interest').value;
+                            const notes = document.getElementById('message').value;
+
+                            const whatsappMessage =
+                                `Hola, me llamo ${firstName} ${lastName}. Estoy interesado en el curso ${courseTitle}. ${notes}`;
+                            gtag('event', 'whatsapp_send_detail', {
+                                        categoria: 'lead',
+                                        accion: 'enviar',
+                                        etiqueta: 'form_contacto_detail'
+                                    });
+                            window.open(
+                                `https://wa.me/51991337159?text=${encodeURIComponent(whatsappMessage)}`, '_blank'
+                            );
+                        } else {
+                            alert('Error al crear el lead.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Ocurrió un error al enviar el formulario');
+                    })
+                    .finally(() => {
+                        processingOverlay.classList.add('d-none');
+                    });
+                });
+            });
+
+        } else {
+            form.classList.add('was-validated');
+        }
+    });
+
+    </script>
+{% endblock javascript %}
