@@ -15,26 +15,38 @@ E164_REGEX = re.compile(r'^\+\d{10,15}$')
 
 
 def normalize_phone(raw_phone):
-    """
-    Limpia teléfono:
-    p:+519XXXXXXXX -> +519XXXXXXXX
-    """
     if not raw_phone:
         return None
 
-    phone = raw_phone.strip()
+    phone = str(raw_phone).strip()
 
+    # quita prefijo p:
     if phone.startswith("p:"):
         phone = phone[2:].strip()
 
-    phone = (
-        phone.replace(" ", "")
-             .replace("-", "")
-             .replace("(", "")
-             .replace(")", "")
-    )
+    # caso Excel científico 5.19893E+11
+    if "E+" in phone.upper():
+        try:
+            phone = str(int(float(phone)))
+        except:
+            pass
 
-    return phone or None
+    # deja solo números
+    digits = re.sub(r"\D", "", phone)
+
+    # formato Perú 9XXXXXXXX
+    if len(digits) == 9 and digits.startswith("9"):
+        return "+51" + digits
+
+    # formato 519XXXXXXXX
+    if len(digits) == 11 and digits.startswith("51"):
+        return "+" + digits
+
+    # si ya viene con +
+    if phone.startswith("+"):
+        return phone
+
+    return None
 
 
 def classify_phone(phone):
@@ -84,7 +96,8 @@ class Command(BaseCommand):
         parser.add_argument(
             "--file",
             type=str,
-            default="leads_instagram_verano_2026.csv",
+            # default="leads_instagram_verano_20260307_iniciantes_1.csv",
+            default="leads_instagram_verano_20260307_femenino_1.csv",
             help="Ruta del CSV",
         )
 

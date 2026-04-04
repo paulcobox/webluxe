@@ -26,6 +26,7 @@ class Lead(models.Model):
     form_schedule_key = models.CharField(max_length=120, blank=True, null=True, db_index=True)
     form_motivation_key = models.CharField(max_length=120, blank=True, null=True, db_index=True)
     
+    lead_interest_raw = models.CharField(max_length=500, blank=True, null=True)
     
     utm_source = models.CharField(max_length=100, null=True, blank=True)
     utm_medium = models.CharField(max_length=100, null=True, blank=True)
