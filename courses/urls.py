@@ -4,7 +4,8 @@ from .views import CoursesDetailOnlineTemplateView, CoursesDetailParticularTempl
 urlpatterns = [
   path('clases-baile/online/', CoursesDetailOnlineTemplateView.as_view(), name = 'courses_online'),
   path('clases-baile/particulares/', CoursesDetailParticularTemplateView.as_view(), name = 'courses_particulares'),
-  path('clases-baile/novios-eventos/', CoursesDetailEventsTemplateView.as_view(), name = 'courses_events'),
+  # path('clases-baile/novios-eventos/', CoursesDetailEventsTemplateView.as_view(), name = 'courses_events'),
+  path('coreografia-de-boda-lima/',CoursesDetailEventsTemplateView.as_view(),name='coreografia_boda'),
   path('clases-baile/', CoursesGroupAllTemplateView.as_view(), name = 'courses_group'),
   path('clases-de-salsa-en-surco/', SurcoDetailTemplateView.as_view(), name = 'courses_surco'),
   path('clases-de-salsa-en-miraflores/', MirafloresDetailTemplateView.as_view(), name = 'courses_miraflores'),

@@ -309,7 +309,7 @@ class CoursesDetailEventsTemplateView(TemplateView):
 
   def get_context_data(self, *args, **kwargs):
     context = super(CoursesDetailEventsTemplateView, self).get_context_data(*args, **kwargs)
-    course_slug = 'novios-eventos'  # Assuming 'course_slug' is the URL parameter
+    course_slug = 'coreografia-de-boda-lima'  # Assuming 'course_slug' is the URL parameter
     course = get_object_or_404(Course, slug=course_slug)
     # video_id = YouTube(course.video_url).video_id
     # course.video_url = f"https://www.youtube.com/embed/{video_id}"

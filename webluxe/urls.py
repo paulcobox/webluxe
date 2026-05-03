@@ -18,6 +18,7 @@ from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.shortcuts import redirect
+from django.views.generic import RedirectView
 
 
 urlpatterns = [
@@ -30,6 +31,7 @@ urlpatterns = [
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 redirect_patterns = [
+    re_path(r'^clases-baile/novios-eventos/?$',RedirectView.as_view(url='/coreografia-de-boda-lima/', permanent=True)),
     re_path(r'^courses/salsa-cubana-basico/$', lambda r: redirect('/clases-baile/salsa-principiantes/', permanent=True)),
     re_path(r'^courses/afrocubano/$', lambda r: redirect('/clases-baile/afro/', permanent=True)),
     re_path(r'^courses/tecnica-para-la-danza-y-disociacion-corporal/$', lambda r: redirect('/clases-baile/danza/', permanent=True)),
