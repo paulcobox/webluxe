@@ -7,4 +7,5 @@ urlpatterns = [
    path('casting/', views.casting_registration, name='casting_registration'),
    path('casting/additional-info/', views.additional_info, name='additional_info'),
    path('casting/thank-you/', views.thank_you, name='thank_you'),
+   path('unsubscribe/<str:token>/', views.unsubscribe, name='unsubscribe'),
 ]

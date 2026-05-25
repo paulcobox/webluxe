@@ -1,73 +1,19 @@
 import logging
-botlog = logging.getLogger("bot_protection")
 import requests
-from django.conf import settings
 import threading
-from django.shortcuts import render, redirect
+botlog = logging.getLogger("bot_protection")
+from django.conf import settings
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import BasicInfoForm, AdditionalInfoForm
-from .models import CastingRegistration
+from .models import CastingRegistration, Lead
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Lead
 from courses.models import Course
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.cache import cache
-
-import requests
-import threading
-from django.conf import settings
-
-def send_to_omnisend_async(lead, tag="first_flow_start"):
-
-    def _send():
-        url = "https://api.omnisend.com/v5/contacts"
-
-        headers = {
-            "Content-Type": "application/json",
-            "X-API-KEY": settings.OMNISEND_API_KEY,
-        }
-
-        payload = {
-            "firstName": lead.first_name,
-            "lastName": lead.last_name,
-            "tags": [tag],
-            "identifiers": [
-                {
-                    "id": lead.email,
-                    "type": "email",
-                    "channels": {
-                        "email": {
-                            "status": "subscribed",
-                            "statusDate": lead.created_date.isoformat()
-                        }
-                    }
-                }
-            ]
-        }
-
-        # Si tiene teléfono lo agregamos al JSON
-        if lead.phone_number:
-            payload["identifiers"].append({
-                "id": lead.phone_number,
-                "type": "phone",
-                "channels": {
-                    "sms": {
-                        "status": "subscribed",
-                        "statusDate": lead.created_date.isoformat()
-                    }
-                }
-            })
-
-        try:
-            response = requests.post(url, json=payload, headers=headers)
-            print(f"[OMNISEND] Status={response.status_code} | {response.text}")
-        except Exception as e:
-            print(f"[OMNISEND] ERROR: {str(e)}")
-
-    # Lanzamos el hilo para hacerlo NO BLOQUEANTE
-    threading.Thread(target=_send).start()
+from .tasks import schedule_email_sequence
 
 
 # Create your views here.
@@ -251,10 +197,9 @@ def create_lead(request):
         )
 
         # ===============================================
-        # 8️⃣ Enviar lead a Omnisend (flujo de bienvenida)
+        # 8️⃣ Iniciar secuencia de 9 correos via Celery
         # ===============================================
-        send_to_omnisend_async(lead, tag="first_flow_start")
-
+        schedule_email_sequence(lead)
 
         return JsonResponse({'success': True})
 
@@ -344,3 +289,11 @@ def additional_info(request):
 
 def thank_you(request):
     return render(request, 'casting/thank_you.html')
+
+
+def unsubscribe(request, token):
+    lead = get_object_or_404(Lead, unsubscribe_token=token)
+    if not lead.unsubscribed:
+        lead.unsubscribed = True
+        lead.save(update_fields=['unsubscribed'])
+    return render(request, 'emails/unsubscribe_confirm.html', {'first_name': lead.first_name})

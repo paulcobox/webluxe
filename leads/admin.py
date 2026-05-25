@@ -1,15 +1,35 @@
 from openpyxl import Workbook
 from django.http import HttpResponse
 from django.contrib import admin
-from .models import Lead, CastingRegistration
+from django.utils.html import format_html
+from .models import Lead, CastingRegistration, EmailSequenceLog
 
+
+class EmailSequenceLogInline(admin.TabularInline):
+    model = EmailSequenceLog
+    extra = 0
+    readonly_fields = ('sequence_position', 'status', 'celery_task_id', 'sent_at', 'error_message', 'created_at')
+    can_delete = False
+    ordering = ('sequence_position',)
+
+    def has_add_permission(self, request, obj=None):
+        return False
 
 
 @admin.register(Lead)
 class LeadAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'last_name', 'email', 'phone_number', 'created_date')
-    list_filter = ('created_date', 'status')
+    list_display = ('first_name', 'last_name', 'email', 'phone_number', 'created_date', 'unsubscribed', 'sequence_progress_display')
+    list_filter = ('created_date', 'status', 'unsubscribed')
     search_fields = ('first_name', 'last_name', 'email', 'phone_number')
+    readonly_fields = ('email_sequence_started_at', 'unsubscribe_token')
+    inlines = [EmailSequenceLogInline]
+
+    def sequence_progress_display(self, obj):
+        sent = obj.email_logs.filter(status='SENT').count()
+        total = 9
+        color = '#25D366' if sent == total else '#ff6a09' if sent > 0 else '#aaaaaa'
+        return format_html('<span style="color:{};">{}/{}</span>', color, sent, total)
+    sequence_progress_display.short_description = 'Emails enviados'
 
 class CastingRegistrationAdmin(admin.ModelAdmin):
     list_display = ('full_name', 'phone', 'email', 'occupation', 'district', 'created_at')

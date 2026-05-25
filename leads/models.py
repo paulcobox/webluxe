@@ -41,8 +41,65 @@ class Lead(models.Model):
     omnisend_last_status = models.IntegerField(null=True, blank=True)
     omnisend_last_error = models.TextField(null=True, blank=True)
 
+    # --- Secuencia de correos ---
+    email_sequence_started_at = models.DateTimeField(null=True, blank=True)
+    unsubscribed = models.BooleanField(default=False)
+    unsubscribe_token = models.CharField(max_length=64, blank=True, null=True, unique=True)
+
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+
+class EmailSequenceLog(models.Model):
+
+    STATUS_CHOICES = [
+        ('PENDING', 'Pendiente'),
+        ('SENT', 'Enviado'),
+        ('FAILED', 'Fallido'),
+        ('SKIPPED', 'Omitido'),
+    ]
+
+    SEQUENCE_POSITIONS = [
+        (0, 'Inmediato'),
+        (1, 'Día 1'),
+        (2, 'Día 3'),
+        (3, 'Día 7'),
+        (4, 'Día 14'),
+        (5, 'Día 21'),
+        (6, 'Día 30'),
+        (7, 'Día 45'),
+        (8, 'Día 60'),
+    ]
+
+    lead = models.ForeignKey(
+        Lead,
+        on_delete=models.CASCADE,
+        related_name='email_logs',
+        verbose_name="Lead"
+    )
+    sequence_position = models.IntegerField(
+        choices=SEQUENCE_POSITIONS,
+        verbose_name="Posición en secuencia"
+    )
+    status = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default='PENDING',
+        verbose_name="Estado"
+    )
+    celery_task_id = models.CharField(max_length=255, blank=True, null=True, verbose_name="ID tarea Celery")
+    sent_at = models.DateTimeField(null=True, blank=True, verbose_name="Enviado el")
+    error_message = models.TextField(blank=True, null=True, verbose_name="Error")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Log de secuencia de email"
+        verbose_name_plural = "Logs de secuencia de emails"
+        unique_together = ('lead', 'sequence_position')
+        ordering = ['lead', 'sequence_position']
+
+    def __str__(self):
+        return f"{self.lead} — pos {self.sequence_position} — {self.status}"
 
 
 class CastingRegistration(models.Model):

@@ -41,17 +41,23 @@ DEBUG = os.getenv('DEBUG') == 'True'  # Convertir a booleano
 
 ALLOWED_HOSTS = ['cubangrooveperu.com', 'www.cubangrooveperu.com', 'localhost','104.248.113.83', '127.0.0.1']
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': '/var/tmp/django_cache',
-        # 'LOCATION': r'C:\django_cache',  # ruta en tu Windows
-        'TIMEOUT': 60 * 60,  # 1 hora
-        'OPTIONS': {
-            'MAX_ENTRIES': 1000
+if os.getenv('REDIS_URL'):
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+            'LOCATION': os.getenv('REDIS_URL'),
+            'TIMEOUT': 60 * 60,
         }
     }
-}
+else:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+            'LOCATION': os.getenv('DJANGO_CACHE_DIR', r'C:\django_cache'),
+            'TIMEOUT': 60 * 60,
+            'OPTIONS': {'MAX_ENTRIES': 1000}
+        }
+    }
 
 
 
@@ -68,7 +74,9 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     'ckeditor',
- ]
+    'django_celery_beat',
+    'django_celery_results',
+]
 
 LOCAL_APPS = [
     'users.apps.UsersConfig',
@@ -195,17 +203,48 @@ EMAIL_BACKEND = os.getenv("EMAIL_BACKEND")
 EMAIL_HOST = os.getenv("EMAIL_HOST")
 EMAIL_PORT = int(os.getenv("EMAIL_PORT", 587))
 EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "True") == "True"
+EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL", "False") == "True"
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
 
+
 RECAPTCHA_SITE_KEY = os.getenv("RECAPTCHA_SITE_KEY")
 RECAPTCHA_SECRET_KEY = os.getenv("RECAPTCHA_SECRET_KEY")
 
-OMNISEND_API_KEY = os.getenv("OMNISEND_API_KEY")
+CACHE_MIDDLEWARE_SECONDS = 60 * 60
+CACHE_MIDDLEWARE_KEY_PREFIX = ""
 
-CACHE_MIDDLEWARE_SECONDS = 60 * 60  # 1 hora
-CACHE_MIDDLEWARE_KEY_PREFIX = ""   # opcional
+# --- Celery ---
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', 'redis://127.0.0.1:6379/0')
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_CACHE_BACKEND = 'django-cache'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'America/Lima'
+CELERY_ENABLE_UTC = True
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+# En desarrollo sin Redis, ejecutar tareas de forma síncrona en el mismo proceso
+if DEBUG and not os.getenv('CELERY_BROKER_URL'):
+    CELERY_TASK_ALWAYS_EAGER = True
+    CELERY_TASK_EAGER_PROPAGATES = False  # No cortar la secuencia si una falla
+
+_all_delays = {
+    0: 0,        # inmediato
+    1: 60,       # día 1  (PRUEBA: 1 min — producción: 86400)
+    2: 120,      # día 3  (PRUEBA: 2 min — producción: 259200)
+    3: 180,      # día 7  (PRUEBA: 3 min — producción: 604800)
+    4: 240,      # día 14 (PRUEBA: 4 min — producción: 1209600)
+    5: 300,      # día 21 (PRUEBA: 5 min — producción: 1814400)
+    6: 360,      # día 30 (PRUEBA: 6 min — producción: 2592000)
+    7: 420,      # día 45 (PRUEBA: 7 min — producción: 3888000)
+    8: 480,      # día 60 (PRUEBA: 8 min — producción: 5184000)
+}
+
+_dev_limit = int(os.getenv('EMAIL_SEQUENCE_DEV_LIMIT', 9))
+EMAIL_SEQUENCE_DELAYS = dict(list(_all_delays.items())[:_dev_limit])
 
 APPEND_SLASH = True
 

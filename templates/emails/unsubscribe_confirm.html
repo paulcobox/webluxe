@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suscripción cancelada — Cuban Groove</title>
+</head>
+<body style="margin:0;padding:0;background-color:#111111;font-family:Arial,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tr>
+      <td align="center" style="padding:60px 20px;">
+        <table role="presentation" width="500" cellpadding="0" cellspacing="0" border="0" style="max-width:500px;width:100%;background-color:#1a1a1a;border-radius:8px;overflow:hidden;">
+
+          <!-- HEADER -->
+          <tr>
+            <td style="background-color:#000000;text-align:center;padding:28px 20px;">
+              <p style="margin:0;color:#ff6a09;font-size:24px;font-weight:bold;letter-spacing:3px;text-transform:uppercase;">CUBAN GROOVE</p>
+            </td>
+          </tr>
+
+          <!-- BODY -->
+          <tr>
+            <td style="padding:40px 36px;color:#ffffff;text-align:center;">
+              <p style="margin:0 0 16px;font-size:40px;">✅</p>
+              <p style="margin:0 0 16px;font-size:22px;font-weight:bold;color:#ffffff;">Suscripción cancelada</p>
+              {% if first_name %}
+              <p style="margin:0 0 20px;font-size:16px;line-height:1.6;color:#aaaaaa;">
+                Hola {{ first_name }}, confirmamos que hemos cancelado tu suscripción a nuestros correos.<br>No recibirás más mensajes automáticos de nuestra parte.
+              </p>
+              {% else %}
+              <p style="margin:0 0 20px;font-size:16px;line-height:1.6;color:#aaaaaa;">
+                Confirmamos que hemos cancelado tu suscripción. No recibirás más mensajes automáticos.
+              </p>
+              {% endif %}
+              <p style="margin:0;font-size:15px;color:#666666;">
+                Si cambias de opinión o quieres volver a saber de nosotros, escríbenos por WhatsApp cuando quieras.
+              </p>
+            </td>
+          </tr>
+
+          <!-- FOOTER -->
+          <tr>
+            <td style="background-color:#000000;text-align:center;padding:24px 20px;">
+              <p style="margin:0;color:#444444;font-size:12px;">© 2025 Cuban Groove Perú — cubangrooveperu.com</p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
