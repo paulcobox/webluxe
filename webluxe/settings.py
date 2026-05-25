@@ -233,14 +233,14 @@ if DEBUG and not os.getenv('CELERY_BROKER_URL'):
 
 _all_delays = {
     0: 0,        # inmediato
-    1: 60,       # día 1  (PRUEBA: 1 min — producción: 86400)
-    2: 120,      # día 3  (PRUEBA: 2 min — producción: 259200)
-    3: 180,      # día 7  (PRUEBA: 3 min — producción: 604800)
-    4: 240,      # día 14 (PRUEBA: 4 min — producción: 1209600)
-    5: 300,      # día 21 (PRUEBA: 5 min — producción: 1814400)
-    6: 360,      # día 30 (PRUEBA: 6 min — producción: 2592000)
-    7: 420,      # día 45 (PRUEBA: 7 min — producción: 3888000)
-    8: 480,      # día 60 (PRUEBA: 8 min — producción: 5184000)
+    1: 86400,    # día 1
+    2: 259200,   # día 3
+    3: 604800,   # día 7
+    4: 1209600,  # día 14
+    5: 1814400,  # día 21
+    6: 2592000,  # día 30
+    7: 3888000,  # día 45
+    8: 5184000,  # día 60
 }
 
 _dev_limit = int(os.getenv('EMAIL_SEQUENCE_DEV_LIMIT', 9))
