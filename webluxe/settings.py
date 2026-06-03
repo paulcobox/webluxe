@@ -140,6 +140,9 @@ DATABASES = {
         'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': os.getenv('DB_HOST'),
         'PORT': os.getenv('DB_PORT'),
+        'OPTIONS': {
+            'options': '-c timezone=America/Lima'
+        },
     }
 
 }
@@ -232,7 +235,7 @@ if DEBUG and not os.getenv('CELERY_BROKER_URL'):
     CELERY_TASK_EAGER_PROPAGATES = False  # No cortar la secuencia si una falla
 
 _all_delays = {
-    0: 0,        # inmediato
+    0: 300,      # 5 minutos
     1: 86400,    # día 1
     2: 259200,   # día 3
     3: 604800,   # día 7

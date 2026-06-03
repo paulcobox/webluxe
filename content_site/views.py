@@ -15,7 +15,11 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from collections import defaultdict
 
+import json
+import copy
+import random
 import logging
+from urllib.parse import quote
 from django.core.mail import send_mail
 from django.http import HttpResponse
 from smtplib import SMTPException
@@ -224,7 +228,132 @@ def test_email(request):
               
 class InvitatedSuccessTemplateView(TemplateView):
     template_name = "content_site/invitated_success.html"  # Plantilla de la página de éxito
-    
+
+
+# ══════════════════════════════════════════════════════════════════
+# LANDING META ADS — JUNIO 2026
+# Para actualizar precios, vacantes u horarios edita solo esta clase.
+# ══════════════════════════════════════════════════════════════════
+class LandingMetaAdsJun2026View(TemplateView):
+    template_name = 'landing/meta_ads_jun2026.html'
+
+    # ════════════════════════════════════════════════════════
+    # EDITAR AQUI: precios, horarios, vacantes, bullets
+    # ════════════════════════════════════════════════════════
+    PROGRAMS = {
+        'basico': {
+            'id': 'basico',
+            'name': 'Salsa Cubana Basico',
+            'tagline': 'El punto de partida perfecto para tu viaje cubano',
+            'benefits': [
+                'Aprende desde cero, paso a paso',
+                'Fundamentos del movimiento',
+                'Descubre los fundamentos del autentico estilo cubano',
+            ],
+            'sedes': [
+                {
+                    'id': 'surco', 'name': 'Surco',
+                    'schedule': 'Miercoles', 'time': '8:30 pm - 10:00 pm',
+                    'ref': 'Cerca al Ovalo Higuereta',
+                    'vacantes': 4,
+                },
+                {
+                    'id': 'lince', 'name': 'Lince',
+                    'schedule': 'Viernes', 'time': '8:00 pm - 10:00 pm',
+                    'ref': 'A 1 cdra. de Plaza Vea de Risso',
+                    'vacantes': 3,
+                },
+            ],
+        },
+        'intermedio': {
+            'id': 'intermedio',
+            'name': 'Salsa Cubana Intermedio',
+            'tagline': 'Lleva tu baile al siguiente nivel',
+            'benefits': [
+                'Amplia tu repertorio de movimientos y combinaciones',
+                'Mejora tu musicalidad, fluidez y conexion al bailar',
+                'Lleva tu salsa cubana al siguiente nivel',
+            ],
+            'sedes': [
+                {
+                    'id': 'surco', 'name': 'Surco',
+                    'schedule': 'Martes', 'time': '8:00 pm - 10:00 pm',
+                    'ref': 'Cerca al Ovalo Higuereta',
+                    'vacantes': 5,
+                },
+            ],
+        },
+        'ladyStyle': {
+            'id': 'ladyStyle',
+            'name': 'Lady Style Cubano',
+            'tagline': 'Tecnica femenina, expresion y flow',
+            'benefits': [
+                'Potencia tu estilo, elegancia y presencia escenica',
+                'Desarrolla movimiento corporal, tecnica y expresion femenina',
+                'Gana seguridad y confianza al bailar',
+            ],
+            'sedes': [
+                {
+                    'id': 'lince', 'name': 'Lince',
+                    'schedule': 'Sabados', 'time': '6:00 pm - 8:30 pm',
+                    'ref': 'A 1 cdra. de Plaza Vea de Risso',
+                    'vacantes': 6,
+                },
+            ],
+        },
+        'privadas': {
+            'id': 'privadas',
+            'name': 'Clases Privadas',
+            'tagline': 'Atencion 100% personalizada para ti',
+            'benefits': [
+                'Progreso personalizado a tu ritmo',
+                'Horarios totalmente flexibles',
+                'Correccion tecnica inmediata',
+                'Metodologia adaptada a tus objetivos',
+            ],
+            'sedes': [
+                {
+                    'id': 'surco', 'name': 'Surco',
+                    'schedule': 'A coordinar', 'time': 'Horario flexible',
+                    'ref': 'Cerca al Ovalo Higuereta',
+                    'vacantes': None,
+                },
+                {
+                    'id': 'lince', 'name': 'Lince',
+                    'schedule': 'A coordinar', 'time': 'Horario flexible',
+                    'ref': 'A 1 cdra. de Plaza Vea de Risso',
+                    'vacantes': None,
+                },
+                {
+                    'id': 'domicilio', 'name': 'Domicilio',
+                    'schedule': 'A coordinar', 'time': 'Horario flexible',
+                    'ref': 'Tu ubicacion',
+                    'vacantes': None,
+                },
+            ],
+        },
+    }
+
+    def _programs_with_random_vacantes(self):
+        programs = copy.deepcopy(self.PROGRAMS)
+        for prog in programs.values():
+            for sede in prog['sedes']:
+                if sede['vacantes'] is not None:
+                    sede['vacantes'] = random.randint(2, 4)
+        return programs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'hero_image_url':  'https://images.unsplash.com/photo-1545959570-a94084071b5d?w=1400&q=80',
+            'stats_count':     '500+',
+            'stats_label':     'alumnos formados',
+            'programs_json':   json.dumps(self._programs_with_random_vacantes()),
+            'whatsapp_number': '51991337159',
+        })
+        return context
+
+
 # def test_email(request):
 #     try:
 #         send_mail(

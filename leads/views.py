@@ -117,6 +117,12 @@ def create_lead(request):
         notes = request.POST.get('notes')
         course_title = request.POST.get('course_of_interest')
 
+        # Datos del wizard (landing Meta Ads)
+        form_experience_raw = request.POST.get('form_experience_raw', '')
+        form_motivation_raw = request.POST.get('form_motivation_raw', '')
+        form_course_raw     = request.POST.get('form_course_raw', '')
+        form_schedule_raw   = request.POST.get('form_schedule_raw', '')
+
         utm_source = request.POST.get('utm_source')
         utm_medium = request.POST.get('utm_medium')
         utm_campaign = request.POST.get('utm_campaign')
@@ -149,10 +155,14 @@ def create_lead(request):
         lead = Lead.objects.create(
             first_name=first_name,
             last_name=last_name,
-            email=email,
+            email=email or '',
             phone_number=phone_number,
             course_of_interest=course,
             notes=notes,
+            form_experience_raw=form_experience_raw,
+            form_motivation_raw=form_motivation_raw,
+            form_course_raw=form_course_raw,
+            form_schedule_raw=form_schedule_raw,
             utm_source=utm_source,
             utm_medium=utm_medium,
             utm_campaign=utm_campaign,
@@ -201,11 +211,34 @@ def create_lead(request):
         # ===============================================
         schedule_email_sequence(lead)
 
-        return JsonResponse({'success': True})
+        return JsonResponse({'success': True, 'lead_id': lead.id})
 
     botlog.info(f"[REQUEST] ❌ Método NO permitido | IP={ip}")
 
     return JsonResponse({'success': False})
+
+
+def update_lead_sede(request):
+    """Actualiza la sede elegida en un lead existente. Llamado en background desde el CTA de WhatsApp."""
+    if request.method != 'POST':
+        return JsonResponse({'success': False})
+
+    lead_id = request.POST.get('lead_id')
+    sede    = request.POST.get('sede', '').strip()
+    horario = request.POST.get('horario', '').strip()
+
+    if not lead_id:
+        return JsonResponse({'success': False})
+
+    try:
+        lead = Lead.objects.get(id=lead_id)
+        lead.form_schedule_raw = f"{sede} — {horario}" if horario else sede
+        lead.save(update_fields=['form_schedule_raw', 'modified_date'])
+        botlog.info(f"[LEAD] Sede actualizada ID={lead_id} | Sede={sede} | Horario={horario}")
+        return JsonResponse({'success': True})
+    except Lead.DoesNotExist:
+        botlog.warning(f"[LEAD] update_lead_sede — ID={lead_id} no encontrado")
+        return JsonResponse({'success': False})
 
 
 

@@ -1,8 +1,13 @@
 from django.urls import path
-from .views import FAQListView, HomePageView, ContactTemplateView, PrivacyPoliciesTemplateView, TermsConditionsTemplateView, sitemap_view, robots_view, ThankYouTemplateView, InvitatedTemplateView, InvitatedSuccessTemplateView, sitemap_blog_view, sitemap_general_view, sitemap_miraflores_view
+from .views import (
+    FAQListView, HomePageView, ContactTemplateView, PrivacyPoliciesTemplateView,
+    TermsConditionsTemplateView, sitemap_view, robots_view, ThankYouTemplateView,
+    InvitatedTemplateView, InvitatedSuccessTemplateView, sitemap_blog_view,
+    sitemap_general_view, sitemap_miraflores_view, test_email,
+    LandingMetaAdsJun2026View,
+)
 from django.views.generic import RedirectView
 from django.conf import settings
-from .views import test_email  # Asegúrate de importar la vista
 
 # from .views import test_email
 
@@ -27,6 +32,7 @@ urlpatterns = [
   path("invite-success/", InvitatedSuccessTemplateView.as_view(), name="invite_success"),
   path("enviar-correo/", test_email, name="enviar_correo"),
   path('preguntas-frecuentes/', FAQListView.as_view(), name='faq'),
+  path('promo/', LandingMetaAdsJun2026View.as_view(), name='landing_meta_ads'),
 ]
   # path('test-email/', test_email, name='test_email'),
     

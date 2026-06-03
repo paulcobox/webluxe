@@ -2,6 +2,7 @@ from openpyxl import Workbook
 from django.http import HttpResponse
 from django.contrib import admin
 from django.utils.html import format_html
+from django.utils import timezone
 from .models import Lead, CastingRegistration, EmailSequenceLog
 
 
@@ -78,7 +79,7 @@ class CastingRegistrationAdmin(admin.ModelAdmin):
                 value = getattr(obj, field)
                 # Convierte la fecha a una cadena de texto
                 if field == 'created_at' and value:
-                    value = value.strftime('%Y-%m-%d %H:%M:%S')
+                    value = timezone.localtime(value).strftime('%Y-%m-%d %H:%M:%S')
                 row.append(value)
             ws.append(row)
 
