@@ -16,6 +16,25 @@
     gtag('config', 'G-14XVW4XNL5');
   </script>
 
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s){
+      if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)
+    }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1467834781636310');
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1467834781636310&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- End Meta Pixel -->
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
@@ -440,7 +459,7 @@
     <div class="cg-prog-bg"><div class="cg-prog-fill" style="width:83%"></div></div>
   </div>
   <div class="cg-body">
-    <h2 class="cg-title">Ya casi esta 🙌</h2>
+    <h2 class="cg-title">Ya casi esta &#x1F64C;</h2>
     <p class="cg-sub">Un asesor revisara tu perfil y te contactara hoy mismo.</p>
 
     <div id="ferr"></div>
@@ -873,20 +892,20 @@ function pickSede(id, name, el) {
   const horario = sede ? sede.schedule + ' ' + sede.time : 'A coordinar';
 
   const lines = [
-    'Hola 👋 Vi la publicidad de Cuban Groove en Instagram/Facebook.',
+    'Hola, vi la publicidad de Cuban Groove en Instagram/Facebook.',
     '',
-    'Soy *' + S.nombre + ' ' + S.apellido + '* y completé el cuestionario.',
+    'Soy *' + S.nombre + ' ' + S.apellido + '* y complete el cuestionario.',
     'Mi programa recomendado: *' + pg.name + '*',
     '',
-    '📋 Mi perfil:',
-    '• Experiencia: ' + (S.expL || '-'),
-    '• Edad: '        + (S.edad  || '-'),
-    S.objL ? '• Objetivo: ' + S.objL : null,
+    'Mi perfil:',
+    '- Experiencia: ' + (S.expL || '-'),
+    '- Edad: '        + (S.edad  || '-'),
+    S.objL ? '- Objetivo: ' + S.objL : null,
     '',
-    '📍 Sede y horario de interés:',
-    '• ' + name + ' — ' + horario,
+    'Sede y horario de interes:',
+    '- ' + name + ' - ' + horario,
     '',
-    'Me gustaría recibir información y hablar con un asesor 🙌',
+    'Me gustaria recibir informacion y hablar con un asesor.',
   ].filter(l => l !== null).join('\n');
 
   document.getElementById('wa-btn').href = 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(lines);
