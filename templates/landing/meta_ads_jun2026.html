@@ -730,6 +730,16 @@ async function onSubmit(e) {
   if (em && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { document.getElementById('ee').textContent = 'Correo invalido.'; ok = false; }
   if (!ok) return;
 
+  const metaEventId = 'lead_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+  if (typeof fbq !== 'undefined') fbq('track', 'Lead', {
+    content_name: S.prog,
+    content_category: S.obj,
+    experience_level: S.exp,
+    age_range: S.edad,
+    value: 170,
+    currency: 'PEN'
+  }, { eventID: metaEventId });
+
   S.nombre = n; S.apellido = a;
 
   const notes = [
@@ -775,6 +785,7 @@ async function onSubmit(e) {
   fd.append('form_motivation_raw', S.objL  || '');
   fd.append('form_course_raw',     PROGS[S.prog]?.name || '');
   fd.append('form_schedule_raw',   '');  // se actualiza en S6 via update_lead_sede
+  fd.append('meta_event_id', metaEventId);
 
   [['utm_source','lf-us'],['utm_medium','lf-um'],['utm_campaign','lf-uc'],
    ['utm_term','lf-ut'],['utm_content','lf-uco'],['referer','lf-ref'],['user_agent','lf-ua']
@@ -794,7 +805,6 @@ async function onSubmit(e) {
       if (data.success) {
         S.leadId = data.lead_id || null;
         if (typeof gtag !== 'undefined') gtag('event', 'lead_submitted', { program: S.prog });
-        if (typeof fbq  !== 'undefined') fbq('track', 'Lead', { content_name: S.prog });
         if (window.dataLayer) dataLayer.push({ event:'lead_submitted', program: S.prog });
       }
     })

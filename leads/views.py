@@ -130,6 +130,7 @@ def create_lead(request):
         utm_content = request.POST.get('utm_content')
         referer = request.POST.get('referer')
         user_agent = request.POST.get('user_agent')
+        meta_event_id = request.POST.get('meta_event_id', '')
 
         botlog.info(
             f"[LEAD] Datos recibidos | "
@@ -170,6 +171,7 @@ def create_lead(request):
             utm_content=utm_content,
             referer=referer,
             user_agent=user_agent,
+            meta_event_id=meta_event_id,
         )
 
         botlog.info(f"[LEAD] ✔️ Lead guardado con ID={lead.id} | IP={ip}")

@@ -35,6 +35,7 @@ class Lead(models.Model):
     utm_content = models.CharField(max_length=100, null=True, blank=True)
     referer = models.TextField(null=True, blank=True)
     user_agent = models.TextField(null=True, blank=True)
+    meta_event_id = models.CharField(max_length=100, blank=True, null=True)
     created_date = models.DateTimeField(auto_now_add = True, verbose_name = "Fecha de Creación")
     modified_date = models.DateTimeField(auto_now = True, verbose_name = "Fecha de Modificación")
     omnisend_synced_at = models.DateTimeField(null=True, blank=True)
