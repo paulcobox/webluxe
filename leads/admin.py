@@ -22,7 +22,8 @@ class LeadAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'email', 'phone_number', 'created_date', 'unsubscribed', 'sequence_progress_display')
     list_filter = ('created_date', 'status', 'unsubscribed')
     search_fields = ('first_name', 'last_name', 'email', 'phone_number')
-    readonly_fields = ('email_sequence_started_at', 'unsubscribe_token', 'meta_event_id')
+    readonly_fields = ('email_sequence_started_at', 'unsubscribe_token', 'meta_event_id',
+                       'capi_sent', 'capi_sent_at', 'capi_response')
     inlines = [EmailSequenceLogInline]
 
     def sequence_progress_display(self, obj):

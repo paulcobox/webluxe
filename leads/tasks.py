@@ -152,3 +152,18 @@ def schedule_email_sequence(lead):
         # Si el broker (Redis) no está disponible, registramos el error pero
         # no rompemos la respuesta al usuario — el lead ya quedó guardado en BD.
         logger.error(f'[EMAIL_SEQ] No se pudo encolar secuencia para lead {lead.id}: {exc}')
+
+
+@shared_task(bind=True, max_retries=2, default_retry_delay=30)
+def send_capi_lead_event(self, lead_id, ip='', user_agent=''):
+    from leads.models import Lead
+    from leads.services.meta_capi import send_lead_event
+    try:
+        lead = Lead.objects.get(id=lead_id)
+        if not lead.capi_sent:
+            send_lead_event(lead, ip=ip, user_agent=user_agent)
+    except Lead.DoesNotExist:
+        logger.error(f'[CAPI] Lead {lead_id} no encontrado. Abortando.')
+    except Exception as exc:
+        logger.error(f'[CAPI] Error enviando evento para lead {lead_id}: {exc}')
+        raise self.retry(exc=exc)

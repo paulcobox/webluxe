@@ -13,7 +13,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.cache import cache
-from .tasks import schedule_email_sequence
+from .tasks import schedule_email_sequence, send_capi_lead_event
 
 
 # Create your views here.
@@ -212,6 +212,13 @@ def create_lead(request):
         # 8️⃣ Iniciar secuencia de 9 correos via Celery
         # ===============================================
         schedule_email_sequence(lead)
+
+        # ===============================================
+        # 9️⃣ Enviar evento Lead a Meta CAPI (server-side)
+        # ===============================================
+        send_capi_lead_event.apply_async(
+            args=[lead.id, ip, user_agent or request.META.get('HTTP_USER_AGENT', '')]
+        )
 
         return JsonResponse({'success': True, 'lead_id': lead.id})
 
