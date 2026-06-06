@@ -249,12 +249,51 @@
 
     /* ── SEDE CARD ───────────────────────────────────── */
     .cg-sede {
-      border: 1.5px solid var(--cg-border); border-radius: .875rem;
-      padding: .85rem 1rem; cursor: pointer; background: #fff;
-      margin-bottom: .55rem; transition: all .15s;
+      border: 2px solid var(--cg-border); border-radius: 1rem;
+      padding: .75rem .95rem; cursor: pointer; background: #fff;
+      margin-bottom: .45rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06);
+      transition: all .2s ease;
+      position: relative;
     }
-    .cg-sede:hover { border-color: var(--cg-orange); background: rgba(255,106,9,.03); }
-    .cg-sede.sel   { border-color: var(--cg-orange); background: rgba(255,106,9,.05); box-shadow: 0 0 0 2px rgba(255,106,9,.18); }
+    .cg-sede:hover  { border-color: var(--cg-orange); background: rgba(255,106,9,.03); box-shadow: 0 2px 8px rgba(255,106,9,.12); }
+    .cg-sede:active { transform: scale(.99); }
+    .cg-sede.sel    {
+      border-color: var(--cg-orange);
+      background: rgba(255,106,9,.06);
+      box-shadow: 0 0 0 3px rgba(255,106,9,.18);
+    }
+    .cg-sede-check {
+      display: none;
+      position: absolute; top: .75rem; right: .85rem;
+      width: 1.4rem; height: 1.4rem; border-radius: 50%;
+      background: var(--cg-orange); color: #fff;
+      font-size: .75rem; font-weight: 700;
+      align-items: center; justify-content: center;
+    }
+    .cg-sede.sel .cg-sede-check { display: flex; }
+    .cg-sede-name {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800; font-size: 1.05rem;
+      color: var(--cg-text); text-transform: uppercase;
+      letter-spacing: .04em; margin-bottom: .3rem;
+    }
+    .cg-sede-meta { font-size: .8rem; color: var(--cg-muted); margin-bottom: .15rem; }
+    .cg-sede-ref  { font-size: .76rem; color: #9ca3af; }
+    /* Botón sticky confirmación de sede */
+    .cg-sede-confirm-wrap {
+      position: sticky; bottom: 0;
+      background: linear-gradient(to top, #fff 80%, transparent);
+      padding: .75rem 0 .25rem;
+      margin-top: .5rem;
+    }
+    /* Botón sticky Continuar (S3 testimonios) */
+    .cg-cont-sticky {
+      position: sticky; bottom: 0;
+      background: linear-gradient(to top, #fff 85%, transparent);
+      padding: .75rem 0 .25rem;
+      margin-top: .5rem;
+    }
 
     /* ── PRICE CARD ──────────────────────────────────── */
     .cg-price {
@@ -475,9 +514,11 @@
       {% endfor %}
     </div>
 
-    <button class="cg-btn cg-btn-or mt-3 cg-hide" id="cont-btn" onclick="go(4)">
-      Continuar <i class="bi bi-arrow-right ms-1"></i>
-    </button>
+    <div class="cg-cont-sticky">
+      <button class="cg-btn cg-btn-or cg-hide" id="cont-btn" onclick="go(4)">
+        Continuar <i class="bi bi-arrow-right ms-1"></i>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -537,14 +578,16 @@
         <div class="cg-ferr" id="ee"></div>
       </div>
 
-      <button type="submit" class="cg-btn cg-btn-or" id="sbtn">
+    </form>
+    <div class="cg-cont-sticky">
+      <button type="submit" form="lf" class="cg-btn cg-btn-or" id="sbtn">
         <span id="sbtxt">Ver mi programa recomendado</span>
         <i class="bi bi-arrow-right" id="sbico"></i>
       </button>
-      <p class="text-center mt-2" style="color:var(--cg-muted);font-size:.73rem;">
+      <p class="text-center mt-1" style="color:var(--cg-muted);font-size:.73rem;margin:0;">
         <i class="bi bi-shield-lock-fill me-1"></i>Sin spam. Datos 100% seguros.
       </p>
-    </form>
+    </div>
   </div>
 </div>
 
@@ -561,23 +604,38 @@
     </div>
   </div>
 
-  <div class="cg-body" style="justify-content:flex-start;padding-top:1rem;">
+  <div class="cg-body" style="justify-content:flex-start;padding-top:.6rem;">
     <div class="d-flex align-items-center gap-2 mb-2">
-      <span style="font-size:1.5rem;">🎉</span>
-      <h2 class="cg-title mb-0" style="font-size:1.15rem;">Tu programa recomendado!</h2>
+      <span style="font-size:1.25rem;">🎉</span>
+      <h2 class="cg-title mb-0" style="font-size:1.05rem;">Tu programa recomendado</h2>
     </div>
 
-    <!-- Tarjeta programa -->
-    <div style="border:1.5px solid var(--cg-border);border-radius:1rem;padding:1.1rem;margin-bottom:.875rem;">
-      <div id="r-badge"></div>
-      <h3 id="r-name" style="font-family:'Nunito',sans-serif;font-weight:800;font-size:1.1rem;color:var(--cg-text);margin-bottom:.1rem;"></h3>
-      <p  id="r-tag"  style="color:var(--cg-orange);font-size:.78rem;font-weight:600;margin-bottom:.6rem;"></p>
-      <ul id="r-bens" class="list-unstyled mb-0"></ul>
+    <!-- Tarjeta programa — compacta, sin beneficios -->
+    <div style="border:1.5px solid var(--cg-border);border-radius:.875rem;padding:.65rem .85rem;margin-bottom:.5rem;">
+      <div id="r-badge" style="margin-bottom:.25rem;"></div>
+      <h3 id="r-name" style="font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;color:var(--cg-text);margin-bottom:.1rem;"></h3>
+      <p  id="r-tag"  style="color:var(--cg-orange);font-size:.76rem;font-weight:600;margin:0;"></p>
+      <ul id="r-bens" class="list-unstyled mb-0 cg-hide"></ul>
     </div>
 
-    <!-- Selector de horario -->
-    <p id="r-sedes-label" style="font-size:.78rem;color:var(--cg-muted);margin-bottom:.5rem;line-height:1.5;"></p>
+    <!-- Selector de sede -->
+    <div id="r-sedes-header" class="cg-hide" style="margin-bottom:.5rem;">
+      <span class="cg-eye" style="display:block;margin-bottom:.3rem;">ELIGE TU SEDE</span>
+      <p style="font-size:.8rem;color:var(--cg-muted);margin:0;line-height:1.5;">
+        Selecciona dónde te gustaría estudiar para recibir la información correcta por WhatsApp.
+      </p>
+    </div>
     <div id="r-sedes"></div>
+
+    <!-- Botón confirmación — sticky, aparece al seleccionar -->
+    <div class="cg-sede-confirm-wrap cg-hide" id="btn-sede-wrap">
+      <button class="cg-btn cg-btn-or" id="btn-sede-confirm" onclick="confirmSede()">
+        Continuar con esta sede &nbsp;<i class="bi bi-arrow-right"></i>
+      </button>
+      <p class="text-center mt-1" style="font-size:.72rem;color:var(--cg-muted);margin:0;">
+        ✓ Sede seleccionada
+      </p>
+    </div>
   </div>
 </div>
 
@@ -623,13 +681,15 @@
     <p style="font-size:.78rem;color:var(--cg-muted);text-align:center;margin-bottom:.65rem;line-height:1.5;">
       Esta es una recomendacion inicial. Tu asesor puede mostrarte mas opciones y armar un paquete personalizado para ti.
     </p>
-    <a href="#" class="cg-btn cg-btn-wa" id="wa-btn" target="_blank" rel="noopener noreferrer" onclick="trackWA()">
-      <i class="fab fa-whatsapp fs-5"></i>
-      Hablar con mi asesor ahora
-    </a>
-    <p class="text-center mt-2" style="color:var(--cg-muted);font-size:.7rem;">
-      Sin compromisos.
-    </p>
+    <div class="cg-cont-sticky">
+      <a href="#" class="cg-btn cg-btn-wa" id="wa-btn" target="_blank" rel="noopener noreferrer" onclick="trackWA()">
+        <i class="fab fa-whatsapp fs-5"></i>
+        Hablar con mi asesor ahora
+      </a>
+      <p class="text-center mt-1" style="color:var(--cg-muted);font-size:.7rem;margin:0;">
+        Sin compromisos.
+      </p>
+    </div>
 
     <button class="cg-back text-center d-block w-100 mt-1" onclick="go(5)">
       Cambiar horario
@@ -891,46 +951,43 @@ function renderResult() {
   const pg = PROGS[S.prog];
   if (!pg) return;
 
+  // Badge + nombre + tagline (sin beneficios — se omiten en S5 para ganar espacio)
   document.getElementById('r-badge').innerHTML =
     '<span class="cg-badge ' + BCLS[S.prog] + '">' + BLBL[S.prog] + '</span>';
   document.getElementById('r-name').textContent = pg.name;
   document.getElementById('r-tag').textContent  = pg.tagline;
-  document.getElementById('r-bens').innerHTML   = pg.benefits.map(b =>
-    '<li class="d-flex align-items-start gap-2 mb-1"><i class="bi bi-check-circle-fill mt-1" style="color:var(--cg-orange);font-size:.78rem;flex-shrink:0;"></i><span style="font-size:.85rem;color:#4b5563;">' + b + '</span></li>'
-  ).join('');
 
-  // Label dinámico según número de sedes
+  // Ocultar botón confirmación y resetear sede al entrar en S5
+  S.sede = null; S.sedeL = null;
+  document.getElementById('btn-sede-wrap').classList.add('cg-hide');
+
+  // Cabecera de selección de sede
   const sedeCount = pg.sedes.length;
-  let sedesLabel;
-  if (sedeCount > 1) {
-    sedesLabel = '<i class="bi bi-info-circle me-1" style="color:var(--cg-orange);"></i>' +
-      'Selecciona la sede y horario que más te interese — esto ayuda a tu asesor a preparar mejor tu atención.';
-  } else if (sedeCount === 1) {
-    sedesLabel = '<i class="bi bi-calendar-check me-1" style="color:var(--cg-orange);"></i>' +
-      'Confirma el horario disponible para continuar.';
+  const hdr = document.getElementById('r-sedes-header');
+  if (sedeCount > 0) {
+    hdr.classList.remove('cg-hide');
   } else {
-    sedesLabel = '<i class="bi bi-chat-dots me-1" style="color:var(--cg-orange);"></i>' +
-      'Tu asesor coordinará el horario contigo directamente.';
+    hdr.classList.add('cg-hide');
   }
-  document.getElementById('r-sedes-label').innerHTML = sedesLabel;
 
+  // Cards de sede con nueva jerarquía visual
   document.getElementById('r-sedes').innerHTML = pg.sedes.map(s => {
     const vac = s.vacantes === null
       ? '<span class="vac-g">Disponible</span>'
       : s.vacantes <= 2
-        ? '<span class="vac-r">Solo ' + s.vacantes + '!</span>'
+        ? '<span class="vac-r">¡Solo ' + s.vacantes + ' vacantes!</span>'
         : '<span class="vac-g">' + s.vacantes + ' vacantes</span>';
-    return '<div class="cg-sede" onclick="pickSede(\'' + s.id + '\',\'' + s.name + '\',this)">' +
-      '<div class="d-flex justify-content-between align-items-start mb-1">' +
-        '<strong style="font-size:.9rem;color:var(--cg-text);"><i class="bi bi-geo-alt-fill me-1" style="color:var(--cg-orange);"></i>' + s.name + '</strong>' +
-        vac +
-      '</div>' +
-      '<div style="font-size:.8rem;color:var(--cg-muted);">' +
-        '<i class="bi bi-calendar3 me-1"></i>' + s.schedule + ' &nbsp; ' +
-        '<i class="bi bi-clock me-1"></i>' + s.time +
-      '</div>' +
-      '<div style="font-size:.76rem;color:var(--cg-muted);margin-top:.15rem;"><i class="bi bi-pin-map me-1"></i>' + s.ref + '</div>' +
-    '</div>';
+    return (
+      '<div class="cg-sede" onclick="pickSede(\'' + s.id + '\',\'' + s.name + '\',this)">' +
+        '<div class="cg-sede-check"><i class="bi bi-check"></i></div>' +
+        '<div class="d-flex justify-content-between align-items-start mb-2">' +
+          '<div class="cg-sede-name"><i class="bi bi-geo-alt-fill me-1" style="color:var(--cg-orange);font-size:.85rem;"></i>' + s.name + '</div>' +
+          vac +
+        '</div>' +
+        '<div class="cg-sede-meta"><i class="bi bi-calendar3 me-1"></i>' + s.schedule + ' &nbsp;<i class="bi bi-clock me-1"></i>' + s.time + '</div>' +
+        (s.ref ? '<div class="cg-sede-ref"><i class="bi bi-pin-map me-1"></i>' + s.ref + '</div>' : '') +
+      '</div>'
+    );
   }).join('');
 
   // Auto-selección cuando solo hay una sede
@@ -955,12 +1012,17 @@ function pickSede(id, name, el) {
   el.classList.add('sel');
   S.sede = id; S.sedeL = name;
 
-  // Guardar horario en estado para el beacon de S6
+  // Guardar horario
   const pg   = PROGS[S.prog];
   const sede = pg ? pg.sedes.find(s => s.id === id) : null;
   S.horario  = sede ? (sede.schedule + ' ' + sede.time).trim() : '';
 
-  // Rellenar S6 con resumen
+  // Mostrar botón de confirmación con animación
+  const wrap = document.getElementById('btn-sede-wrap');
+  wrap.classList.remove('cg-hide');
+  wrap.style.animation = 'cgIn .25s ease-out both';
+
+  // Pre-rellenar S6 con resumen
   document.getElementById('s6-prog-name').textContent = pg.name;
   document.getElementById('s6-sede-detail').innerHTML =
     '<i class="bi bi-geo-alt-fill me-1" style="color:var(--cg-orange);"></i><strong>' + name + '</strong>' +
@@ -988,8 +1050,11 @@ function pickSede(id, name, el) {
   ].filter(l => l !== null).join('\n');
 
   document.getElementById('wa-btn').href = 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(lines);
+  // go(6) se llama desde confirmSede() al pulsar el botón
+}
 
-  // Navegar a S6
+function confirmSede() {
+  if (!S.sede) return;
   go(6);
 }
 
@@ -1015,7 +1080,8 @@ window.setEdad   = setEdad;
 window.setObj    = setObj;
 window.go        = go;
 window.goSlide   = goSlide;
-window.pickSede  = pickSede;
+window.pickSede     = pickSede;
+window.confirmSede  = confirmSede;
 window.trackWA   = trackWA;
 </script>
 
