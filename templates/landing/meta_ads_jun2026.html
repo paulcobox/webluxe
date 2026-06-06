@@ -581,10 +581,10 @@
     <!-- Card precio -->
     <div class="cg-price">
       <p style="font-family:'Nunito',sans-serif;font-weight:800;font-size:1.05rem;color:#92400e;margin-bottom:.5rem;">
-        Inversion mensual: <span style="color:var(--cg-orange);">S/. 170</span>
+        <span id="s6-price-label">Inversion mensual</span>: <span id="s6-price" style="color:var(--cg-orange);">S/. 170</span>
       </p>
       <ul class="list-unstyled mb-2" style="font-size:.85rem;color:#78350f;line-height:1.75;">
-        <li>✅ 4 sesiones al mes</li>
+        <li id="s6-sessions">✅ 4 sesiones al mes</li>
         <li>✅ Formacion progresiva</li>
         <li>✅ Profesor especializado</li>
         <li>✅ Feedback con video (analisis y correcciones)</li>
@@ -745,7 +745,7 @@ async function onSubmit(e) {
     content_category: S.obj,
     experience_level: S.exp,
     age_range: S.edad,
-    value: 170,
+    value: S.prog === 'privadas' ? 150 : 170,
     currency: 'PEN'
   }, { eventID: metaEventId });
 
@@ -888,6 +888,14 @@ function renderResult() {
       if (el) pickSede(pg.sedes[0].id, pg.sedes[0].name, el);
     }, 150);
   }
+
+  const isPrivadas = S.prog === 'privadas';
+  document.getElementById('s6-price-label').textContent =
+    isPrivadas ? 'Inversion por sesion' : 'Inversion mensual';
+  document.getElementById('s6-price').textContent =
+    isPrivadas ? 'S/. 150' : 'S/. 170';
+  document.getElementById('s6-sessions').textContent =
+    isPrivadas ? '✅ 1 sesion personalizada' : '✅ 4 sesiones al mes';
 }
 
 function pickSede(id, name, el) {

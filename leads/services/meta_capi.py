@@ -49,11 +49,12 @@ def send_lead_event(lead, ip='', user_agent=''):
         if m:
             age_range = m.group(1).strip()
 
+    lead_value = 150 if 'Privada' in (lead.form_course_raw or '') else 170
     custom_data = {
         'content_name': lead.form_course_raw or '',
         'content_category': lead.form_motivation_raw or '',
         'experience_level': lead.form_experience_raw or '',
-        'value': 170,
+        'value': lead_value,
         'currency': 'PEN',
     }
     if age_range:
