@@ -122,6 +122,7 @@ def create_lead(request):
         form_motivation_raw = request.POST.get('form_motivation_raw', '')
         form_course_raw     = request.POST.get('form_course_raw', '')
         form_schedule_raw   = request.POST.get('form_schedule_raw', '')
+        form_age_raw        = request.POST.get('form_age_raw', '')
 
         utm_source = request.POST.get('utm_source')
         utm_medium = request.POST.get('utm_medium')
@@ -164,6 +165,7 @@ def create_lead(request):
             form_motivation_raw=form_motivation_raw,
             form_course_raw=form_course_raw,
             form_schedule_raw=form_schedule_raw,
+            form_age_raw=form_age_raw,
             utm_source=utm_source,
             utm_medium=utm_medium,
             utm_campaign=utm_campaign,

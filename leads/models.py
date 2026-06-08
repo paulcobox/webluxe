@@ -19,6 +19,7 @@ class Lead(models.Model):
     form_experience_raw = models.CharField(max_length=200, blank=True, null=True)
     form_schedule_raw = models.CharField(max_length=200, blank=True, null=True)
     form_motivation_raw = models.CharField(max_length=220, blank=True, null=True)
+    form_age_raw = models.CharField(max_length=100, blank=True, null=True)
 
     # --- NORMALIZED (para reportes / filtros estables) ---
     form_course_key = models.CharField(max_length=120, blank=True, null=True, db_index=True)
