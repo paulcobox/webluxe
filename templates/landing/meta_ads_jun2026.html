@@ -684,8 +684,8 @@
       <div id="s6-sede-detail" style="font-size:.8rem;color:var(--cg-muted);line-height:1.8;"></div>
     </div>
 
-    <!-- Card precio -->
-    <div class="cg-price">
+    <!-- Card precio — cursos grupales -->
+    <div class="cg-price" id="s6-price-group">
       <p style="font-family:'Nunito',sans-serif;font-weight:800;font-size:1.05rem;color:#92400e;margin-bottom:.4rem;">
         Inversión estimada: <span id="s6-price" style="color:var(--cg-orange);">Desde S/ 180</span>
       </p>
@@ -696,6 +696,21 @@
       </ul>
       <p style="font-size:.78rem;color:#92400e;margin:0;line-height:1.55;">
         ✨ Tu asesor arma el paquete exacto según los cursos que elegiste.
+      </p>
+    </div>
+
+    <!-- Card precio — clases privadas -->
+    <div class="cg-price cg-hide" id="s6-price-privadas">
+      <p style="font-family:'Nunito',sans-serif;font-weight:800;font-size:1.05rem;color:#92400e;margin-bottom:.4rem;">
+        Inversión: <span style="color:var(--cg-orange);">S/ 150 por sesión</span>
+      </p>
+      <ul class="list-unstyled mb-2" style="font-size:.83rem;color:#78350f;line-height:1.75;">
+        <li>✅ Atención 100% personalizada</li>
+        <li>✅ Horario totalmente flexible</li>
+        <li>✅ Corrección técnica inmediata</li>
+      </ul>
+      <p style="font-size:.78rem;color:#92400e;margin:0;line-height:1.55;">
+        💬 Arma tu paquete de horas con tu asesor — a mayor cantidad de sesiones, mejor precio.
       </p>
     </div>
 
@@ -1084,17 +1099,22 @@ function confirmCursos() {
   const cursos  = S._cursosDisponibles || [];
   const selDatos = S.cursosSeleccionados.map(id => cursos.find(c => c.id === id)).filter(Boolean);
 
-  // Precio dinámico según cantidad
-  const n = selDatos.length;
-  const precio = n >= 3 ? 'Full Pass S/ 400' : n === 2 ? 'Desde S/ 300' : 'Desde S/ 180';
-
   // Rellenar S6 resumen
   document.getElementById('s6-prog-name').textContent = selDatos.map(c => c.name).join(' + ');
   document.getElementById('s6-sede-detail').innerHTML = selDatos.map(c =>
     '<div><i class="bi bi-calendar3 me-1" style="color:var(--cg-orange);"></i>' +
     '<strong>' + c.name + '</strong> · ' + c.schedule + '</div>'
   ).join('');
-  document.getElementById('s6-price').textContent = precio;
+
+  // Card de precio: privadas vs grupales
+  const isPrivadas = S.prog === 'privadas';
+  document.getElementById('s6-price-group').classList.toggle('cg-hide', isPrivadas);
+  document.getElementById('s6-price-privadas').classList.toggle('cg-hide', !isPrivadas);
+  if (!isPrivadas) {
+    const n = selDatos.length;
+    document.getElementById('s6-price').textContent =
+      n >= 3 ? 'Full Pass S/ 400' : n === 2 ? 'Desde S/ 300' : 'Desde S/ 180';
+  }
 
   // Construir URL WA
   const cursosLines = selDatos.map(c => '- ' + c.name + ' · ' + c.schedule);

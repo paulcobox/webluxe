@@ -368,6 +368,9 @@ class LandingMetaAdsJun2026View(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        from content_site.models import Testimony
+        testimonies = list(Testimony.objects.filter(is_active=True))
+        random.shuffle(testimonies)
         context.update({
             'hero_image_url':  'https://images.unsplash.com/photo-1545959570-a94084071b5d?w=1400&q=80',
             'stats_count':     '500+',
@@ -375,6 +378,7 @@ class LandingMetaAdsJun2026View(TemplateView):
             'programs_json':   json.dumps(self._programs_with_random_vacantes()),
             'raices_json':     json.dumps(self.RAICES_CUBANAS),
             'whatsapp_number': '51991337159',
+            'list_testimony':  testimonies,
         })
         return context
 
