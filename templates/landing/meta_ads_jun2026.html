@@ -63,6 +63,7 @@
     }
     *, *::before, *::after { box-sizing: border-box; }
     body { font-family: 'Heebo', sans-serif; background: #fff; color: var(--cg-text); margin: 0; padding: 0; }
+    .grecaptcha-badge { visibility: hidden !important; }
 
     /* ── SCREENS ─────────────────────────────────────── */
     .cg-screen {
@@ -687,12 +688,12 @@
     <!-- Card precio — cursos grupales -->
     <div class="cg-price" id="s6-price-group">
       <p style="font-family:'Nunito',sans-serif;font-weight:800;font-size:1.05rem;color:#92400e;margin-bottom:.4rem;">
-        Inversión estimada: <span id="s6-price" style="color:var(--cg-orange);">Desde S/ 180</span>
+        Inversión estimada
       </p>
       <ul class="list-unstyled mb-2" style="font-size:.83rem;color:#78350f;line-height:1.75;">
-        <li>✅ 1 experiencia (4 sesiones): <strong>S/ 180</strong></li>
-        <li>✅ 2 experiencias (8 sesiones): <strong>S/ 300</strong></li>
-        <li>✅ Full Pass (todas las experiencias): <strong>S/ 400</strong></li>
+        <li>✅ 1 curso (4 sesiones): <strong>S/ 180</strong></li>
+        <li>✅ 2 cursos (8 sesiones): <strong>S/ 300</strong></li>
+        <li>✅ Todos los cursos (Full Pass): <strong>S/ 400</strong></li>
       </ul>
       <p style="font-size:.78rem;color:#92400e;margin:0;line-height:1.55;">
         ✨ Tu asesor arma el paquete exacto según los cursos que elegiste.
@@ -1110,11 +1111,6 @@ function confirmCursos() {
   const isPrivadas = S.prog === 'privadas';
   document.getElementById('s6-price-group').classList.toggle('cg-hide', isPrivadas);
   document.getElementById('s6-price-privadas').classList.toggle('cg-hide', !isPrivadas);
-  if (!isPrivadas) {
-    const n = selDatos.length;
-    document.getElementById('s6-price').textContent =
-      n >= 3 ? 'Full Pass S/ 400' : n === 2 ? 'Desde S/ 300' : 'Desde S/ 180';
-  }
 
   // Construir URL WA
   const cursosLines = selDatos.map(c => '- ' + c.name + ' · ' + c.schedule);
