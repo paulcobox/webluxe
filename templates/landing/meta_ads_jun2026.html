@@ -315,6 +315,44 @@
     .cg-hide { display: none !important; }
     .cg-div  { border-color: var(--cg-border); margin: .875rem 0; }
     .cg-err-box { background: #fee2e2; border: 1px solid #fca5a5; border-radius: .75rem; padding: .6rem .9rem; color: #dc2626; font-size: .85rem; margin-bottom: .75rem; }
+
+    /* ── CURSO CARD (seleccionable) ──────────────────────── */
+    .cg-curso {
+      border: 2px solid var(--cg-border); border-radius: 1rem;
+      padding: .7rem .9rem; cursor: pointer; background: #fff;
+      margin-bottom: .45rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,.06);
+      transition: all .2s ease; position: relative;
+    }
+    .cg-curso:hover  { border-color: var(--cg-orange); background: rgba(255,106,9,.03); }
+    .cg-curso:active { transform: scale(.99); }
+    .cg-curso.sel {
+      border-color: var(--cg-orange);
+      background: rgba(255,106,9,.06);
+      box-shadow: 0 0 0 3px rgba(255,106,9,.18);
+    }
+    .cg-curso-check {
+      display: none; position: absolute; top: .7rem; right: .8rem;
+      width: 1.4rem; height: 1.4rem; border-radius: 50%;
+      background: var(--cg-orange); color: #fff;
+      font-size: .75rem; font-weight: 700;
+      align-items: center; justify-content: center;
+    }
+    .cg-curso.sel .cg-curso-check { display: flex; }
+    .cg-curso-name {
+      font-family: 'Nunito', sans-serif; font-weight: 800;
+      font-size: .95rem; color: var(--cg-text);
+      margin-bottom: .15rem; padding-right: 1.8rem;
+    }
+    .cg-curso-meta { font-size: .78rem; color: var(--cg-muted); }
+    .cg-curso-badge {
+      display: inline-flex; align-items: center; gap: .25rem;
+      font-size: .65rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; padding: .15rem .55rem;
+      border-radius: 99px; margin-bottom: .3rem;
+    }
+    .cb-rec  { background: #dcfce7; color: #15803d; }
+    .cb-comp { background: #fff7ed; color: #92400e; }
   </style>
 </head>
 <body>
@@ -592,7 +630,7 @@
 </div>
 
 
-<!-- ═══ S5 — Programa recomendado + selector sede ═════════ -->
+<!-- ═══ S5 — Cursos seleccionables ════════════════════════ -->
 <div class="cg-screen" id="s5">
   <div class="cg-prog-wrap">
     <div class="d-flex justify-content-between mb-1">
@@ -605,52 +643,21 @@
   </div>
 
   <div class="cg-body" style="justify-content:flex-start;padding-top:.6rem;">
-    <div class="d-flex align-items-center gap-2 mb-2">
+    <div class="d-flex align-items-center gap-2 mb-1">
       <span style="font-size:1.25rem;">🎉</span>
-      <h2 class="cg-title mb-0" style="font-size:1.05rem;">Tu programa recomendado</h2>
+      <h2 class="cg-title mb-0" style="font-size:1.05rem;">Elige tus cursos</h2>
     </div>
+    <p class="cg-sub" style="margin-bottom:.75rem;">Puedes llevar uno o más. Tu asesor te arma el paquete ideal.</p>
 
-    <!-- Tarjeta programa — compacta, sin beneficios -->
-    <div style="border:1.5px solid var(--cg-border);border-radius:.875rem;padding:.65rem .85rem;margin-bottom:.5rem;">
-      <div id="r-badge" style="margin-bottom:.25rem;"></div>
-      <h3 id="r-name" style="font-family:'Nunito',sans-serif;font-weight:800;font-size:1rem;color:var(--cg-text);margin-bottom:.1rem;"></h3>
-      <p  id="r-tag"  style="color:var(--cg-orange);font-size:.76rem;font-weight:600;margin:0;"></p>
-      <ul id="r-bens" class="list-unstyled mb-0 cg-hide"></ul>
-    </div>
+    <!-- Cards de cursos (principal + complementarios) -->
+    <div id="r-cursos"></div>
 
-    <!-- Selector de horario -->
-    <div id="r-sedes-header" class="cg-hide" style="margin-bottom:.5rem;">
-      <span class="cg-eye" style="display:block;margin-bottom:.3rem;">ELIGE TU HORARIO</span>
-      <p style="font-size:.8rem;color:var(--cg-muted);margin:0;line-height:1.5;">
-        Selecciona el horario que mejor se adapte a ti.
-      </p>
-    </div>
-    <div id="r-sedes"></div>
-
-    <!-- Add-on Raíces Cubanas (solo para basico e intermedio) -->
-    <div id="r-raices" class="cg-hide" style="margin-top:.5rem;border:1.5px dashed #fed7aa;border-radius:.875rem;padding:.65rem .85rem;background:#fff7ed;">
-      <p class="cg-eye" style="color:#92400e;margin-bottom:.2rem;">✨ COMPLEMENTA TU APRENDIZAJE</p>
-      <p style="font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;color:#92400e;margin-bottom:.1rem;">Raíces Cubanas</p>
-      <p style="font-size:.78rem;color:#b45309;margin-bottom:.2rem;">Sábados 4:30 pm – 6:00 pm · Miraflores</p>
-      <p style="font-size:.75rem;color:#92400e;margin:0;line-height:1.5;">Rumba y Danzas Afrocubanas — enriquece tu musicalidad y expresión corporal. Disponible para todos los niveles.</p>
-    </div>
-
-    <!-- Add-on Timba Fusion y Reparto (solo avanzados: basico+avanzado e intermedio) -->
-    <div id="r-timba" class="cg-hide" style="margin-top:.45rem;border:1.5px dashed #dbeafe;border-radius:.875rem;padding:.65rem .85rem;background:#eff6ff;">
-      <p class="cg-eye" style="color:#1d4ed8;margin-bottom:.2rem;">🔥 SUMA MÁS FLOW A TU ENTRENAMIENTO</p>
-      <p style="font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;color:#1e40af;margin-bottom:.1rem;">Timba Fusion y Reparto</p>
-      <p style="font-size:.78rem;color:#1d4ed8;margin-bottom:.2rem;">Viernes 8:00 pm – 10:00 pm · Miraflores</p>
-      <p style="font-size:.75rem;color:#1e40af;margin:0;line-height:1.5;">Pasos sueltos de Timba moderna y Reparto — para bailarines con más de 6 meses de experiencia.</p>
-    </div>
-
-    <!-- Botón confirmación — sticky, aparece al seleccionar -->
-    <div class="cg-sede-confirm-wrap cg-hide" id="btn-sede-wrap">
-      <button class="cg-btn cg-btn-or" id="btn-sede-confirm" onclick="confirmSede()">
-        Continuar con este horario &nbsp;<i class="bi bi-arrow-right"></i>
+    <!-- Botón sticky — se activa cuando hay al menos 1 seleccionado -->
+    <div class="cg-cont-sticky">
+      <button class="cg-btn cg-btn-or" id="btn-cursos-confirm" onclick="confirmCursos()" disabled style="opacity:.45;cursor:not-allowed;">
+        <span id="btn-cursos-txt">Selecciona al menos un curso</span>
+        <i class="bi bi-arrow-right ms-1"></i>
       </button>
-      <p class="text-center mt-1" style="font-size:.72rem;color:var(--cg-muted);margin:0;">
-        ✓ Horario seleccionado
-      </p>
     </div>
   </div>
 </div>
@@ -670,16 +677,17 @@
 
   <div class="cg-body" style="justify-content:center;">
 
-    <!-- Resumen sede seleccionada -->
-    <div style="background:var(--cg-light);border:1px solid var(--cg-border);border-radius:.875rem;padding:.875rem 1rem;margin-bottom:.875rem;">
-      <div id="s6-prog-name" style="font-family:'Nunito',sans-serif;font-weight:800;font-size:.95rem;color:var(--cg-text);margin-bottom:.2rem;"></div>
-      <div id="s6-sede-detail" style="font-size:.82rem;color:var(--cg-muted);"></div>
+    <!-- Resumen cursos seleccionados -->
+    <div style="background:var(--cg-light);border:1px solid var(--cg-border);border-radius:.875rem;padding:.875rem 1rem;margin-bottom:.75rem;">
+      <p class="cg-eye" style="margin-bottom:.4rem;">TUS CURSOS SELECCIONADOS</p>
+      <div id="s6-prog-name" style="font-family:'Nunito',sans-serif;font-weight:800;font-size:.88rem;color:var(--cg-text);margin-bottom:.3rem;"></div>
+      <div id="s6-sede-detail" style="font-size:.8rem;color:var(--cg-muted);line-height:1.8;"></div>
     </div>
 
     <!-- Card precio -->
     <div class="cg-price">
       <p style="font-family:'Nunito',sans-serif;font-weight:800;font-size:1.05rem;color:#92400e;margin-bottom:.4rem;">
-        Inversión: <span id="s6-price" style="color:var(--cg-orange);">Desde S/ 180</span>
+        Inversión estimada: <span id="s6-price" style="color:var(--cg-orange);">Desde S/ 180</span>
       </p>
       <ul class="list-unstyled mb-2" style="font-size:.83rem;color:#78350f;line-height:1.75;">
         <li>✅ 1 experiencia (4 sesiones): <strong>S/ 180</strong></li>
@@ -687,7 +695,7 @@
         <li>✅ Full Pass (todas las experiencias): <strong>S/ 400</strong></li>
       </ul>
       <p style="font-size:.78rem;color:#92400e;margin:0;line-height:1.55;">
-        ✨ Tu asesor puede armar el paquete ideal para ti según tus objetivos y disponibilidad.
+        ✨ Tu asesor arma el paquete exacto según los cursos que elegiste.
       </p>
     </div>
 
@@ -706,7 +714,7 @@
     </div>
 
     <button class="cg-back text-center d-block w-100 mt-1" onclick="go(5)">
-      Cambiar horario
+      Cambiar selección
     </button>
   </div>
 </div>
@@ -723,7 +731,7 @@ const WA_NUM = '{{ whatsapp_number }}';
 let   CSRF   = '';
 
 // Estado
-const S = { step:0, exp:null, expL:null, edad:null, obj:null, objL:null, prog:null, sede:null, sedeL:null, horario:null, nombre:null, apellido:null, leadId:null };
+const S = { step:0, exp:null, expL:null, edad:null, obj:null, objL:null, prog:null, nombre:null, apellido:null, leadId:null, cursosSeleccionados:[], _cursosDisponibles:[] };
 
 document.addEventListener('DOMContentLoaded', function () {
   var csrfEl = document.querySelector('[name=csrfmiddlewaretoken]');
@@ -961,119 +969,152 @@ function resetBtn() {
   document.getElementById('sbico').classList.remove('cg-hide');
 }
 
-// S5: resultado
-const BCLS = { basico:'b-bas', intermedio:'b-int', ladyStyle:'b-ls', timbafusion:'b-int', privadas:'b-prv' };
-const BLBL = { basico:'Basico', intermedio:'Intermedio', ladyStyle:'Lady Style', timbafusion:'Timba Fusion', privadas:'Privadas' };
-
+// S5: resultado con cursos seleccionables
 function renderResult() {
   const pg = PROGS[S.prog];
   if (!pg) return;
 
-  // Badge + nombre + tagline (sin beneficios — se omiten en S5 para ganar espacio)
-  document.getElementById('r-badge').innerHTML =
-    '<span class="cg-badge ' + BCLS[S.prog] + '">' + BLBL[S.prog] + '</span>';
-  document.getElementById('r-name').textContent = pg.name;
-  document.getElementById('r-tag').textContent  = pg.tagline;
+  S.cursosSeleccionados = [];
 
-  // Ocultar botón confirmación y resetear sede al entrar en S5
-  S.sede = null; S.sedeL = null;
-  document.getElementById('btn-sede-wrap').classList.add('cg-hide');
+  // Construir lista de cursos disponibles para este perfil
+  const cursos = [];
 
-  // Cabecera de selección de sede
-  const sedeCount = pg.sedes.length;
-  const hdr = document.getElementById('r-sedes-header');
-  if (sedeCount > 0) {
-    hdr.classList.remove('cg-hide');
-  } else {
-    hdr.classList.add('cg-hide');
-  }
-
-  // Cards de sede con nueva jerarquía visual
-  document.getElementById('r-sedes').innerHTML = pg.sedes.map(s => {
+  // Programa principal — cada horario es una card separada
+  pg.sedes.forEach(s => {
     const vac = s.vacantes === null
-      ? '<span class="vac-g">Disponible</span>'
+      ? '<span class="vac-g ms-1">Disponible</span>'
       : s.vacantes <= 2
-        ? '<span class="vac-r">¡Solo ' + s.vacantes + ' vacantes!</span>'
-        : '<span class="vac-g">' + s.vacantes + ' vacantes</span>';
-    return (
-      '<div class="cg-sede" onclick="pickSede(\'' + s.id + '\',\'' + s.name + '\',this)">' +
-        '<div class="cg-sede-check"><i class="bi bi-check"></i></div>' +
-        '<div class="d-flex justify-content-between align-items-start mb-2">' +
-          '<div class="cg-sede-name"><i class="bi bi-geo-alt-fill me-1" style="color:var(--cg-orange);font-size:.85rem;"></i>' + s.name + '</div>' +
-          vac +
-        '</div>' +
-        '<div class="cg-sede-meta"><i class="bi bi-calendar3 me-1"></i>' + s.schedule + ' &nbsp;<i class="bi bi-clock me-1"></i>' + s.time + '</div>' +
-        (s.ref ? '<div class="cg-sede-ref"><i class="bi bi-pin-map me-1"></i>' + s.ref + '</div>' : '') +
-      '</div>'
-    );
-  }).join('');
+        ? '<span class="vac-r ms-1">¡Solo ' + s.vacantes + ' vacantes!</span>'
+        : '<span class="vac-g ms-1">' + s.vacantes + ' vacantes</span>';
+    cursos.push({
+      id:       pg.id + '_' + s.id,
+      name:     pg.name,
+      schedule: s.schedule + ' ' + s.time,
+      ref:      s.ref,
+      badge:    'cb-rec',
+      badgeTxt: '⭐ Recomendado para ti',
+      vacBadge: vac,
+      isMain:   true,
+    });
+  });
 
-  // Auto-selección cuando solo hay una opción de horario
-  if (sedeCount === 1) {
-    setTimeout(() => {
-      const el = document.querySelector('.cg-sede');
-      if (el) pickSede(pg.sedes[0].id, pg.sedes[0].name, el);
-    }, 150);
+  // Add-on Raíces Cubanas
+  if (pg.raices_addon) {
+    cursos.push({
+      id:       'raices',
+      name:     'Raíces Cubanas',
+      schedule: 'Sábados 4:30 pm – 6:00 pm',
+      ref:      'Miraflores · 1 cdra. Parque Kennedy',
+      badge:    'cb-comp',
+      badgeTxt: '✨ Complementario · Todos los niveles',
+      vacBadge: '',
+      isMain:   false,
+    });
   }
 
-  // Add-on Raíces: según flag del programa
-  const raicesEl = document.getElementById('r-raices');
-  if (raicesEl) raicesEl.classList.toggle('cg-hide', !pg.raices_addon);
-
-  // Add-on Timba: flag del programa O (basico/intermedio + experiencia avanzada)
-  const timbaEl = document.getElementById('r-timba');
+  // Add-on Timba Fusion
   const showTimba = pg.timba_addon || (pg.raices_addon && S.exp === 'avanzado');
-  if (timbaEl) timbaEl.classList.toggle('cg-hide', !showTimba);
+  if (showTimba) {
+    cursos.push({
+      id:       'timbafusion',
+      name:     'Timba Fusion y Reparto',
+      schedule: 'Viernes 8:00 pm – 10:00 pm',
+      ref:      'Miraflores · 1 cdra. Parque Kennedy',
+      badge:    'cb-comp',
+      badgeTxt: '🔥 Complementario · +6 meses exp.',
+      vacBadge: '',
+      isMain:   false,
+    });
+  }
+
+  // Guardar referencia global para toggleCurso
+  S._cursosDisponibles = cursos;
+
+  // Renderizar cards
+  document.getElementById('r-cursos').innerHTML = cursos.map(c =>
+    '<div class="cg-curso' + (c.isMain ? ' sel' : '') + '" id="cc-' + c.id + '" onclick="toggleCurso(\'' + c.id + '\')">' +
+      '<div class="cg-curso-check"><i class="bi bi-check"></i></div>' +
+      '<span class="cg-curso-badge ' + c.badge + '">' + c.badgeTxt + '</span>' +
+      (c.vacBadge ? c.vacBadge : '') +
+      '<div class="cg-curso-name">' + c.name + '</div>' +
+      '<div class="cg-curso-meta"><i class="bi bi-calendar3 me-1"></i>' + c.schedule + '</div>' +
+      '<div class="cg-curso-meta"><i class="bi bi-geo-alt me-1"></i>' + c.ref + '</div>' +
+    '</div>'
+  ).join('');
+
+  // Pre-seleccionar todos los cursos principales
+  cursos.filter(c => c.isMain).forEach(c => S.cursosSeleccionados.push(c.id));
+  _updateConfirmBtn();
 }
 
-function pickSede(id, name, el) {
-  document.querySelectorAll('.cg-sede').forEach(c => c.classList.remove('sel'));
-  el.classList.add('sel');
-  S.sede = id; S.sedeL = name;
+function toggleCurso(id) {
+  const el  = document.getElementById('cc-' + id);
+  const idx = S.cursosSeleccionados.indexOf(id);
+  if (idx === -1) {
+    S.cursosSeleccionados.push(id);
+    el.classList.add('sel');
+  } else {
+    S.cursosSeleccionados.splice(idx, 1);
+    el.classList.remove('sel');
+  }
+  _updateConfirmBtn();
+}
 
-  // Guardar horario
-  const pg   = PROGS[S.prog];
-  const sede = pg ? pg.sedes.find(s => s.id === id) : null;
-  S.horario  = sede ? (sede.schedule + ' ' + sede.time).trim() : '';
+function _updateConfirmBtn() {
+  const btn = document.getElementById('btn-cursos-confirm');
+  const txt = document.getElementById('btn-cursos-txt');
+  const n   = S.cursosSeleccionados.length;
+  if (n === 0) {
+    btn.disabled = true;
+    btn.style.opacity = '.45';
+    btn.style.cursor  = 'not-allowed';
+    txt.textContent   = 'Selecciona al menos un curso';
+  } else {
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.style.cursor  = 'pointer';
+    txt.textContent   = n === 1 ? 'Confirmar (1 curso)' : 'Confirmar (' + n + ' cursos)';
+  }
+}
 
-  // Mostrar botón de confirmación con animación
-  const wrap = document.getElementById('btn-sede-wrap');
-  wrap.classList.remove('cg-hide');
-  wrap.style.animation = 'cgIn .25s ease-out both';
+function confirmCursos() {
+  if (!S.cursosSeleccionados.length) return;
 
-  // Pre-rellenar S6 con resumen
-  document.getElementById('s6-prog-name').textContent = pg.name;
-  document.getElementById('s6-sede-detail').innerHTML =
-    '<i class="bi bi-geo-alt-fill me-1" style="color:var(--cg-orange);"></i><strong>' + name + '</strong>' +
-    ' &nbsp;|&nbsp; ' + (sede ? sede.schedule + ' ' + sede.time : '') +
-    (sede && sede.ref ? '<br><i class="bi bi-pin-map me-1 mt-1"></i>' + sede.ref : '');
+  const pg      = PROGS[S.prog];
+  const cursos  = S._cursosDisponibles || [];
+  const selDatos = S.cursosSeleccionados.map(id => cursos.find(c => c.id === id)).filter(Boolean);
+
+  // Precio dinámico según cantidad
+  const n = selDatos.length;
+  const precio = n >= 3 ? 'Full Pass S/ 400' : n === 2 ? 'Desde S/ 300' : 'Desde S/ 180';
+
+  // Rellenar S6 resumen
+  document.getElementById('s6-prog-name').textContent = selDatos.map(c => c.name).join(' + ');
+  document.getElementById('s6-sede-detail').innerHTML = selDatos.map(c =>
+    '<div><i class="bi bi-calendar3 me-1" style="color:var(--cg-orange);"></i>' +
+    '<strong>' + c.name + '</strong> · ' + c.schedule + '</div>'
+  ).join('');
+  document.getElementById('s6-price').textContent = precio;
 
   // Construir URL WA
-  const horario = sede ? sede.schedule + ' ' + sede.time : 'A coordinar';
-
+  const cursosLines = selDatos.map(c => '- ' + c.name + ' · ' + c.schedule);
   const lines = [
     'Hola, vi la publicidad de Cuban Groove en Instagram/Facebook.',
     '',
     'Soy *' + S.nombre + ' ' + S.apellido + '* y complete el cuestionario.',
-    'Mi programa recomendado: *' + pg.name + '*',
     '',
     'Mi perfil:',
     '- Experiencia: ' + (S.expL || '-'),
     '- Edad: '        + (S.edad  || '-'),
     S.objL ? '- Objetivo: ' + S.objL : null,
     '',
-    'Horario de interes:',
-    '- ' + horario + ' (Miraflores · 1 cdra. Parque Kennedy)',
+    'Cursos de interes:',
+    ...cursosLines,
     '',
-    'Me gustaria recibir informacion y hablar con un asesor.',
+    'Me gustaria recibir informacion y armar mi paquete con un asesor.',
   ].filter(l => l !== null).join('\n');
 
   document.getElementById('wa-btn').href = 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(lines);
-  // go(6) se llama desde confirmSede() al pulsar el botón
-}
-
-function confirmSede() {
-  if (!S.sede) return;
   go(6);
 }
 
@@ -1094,14 +1135,13 @@ function trackWA() {
 }
 
 // Exponer funciones llamadas desde onclick en el HTML
-window.setExp    = setExp;
-window.setEdad   = setEdad;
-window.setObj    = setObj;
-window.go        = go;
-window.goSlide   = goSlide;
-window.pickSede     = pickSede;
-window.confirmSede  = confirmSede;
-window.trackWA   = trackWA;
+window.setExp         = setExp;
+window.setEdad        = setEdad;
+window.setObj         = setObj;
+window.go             = go;
+window.toggleCurso    = toggleCurso;
+window.confirmCursos  = confirmCursos;
+window.trackWA        = trackWA;
 </script>
 
 <script src="https://www.google.com/recaptcha/api.js?render={{ RECAPTCHA_SITE_KEY }}" defer></script>
