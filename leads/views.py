@@ -272,6 +272,57 @@ def update_lead_sede(request):
 
 
 
+@csrf_exempt
+def kommo_webhook_contact_created(request):
+    """
+    Receptor del webhook de Kommo cuando se crea un nuevo contacto.
+    Kommo envía application/x-www-form-urlencoded.
+    Por ahora: imprime en consola el payload completo y busca el teléfono del contacto.
+    """
+    if request.method != 'POST':
+        return JsonResponse({'success': False}, status=405)
+
+    # Verificar secret token si está configurado
+    webhook_secret = getattr(settings, 'KOMMO_WEBHOOK_SECRET', '')
+    if webhook_secret:
+        received = request.GET.get('secret') or request.POST.get('secret') or ''
+        if received != webhook_secret:
+            logger.warning('[KOMMO WEBHOOK] Secret inválido — request rechazado')
+            return JsonResponse({'success': False}, status=403)
+
+    # ── DEBUG: imprimir todo lo recibido ──────────────────────────
+    print('=' * 60)
+    print('[KOMMO WEBHOOK] Nuevo evento recibido')
+    print(f'  Content-Type : {request.content_type}')
+    print(f'  GET params   : {dict(request.GET)}')
+    print('  POST data completo:')
+    for key, value in request.POST.items():
+        print(f'    {key} = {value}')
+    print('=' * 60)
+    # ──────────────────────────────────────────────────────────────
+
+    # Extraer contact_id y lead_id de Kommo
+    contact_id = request.POST.get('contacts[add][0][id]') or request.POST.get('contacts[update][0][id]')
+    kommo_lead_id = request.POST.get('leads[add][0][id]')
+
+    print(f'[KOMMO WEBHOOK] contact_id={contact_id} | kommo_lead_id={kommo_lead_id}')
+
+    if not contact_id:
+        print('[KOMMO WEBHOOK] ⚠️  No se encontró contact_id en el payload')
+        return JsonResponse({'success': True})
+
+    # Consultar teléfono a Kommo
+    from leads.services.kommo_service import get_contact_phone
+    phone = get_contact_phone(contact_id)
+
+    if phone:
+        print(f'[KOMMO WEBHOOK] ✅ Teléfono encontrado: {phone} (contact_id={contact_id})')
+    else:
+        print(f'[KOMMO WEBHOOK] ❌ No se encontró teléfono para contact_id={contact_id}')
+
+    return JsonResponse({'success': True})
+
+
 def send_async_email(subject, plain_message, from_email, to_email, html_message=None):
     def _send():
         send_mail(

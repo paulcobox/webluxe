@@ -350,6 +350,32 @@ def create_kommo_deal(contact_id: str, deal_name: str) -> str | None:
         return None
 
 
+def get_contact_phone(contact_id: str) -> str | None:
+    """
+    Consulta un contacto en Kommo por su ID y retorna el teléfono (PHONE).
+    Retorna None si no se encuentra o hay error.
+    """
+    try:
+        resp = requests.get(
+            f'{KOMMO_BASE_URL}/contacts/{contact_id}',
+            headers=_get_headers(),
+            timeout=10,
+        )
+        if resp.status_code != 200:
+            logger.warning(f'[KOMMO] get_contact_phone HTTP {resp.status_code} para contact_id={contact_id}')
+            return None
+
+        data = resp.json()
+        for field in data.get('custom_fields_values') or []:
+            if field.get('field_code') == 'PHONE':
+                values = field.get('values') or []
+                if values:
+                    return values[0].get('value')
+    except Exception as exc:
+        logger.error(f'[KOMMO] Error al obtener teléfono de contacto {contact_id}: {exc}')
+    return None
+
+
 def sync_contact_to_kommo(lead) -> None:
     """
     Sincroniza un Lead con Kommo CRM.
