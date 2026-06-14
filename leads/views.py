@@ -299,7 +299,7 @@ def kommo_webhook_contact_created(request):
         return JsonResponse({'success': True})
 
     # 2. Extraer teléfono del payload (sin llamada extra a Kommo)
-    phone = extract_phone_from_webhook_payload(dict(request.POST))
+    phone = extract_phone_from_webhook_payload(request.POST)
     print(f'[KOMMO WEBHOOK] contact_id={contact_id} | teléfono extraído={phone}')
 
     if not phone:
