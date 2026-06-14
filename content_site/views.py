@@ -240,66 +240,101 @@ class LandingMetaAdsJun2026View(TemplateView):
     # ════════════════════════════════════════════════════════
     # EDITAR AQUI: precios, horarios, vacantes, bullets
     # ════════════════════════════════════════════════════════
+    REF_MIRAFLORES = 'Miraflores · 1 cdra. Parque Kennedy'
+
+    RAICES_CUBANAS = {
+        'name': 'Raices Cubanas',
+        'tagline': 'Rumba y Danzas Afrocubanas — complementa cualquier nivel',
+        'schedule': 'Sabados', 'time': '4:30 pm – 6:00 pm',
+        'ref': 'Miraflores · 1 cdra. Parque Kennedy',
+    }
+
     PROGRAMS = {
         'basico': {
             'id': 'basico',
             'name': 'Salsa Cubana Basico',
-            'tagline': 'El punto de partida perfecto para tu viaje cubano',
+            'tagline': 'Construye tu base con tecnica y confianza',
             'benefits': [
-                'Aprende desde cero, paso a paso',
-                'Fundamentos del movimiento',
-                'Descubre los fundamentos del autentico estilo cubano',
+                'Coordinacion y musicalidad desde cero',
+                'Pasos libres y tecnica corporal',
+                'Introduccion al trabajo en pareja',
             ],
             'sedes': [
                 {
-                    'id': 'surco', 'name': 'Surco',
-                    'schedule': 'Miercoles', 'time': '8:30 pm - 10:00 pm',
-                    'ref': 'Cerca al Ovalo Higuereta',
+                    'id': 'jueves', 'name': 'Jueves',
+                    'schedule': 'Jueves', 'time': '8:00 pm – 10:00 pm',
+                    'ref': 'Miraflores · 1 cdra. Parque Kennedy',
                     'vacantes': 4,
                 },
                 {
-                    'id': 'lince', 'name': 'Lince',
-                    'schedule': 'Viernes', 'time': '8:00 pm - 10:00 pm',
-                    'ref': 'A 1 cdra. de Plaza Vea de Risso',
+                    'id': 'sabado', 'name': 'Sabado',
+                    'schedule': 'Sabado', 'time': '3:00 pm – 4:30 pm',
+                    'ref': 'Miraflores · 1 cdra. Parque Kennedy',
                     'vacantes': 3,
                 },
             ],
+            'raices_addon': True,
+            'timba_addon': False,
         },
         'intermedio': {
             'id': 'intermedio',
             'name': 'Salsa Cubana Intermedio',
-            'tagline': 'Lleva tu baile al siguiente nivel',
+            'tagline': 'Potencia tu tecnica, musicalidad y presencia',
             'benefits': [
-                'Amplia tu repertorio de movimientos y combinaciones',
-                'Mejora tu musicalidad, fluidez y conexion al bailar',
-                'Lleva tu salsa cubana al siguiente nivel',
+                'Musicalidad aplicada y control corporal',
+                'Pasos libres, variaciones y energia',
+                'Fluidez y seguridad al bailar',
             ],
             'sedes': [
                 {
-                    'id': 'surco', 'name': 'Surco',
-                    'schedule': 'Martes', 'time': '8:00 pm - 10:00 pm',
-                    'ref': 'Cerca al Ovalo Higuereta',
+                    'id': 'martes', 'name': 'Martes',
+                    'schedule': 'Martes', 'time': '8:00 pm – 10:00 pm',
+                    'ref': 'Miraflores · 1 cdra. Parque Kennedy',
                     'vacantes': 5,
                 },
             ],
+            'raices_addon': True,
+            'timba_addon': False,
         },
         'ladyStyle': {
             'id': 'ladyStyle',
-            'name': 'Lady Style Cubano',
-            'tagline': 'Tecnica femenina, expresion y flow',
+            'name': 'Cuban Lady Style',
+            'tagline': 'Tecnica, sensualidad y presencia escenica',
             'benefits': [
-                'Potencia tu estilo, elegancia y presencia escenica',
-                'Desarrolla movimiento corporal, tecnica y expresion femenina',
-                'Gana seguridad y confianza al bailar',
+                'Tecnica femenina y movimiento corporal',
+                'Brazos, lineas, expresion y musicalidad',
+                'Seguridad y proyeccion escenica',
             ],
             'sedes': [
                 {
-                    'id': 'lince', 'name': 'Lince',
-                    'schedule': 'Sabados', 'time': '6:00 pm - 8:30 pm',
-                    'ref': 'A 1 cdra. de Plaza Vea de Risso',
+                    'id': 'sabado', 'name': 'Sabado',
+                    'schedule': 'Sabado', 'time': '6:00 pm – 7:30 pm',
+                    'ref': 'Miraflores · 1 cdra. Parque Kennedy',
                     'vacantes': 6,
                 },
             ],
+            'raices_addon': True,
+            'timba_addon': True,
+        },
+        'timbafusion': {
+            'id': 'timbafusion',
+            'name': 'Timba Fusion y Reparto',
+            'tagline': 'Sabor, actitud y flow urbano cubano',
+            'benefits': [
+                'Primera hora: pasos sueltos fusionados con Timba moderna',
+                'Segunda hora: pasos sueltos de Reparto',
+                'Coordinacion, flow, actitud e interpretacion musical',
+            ],
+            'sedes': [
+                {
+                    'id': 'viernes', 'name': 'Viernes',
+                    'schedule': 'Viernes', 'time': '8:00 pm – 10:00 pm',
+                    'ref': 'Miraflores · 1 cdra. Parque Kennedy',
+                    'vacantes': 4,
+                },
+            ],
+            'raices_addon': False,
+            'timba_addon': False,
         },
         'privadas': {
             'id': 'privadas',
@@ -309,28 +344,17 @@ class LandingMetaAdsJun2026View(TemplateView):
                 'Progreso personalizado a tu ritmo',
                 'Horarios totalmente flexibles',
                 'Correccion tecnica inmediata',
-                'Metodologia adaptada a tus objetivos',
             ],
             'sedes': [
                 {
-                    'id': 'surco', 'name': 'Surco',
+                    'id': 'coordinar', 'name': 'A coordinar',
                     'schedule': 'A coordinar', 'time': 'Horario flexible',
-                    'ref': 'Cerca al Ovalo Higuereta',
-                    'vacantes': None,
-                },
-                {
-                    'id': 'lince', 'name': 'Lince',
-                    'schedule': 'A coordinar', 'time': 'Horario flexible',
-                    'ref': 'A 1 cdra. de Plaza Vea de Risso',
-                    'vacantes': None,
-                },
-                {
-                    'id': 'domicilio', 'name': 'Domicilio',
-                    'schedule': 'A coordinar', 'time': 'Horario flexible',
-                    'ref': 'Tu ubicacion',
+                    'ref': 'Miraflores · 1 cdra. Parque Kennedy',
                     'vacantes': None,
                 },
             ],
+            'raices_addon': False,
+            'timba_addon': False,
         },
     }
 
@@ -349,6 +373,7 @@ class LandingMetaAdsJun2026View(TemplateView):
             'stats_count':     '500+',
             'stats_label':     'alumnos formados',
             'programs_json':   json.dumps(self._programs_with_random_vacantes()),
+            'raices_json':     json.dumps(self.RAICES_CUBANAS),
             'whatsapp_number': '51991337159',
         })
         return context

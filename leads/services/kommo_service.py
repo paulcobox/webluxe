@@ -23,6 +23,7 @@ OBJETIVO_MAP = {
     'Bailar salsa en pareja — pasos, vueltas y conexión':                          'pareja',
     'Desarrollar mi estilo femenino — expresión, elegancia y movimiento corporal': 'femenino',
     'Entrenar con más técnica — coordinación, musicalidad y control':              'tecnico',
+    'Timba Fusion y Reparto — flow urbano cubano':                                 'timba_fusion',
 }
 
 # IDs de campos personalizados en Kommo

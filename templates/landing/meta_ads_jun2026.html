@@ -618,22 +618,38 @@
       <ul id="r-bens" class="list-unstyled mb-0 cg-hide"></ul>
     </div>
 
-    <!-- Selector de sede -->
+    <!-- Selector de horario -->
     <div id="r-sedes-header" class="cg-hide" style="margin-bottom:.5rem;">
-      <span class="cg-eye" style="display:block;margin-bottom:.3rem;">ELIGE TU SEDE</span>
+      <span class="cg-eye" style="display:block;margin-bottom:.3rem;">ELIGE TU HORARIO</span>
       <p style="font-size:.8rem;color:var(--cg-muted);margin:0;line-height:1.5;">
-        Selecciona dónde te gustaría estudiar para recibir la información correcta por WhatsApp.
+        Selecciona el horario que mejor se adapte a ti.
       </p>
     </div>
     <div id="r-sedes"></div>
 
+    <!-- Add-on Raíces Cubanas (solo para basico e intermedio) -->
+    <div id="r-raices" class="cg-hide" style="margin-top:.5rem;border:1.5px dashed #fed7aa;border-radius:.875rem;padding:.65rem .85rem;background:#fff7ed;">
+      <p class="cg-eye" style="color:#92400e;margin-bottom:.2rem;">✨ COMPLEMENTA TU APRENDIZAJE</p>
+      <p style="font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;color:#92400e;margin-bottom:.1rem;">Raíces Cubanas</p>
+      <p style="font-size:.78rem;color:#b45309;margin-bottom:.2rem;">Sábados 4:30 pm – 6:00 pm · Miraflores</p>
+      <p style="font-size:.75rem;color:#92400e;margin:0;line-height:1.5;">Rumba y Danzas Afrocubanas — enriquece tu musicalidad y expresión corporal. Disponible para todos los niveles.</p>
+    </div>
+
+    <!-- Add-on Timba Fusion y Reparto (solo avanzados: basico+avanzado e intermedio) -->
+    <div id="r-timba" class="cg-hide" style="margin-top:.45rem;border:1.5px dashed #dbeafe;border-radius:.875rem;padding:.65rem .85rem;background:#eff6ff;">
+      <p class="cg-eye" style="color:#1d4ed8;margin-bottom:.2rem;">🔥 SUMA MÁS FLOW A TU ENTRENAMIENTO</p>
+      <p style="font-family:'Nunito',sans-serif;font-weight:800;font-size:.9rem;color:#1e40af;margin-bottom:.1rem;">Timba Fusion y Reparto</p>
+      <p style="font-size:.78rem;color:#1d4ed8;margin-bottom:.2rem;">Viernes 8:00 pm – 10:00 pm · Miraflores</p>
+      <p style="font-size:.75rem;color:#1e40af;margin:0;line-height:1.5;">Pasos sueltos de Timba moderna y Reparto — para bailarines con más de 6 meses de experiencia.</p>
+    </div>
+
     <!-- Botón confirmación — sticky, aparece al seleccionar -->
     <div class="cg-sede-confirm-wrap cg-hide" id="btn-sede-wrap">
       <button class="cg-btn cg-btn-or" id="btn-sede-confirm" onclick="confirmSede()">
-        Continuar con esta sede &nbsp;<i class="bi bi-arrow-right"></i>
+        Continuar con este horario &nbsp;<i class="bi bi-arrow-right"></i>
       </button>
       <p class="text-center mt-1" style="font-size:.72rem;color:var(--cg-muted);margin:0;">
-        ✓ Sede seleccionada
+        ✓ Horario seleccionado
       </p>
     </div>
   </div>
@@ -662,18 +678,16 @@
 
     <!-- Card precio -->
     <div class="cg-price">
-      <p style="font-family:'Nunito',sans-serif;font-weight:800;font-size:1.05rem;color:#92400e;margin-bottom:.5rem;">
-        <span id="s6-price-label">Inversion mensual</span>: <span id="s6-price" style="color:var(--cg-orange);">S/. 170</span>
+      <p style="font-family:'Nunito',sans-serif;font-weight:800;font-size:1.05rem;color:#92400e;margin-bottom:.4rem;">
+        Inversión: <span id="s6-price" style="color:var(--cg-orange);">Desde S/ 180</span>
       </p>
-      <ul class="list-unstyled mb-2" style="font-size:.85rem;color:#78350f;line-height:1.75;">
-        <li id="s6-sessions">✅ 4 sesiones al mes</li>
-        <li>✅ Formacion progresiva</li>
-        <li>✅ Profesor especializado</li>
-        <li>✅ Feedback con video (analisis y correcciones)</li>
-        <li>✅ Dinamicas sociales guiadas</li>
+      <ul class="list-unstyled mb-2" style="font-size:.83rem;color:#78350f;line-height:1.75;">
+        <li>✅ 1 experiencia (4 sesiones): <strong>S/ 180</strong></li>
+        <li>✅ 2 experiencias (8 sesiones): <strong>S/ 300</strong></li>
+        <li>✅ Full Pass (todas las experiencias): <strong>S/ 400</strong></li>
       </ul>
-      <p style="font-size:.8rem;color:#92400e;margin:0;line-height:1.55;">
-        ✨ Trabajamos paso a paso, con acompaniamiento real, para que desarrolles coordinacion, confianza y conexion con tu cuerpo desde la primera clase.
+      <p style="font-size:.78rem;color:#92400e;margin:0;line-height:1.55;">
+        ✨ Tu asesor puede armar el paquete ideal para ti según tus objetivos y disponibilidad.
       </p>
     </div>
 
@@ -704,6 +718,7 @@
 
 <script>
 const PROGS  = {{ programs_json|safe }};
+const RAICES = {{ raices_json|safe }};
 const WA_NUM = '{{ whatsapp_number }}';
 let   CSRF   = '';
 
@@ -746,8 +761,10 @@ function setObj(val, label) {
   if (S.exp === 'basico') {
     S.prog = 'basico';
   } else {
-    S.prog = val === 'femenino' ? 'ladyStyle' : 'intermedio';
-    if (val === 'ritmo') S.prog = 'basico';
+    // avanzado
+    if (val === 'ritmo')         S.prog = 'basico';
+    else if (val === 'femenino') S.prog = 'ladyStyle';
+    else                         S.prog = 'intermedio'; // pareja / tecnico
   }
   go(3);
 }
@@ -920,17 +937,17 @@ async function onSubmit(e) {
   renderResult();
   go(5);
 
-  // Guardar lead en background
-  fetch('/create-lead/', { method:'POST', body:fd, headers:{'X-CSRFToken':CSRF} })
-    .then(r => r.json())
-    .then(data => {
-      if (data.success) {
-        S.leadId = data.lead_id || null;
-        if (typeof gtag !== 'undefined') gtag('event', 'lead_submitted', { program: S.prog });
-        if (window.dataLayer) dataLayer.push({ event:'lead_submitted', program: S.prog });
-      }
-    })
-    .catch(() => {});
+  // PRUEBAS: guardado de lead desactivado temporalmente
+  // fetch('/create-lead/', { method:'POST', body:fd, headers:{'X-CSRFToken':CSRF} })
+  //   .then(r => r.json())
+  //   .then(data => {
+  //     if (data.success) {
+  //       S.leadId = data.lead_id || null;
+  //       if (typeof gtag !== 'undefined') gtag('event', 'lead_submitted', { program: S.prog });
+  //       if (window.dataLayer) dataLayer.push({ event:'lead_submitted', program: S.prog });
+  //     }
+  //   })
+  //   .catch(() => {});
 }
 
 function showErr(msg) {
@@ -945,8 +962,8 @@ function resetBtn() {
 }
 
 // S5: resultado
-const BCLS = { basico:'b-bas', intermedio:'b-int', ladyStyle:'b-ls', privadas:'b-prv' };
-const BLBL = { basico:'Basico', intermedio:'Intermedio', ladyStyle:'Lady Style', privadas:'Privadas' };
+const BCLS = { basico:'b-bas', intermedio:'b-int', ladyStyle:'b-ls', timbafusion:'b-int', privadas:'b-prv' };
+const BLBL = { basico:'Basico', intermedio:'Intermedio', ladyStyle:'Lady Style', timbafusion:'Timba Fusion', privadas:'Privadas' };
 
 function renderResult() {
   const pg = PROGS[S.prog];
@@ -991,7 +1008,7 @@ function renderResult() {
     );
   }).join('');
 
-  // Auto-selección cuando solo hay una sede
+  // Auto-selección cuando solo hay una opción de horario
   if (sedeCount === 1) {
     setTimeout(() => {
       const el = document.querySelector('.cg-sede');
@@ -999,13 +1016,14 @@ function renderResult() {
     }, 150);
   }
 
-  const isPrivadas = S.prog === 'privadas';
-  document.getElementById('s6-price-label').textContent =
-    isPrivadas ? 'Inversion por sesion' : 'Inversion mensual';
-  document.getElementById('s6-price').textContent =
-    isPrivadas ? 'S/. 150' : 'S/. 170';
-  document.getElementById('s6-sessions').textContent =
-    isPrivadas ? '✅ 1 sesion personalizada' : '✅ 4 sesiones al mes';
+  // Add-on Raíces: según flag del programa
+  const raicesEl = document.getElementById('r-raices');
+  if (raicesEl) raicesEl.classList.toggle('cg-hide', !pg.raices_addon);
+
+  // Add-on Timba: flag del programa O (basico/intermedio + experiencia avanzada)
+  const timbaEl = document.getElementById('r-timba');
+  const showTimba = pg.timba_addon || (pg.raices_addon && S.exp === 'avanzado');
+  if (timbaEl) timbaEl.classList.toggle('cg-hide', !showTimba);
 }
 
 function pickSede(id, name, el) {
@@ -1044,8 +1062,8 @@ function pickSede(id, name, el) {
     '- Edad: '        + (S.edad  || '-'),
     S.objL ? '- Objetivo: ' + S.objL : null,
     '',
-    'Sede y horario de interes:',
-    '- ' + name + ' - ' + horario,
+    'Horario de interes:',
+    '- ' + horario + ' (Miraflores · 1 cdra. Parque Kennedy)',
     '',
     'Me gustaria recibir informacion y hablar con un asesor.',
   ].filter(l => l !== null).join('\n');
