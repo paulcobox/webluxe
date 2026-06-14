@@ -350,6 +350,25 @@ def create_kommo_deal(contact_id: str, deal_name: str) -> str | None:
         return None
 
 
+def extract_phone_from_webhook_payload(post_data: dict) -> str | None:
+    """
+    Extrae el teléfono del payload form-encoded que envía Kommo en el webhook.
+    Itera contacts[add][0][custom_fields][N] buscando code=PHONE.
+    Retorna el teléfono normalizado o None.
+    """
+    i = 0
+    while True:
+        code_key = f'contacts[add][0][custom_fields][{i}][code]'
+        if code_key not in post_data:
+            break
+        if post_data[code_key] == 'PHONE':
+            value = post_data.get(f'contacts[add][0][custom_fields][{i}][values][0][value]', '')
+            if value:
+                return normalize_phone(value)
+        i += 1
+    return None
+
+
 def get_contact_phone(contact_id: str) -> str | None:
     """
     Consulta un contacto en Kommo por su ID y retorna el teléfono (PHONE).
