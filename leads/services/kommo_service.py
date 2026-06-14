@@ -27,7 +27,7 @@ OBJETIVO_MAP = {
 }
 
 # IDs de campos personalizados en Kommo
-FIELD_CURSO          = 2430742
+FIELD_CURSO          = 2435160
 FIELD_EXPERIENCIA    = 2430740
 FIELD_OBJETIVO       = 2430750
 FIELD_SEDE_HORARIO   = 2430754
@@ -109,7 +109,8 @@ def build_basic_contact_payload(data: dict) -> list:
             'values': [{'value': email, 'enum_code': 'WORK'}],
         })
 
-    _append_if_value(custom_fields, FIELD_CURSO, data.get('curso'))
+    _append_if_value(custom_fields, FIELD_CURSO,        data.get('curso'))
+    _append_if_value(custom_fields, FIELD_SEDE_HORARIO, data.get('sede_horario'))
 
     experiencia_raw = data.get('experiencia') or ''
     _append_if_value(custom_fields, FIELD_EXPERIENCIA, EXPERIENCIA_MAP.get(experiencia_raw, experiencia_raw))

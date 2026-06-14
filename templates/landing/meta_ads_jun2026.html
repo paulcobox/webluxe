@@ -904,16 +904,6 @@ async function onSubmit(e) {
 
   S.nombre = n; S.apellido = a;
 
-  const notes = [
-    'Experiencia: ' + (S.expL || '-'),
-    'Edad: ' + (S.edad || '-'),
-    S.objL ? 'Objetivo: ' + S.objL : null,
-    'Programa sugerido: ' + (PROGS[S.prog]?.name || '-'),
-    'Landing: Meta Ads Junio 2026',
-  ].filter(Boolean).join('\n');
-
-  document.getElementById('lf-notes').value = notes;
-
   // Spinner solo durante reCAPTCHA (~300ms)
   const sbtn = document.getElementById('sbtn');
   sbtn.disabled = true;
@@ -933,45 +923,12 @@ async function onSubmit(e) {
     return;
   }
 
-  const fd = new FormData();
-  fd.append('csrfmiddlewaretoken', CSRF);
-  fd.append('first_name',    n);
-  fd.append('last_name',     a);
-  fd.append('phone_number',  p);
-  fd.append('email',         em || '');
-  fd.append('notes',         notes);
-  fd.append('recaptcha_token', rct);
-  fd.append('website', '');
+  // Guardar datos del formulario en estado para usarlos al confirmar cursos
+  S._leadData = { n, a, p, em, notes, metaEventId, rct };
 
-  fd.append('form_experience_raw', S.expL  || '');
-  fd.append('form_motivation_raw', S.objL  || '');
-  fd.append('form_course_raw',     PROGS[S.prog]?.name || '');
-  fd.append('form_schedule_raw',   '');  // se actualiza en S6 via update_lead_sede
-  fd.append('form_age_raw',        S.edad || '');
-  fd.append('meta_event_id', metaEventId);
-
-  [['utm_source','lf-us'],['utm_medium','lf-um'],['utm_campaign','lf-uc'],
-   ['utm_term','lf-ut'],['utm_content','lf-uco'],['referer','lf-ref'],['user_agent','lf-ua']
-  ].forEach(([k, id]) => {
-    const el = document.getElementById(id);
-    if (el) fd.append(k, el.value);
-  });
-
-  // Navegar a S5 inmediatamente — no espera respuesta del servidor
+  // Navegar a S5 — el lead se crea cuando confirma los cursos
   renderResult();
   go(5);
-
-  // PRUEBAS: guardado de lead desactivado temporalmente
-  // fetch('/create-lead/', { method:'POST', body:fd, headers:{'X-CSRFToken':CSRF} })
-  //   .then(r => r.json())
-  //   .then(data => {
-  //     if (data.success) {
-  //       S.leadId = data.lead_id || null;
-  //       if (typeof gtag !== 'undefined') gtag('event', 'lead_submitted', { program: S.prog });
-  //       if (window.dataLayer) dataLayer.push({ event:'lead_submitted', program: S.prog });
-  //     }
-  //   })
-  //   .catch(() => {});
 }
 
 function showErr(msg) {
@@ -1096,8 +1053,8 @@ function _updateConfirmBtn() {
 function confirmCursos() {
   if (!S.cursosSeleccionados.length) return;
 
-  const pg      = PROGS[S.prog];
-  const cursos  = S._cursosDisponibles || [];
+  const pg       = PROGS[S.prog];
+  const cursos   = S._cursosDisponibles || [];
   const selDatos = S.cursosSeleccionados.map(id => cursos.find(c => c.id === id)).filter(Boolean);
 
   // Rellenar S6 resumen
@@ -1132,6 +1089,56 @@ function confirmCursos() {
 
   document.getElementById('wa-btn').href = 'https://wa.me/' + WA_NUM + '?text=' + encodeURIComponent(lines);
   go(6);
+
+  // Crear lead con cursos seleccionados completos
+  if (!S._leadData) return;
+  const { n, a, p, em, metaEventId, rct } = S._leadData;
+
+  const courseNames    = selDatos.map(c => c.name).join(' | ');
+  const courseSchedule = selDatos.map(c => c.name + ' · ' + c.schedule).join(' | ');
+
+  const notes = [
+    'Experiencia: ' + (S.expL || '-'),
+    'Edad: ' + (S.edad || '-'),
+    S.objL ? 'Objetivo: ' + S.objL : null,
+    'Cursos seleccionados: ' + courseSchedule,
+    'Landing: Meta Ads Junio 2026',
+  ].filter(Boolean).join('\n');
+
+  const fd = new FormData();
+  fd.append('csrfmiddlewaretoken', CSRF);
+  fd.append('first_name',    n);
+  fd.append('last_name',     a);
+  fd.append('phone_number',  p);
+  fd.append('email',         em || '');
+  fd.append('notes',         notes);
+  fd.append('recaptcha_token', rct);
+  fd.append('website', '');
+
+  fd.append('form_experience_raw', S.expL  || '');
+  fd.append('form_motivation_raw', S.objL  || '');
+  fd.append('form_course_raw',     courseNames);
+  fd.append('form_schedule_raw',   courseSchedule);
+  fd.append('form_age_raw',        S.edad || '');
+  fd.append('meta_event_id', metaEventId);
+
+  [['utm_source','lf-us'],['utm_medium','lf-um'],['utm_campaign','lf-uc'],
+   ['utm_term','lf-ut'],['utm_content','lf-uco'],['referer','lf-ref'],['user_agent','lf-ua']
+  ].forEach(([k, id]) => {
+    const el = document.getElementById(id);
+    if (el) fd.append(k, el.value);
+  });
+
+  fetch('/create-lead/', { method:'POST', body:fd, headers:{'X-CSRFToken':CSRF} })
+    .then(r => r.json())
+    .then(data => {
+      if (data.success) {
+        S.leadId = data.lead_id || null;
+        if (typeof gtag !== 'undefined') gtag('event', 'lead_submitted', { program: S.prog });
+        if (window.dataLayer) dataLayer.push({ event:'lead_submitted', program: S.prog });
+      }
+    })
+    .catch(() => {});
 }
 
 function trackWA() {
