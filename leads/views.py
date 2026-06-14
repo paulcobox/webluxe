@@ -282,14 +282,6 @@ def kommo_webhook_contact_created(request):
     if request.method != 'POST':
         return JsonResponse({'success': False}, status=405)
 
-    # Verificar secret token si está configurado
-    webhook_secret = getattr(settings, 'KOMMO_WEBHOOK_SECRET', '')
-    if webhook_secret:
-        received = request.GET.get('secret') or request.POST.get('secret') or ''
-        if received != webhook_secret:
-            logger.warning('[KOMMO WEBHOOK] Secret inválido — request rechazado')
-            return JsonResponse({'success': False}, status=403)
-
     # ── DEBUG: imprimir todo lo recibido ──────────────────────────
     print('=' * 60)
     print('[KOMMO WEBHOOK] Nuevo evento recibido')
