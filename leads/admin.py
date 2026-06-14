@@ -24,7 +24,8 @@ class LeadAdmin(admin.ModelAdmin):
     search_fields = ('first_name', 'last_name', 'email', 'phone_number')
     readonly_fields = ('email_sequence_started_at', 'unsubscribe_token', 'meta_event_id',
                        'capi_sent', 'capi_sent_at', 'capi_response',
-                       'form_age_raw')
+                       'form_age_raw', 'kommo_contact_id', 'kommo_deal_id',
+                       'kommo_synced_at', 'kommo_last_error')
     inlines = [EmailSequenceLogInline]
 
     def sequence_progress_display(self, obj):

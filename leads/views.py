@@ -1,6 +1,7 @@
 import logging
 import requests
 import threading
+logger = logging.getLogger(__name__)
 botlog = logging.getLogger("bot_protection")
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
@@ -222,6 +223,15 @@ def create_lead(request):
             args=[lead.id, ip, user_agent or request.META.get('HTTP_USER_AGENT', '')]
         )
 
+        # ===============================================
+        # 🔟 Sincronizar lead con Kommo CRM
+        # ===============================================
+        try:
+            from leads.tasks import sync_lead_to_kommo
+            sync_lead_to_kommo.apply_async(args=[lead.id])
+        except Exception as e:
+            logger.error(f'[KOMMO] Error al programar tarea sync: {e}')
+
         return JsonResponse({'success': True, 'lead_id': lead.id})
 
     botlog.info(f"[REQUEST] ❌ Método NO permitido | IP={ip}")
@@ -246,6 +256,14 @@ def update_lead_sede(request):
         lead.form_schedule_raw = f"{sede} — {horario}" if horario else sede
         lead.save(update_fields=['form_schedule_raw', 'modified_date'])
         botlog.info(f"[LEAD] Sede actualizada ID={lead_id} | Sede={sede} | Horario={horario}")
+
+        if lead.kommo_contact_id:
+            try:
+                from leads.tasks import sync_lead_to_kommo
+                sync_lead_to_kommo.apply_async(args=[lead.id])
+            except Exception as e:
+                logger.error(f'[KOMMO] Error al programar sync de sede para lead {lead_id}: {e}')
+
         return JsonResponse({'success': True})
     except Lead.DoesNotExist:
         botlog.warning(f"[LEAD] update_lead_sede — ID={lead_id} no encontrado")

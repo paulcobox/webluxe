@@ -1,0 +1,1 @@
+- [Patrón de integraciones externas](project_integrations_pattern.md) — async Celery task + servicio en leads/services/, campos de tracking en modelo Lead

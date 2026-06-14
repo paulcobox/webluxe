@@ -167,3 +167,30 @@ def send_capi_lead_event(self, lead_id, ip='', user_agent=''):
     except Exception as exc:
         logger.error(f'[CAPI] Error enviando evento para lead {lead_id}: {exc}')
         raise self.retry(exc=exc)
+
+
+@shared_task(bind=True, max_retries=3, default_retry_delay=60)
+def sync_lead_to_kommo(self, lead_id: int):
+    """
+    Sincroniza un Lead con Kommo CRM.
+    Reintenta hasta 3 veces con delay de 60s salvo en errores de autenticación (401).
+    """
+    from leads.models import Lead
+    from leads.services.kommo_service import sync_contact_to_kommo
+
+    try:
+        lead = Lead.objects.get(pk=lead_id)
+    except Lead.DoesNotExist:
+        logger.error(f'[KOMMO] Lead {lead_id} no encontrado. Abortando tarea.')
+        return
+
+    try:
+        sync_contact_to_kommo(lead)
+    except Exception as exc:
+        error_msg = str(exc)
+        # Si el error es 401 (token inválido) no tiene sentido reintentar
+        if '401' in error_msg:
+            logger.error(f'[KOMMO] 401 Unauthorized en tarea lead {lead_id} — no se reintentará.')
+            return
+        logger.error(f'[KOMMO] Error en tarea sync_lead_to_kommo para lead {lead_id}: {exc}')
+        raise self.retry(exc=exc)
