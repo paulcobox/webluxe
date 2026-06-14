@@ -14,7 +14,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.cache import cache
-from .tasks import schedule_email_sequence, send_capi_lead_event
+from .tasks import schedule_email_sequence, send_capi_lead_event, kommo_fallback_sync
 
 
 # Create your views here.
@@ -223,6 +223,9 @@ def create_lead(request):
             args=[lead.id, ip, user_agent or request.META.get('HTTP_USER_AGENT', '')]
         )
 
+        # Fallback Kommo: si el webhook no llega en 5 min, sincronizar activamente
+        kommo_fallback_sync.apply_async(args=[lead.id], countdown=120)
+
         return JsonResponse({'success': True, 'lead_id': lead.id})
 
     botlog.info(f"[REQUEST] ❌ Método NO permitido | IP={ip}")
@@ -286,11 +289,9 @@ def kommo_webhook_contact_created(request):
 
     from leads.services.kommo_service import (
         extract_phone_from_webhook_payload,
-        update_kommo_contact,
-        create_kommo_deal,
+        enrich_kommo_contact,
         normalize_phone,
     )
-    from django.utils import timezone
 
     # 1. Extraer contact_id
     contact_id = request.POST.get('contacts[add][0][id]')
@@ -306,7 +307,7 @@ def kommo_webhook_contact_created(request):
         print('[KOMMO WEBHOOK] ⚠️  Sin teléfono en payload — ignorando evento')
         return JsonResponse({'success': True})
 
-    # 3. Buscar Lead en BD por teléfono normalizado
+    # 3. Buscar Lead en BD por teléfono normalizado (más reciente sin kommo_contact_id)
     phone_normalized = normalize_phone(phone)
     lead = None
     for candidate in Lead.objects.filter(kommo_contact_id=None).order_by('-created_date'):
@@ -320,40 +321,10 @@ def kommo_webhook_contact_created(request):
 
     print(f'[KOMMO WEBHOOK] ✅ Lead encontrado: ID={lead.id} | {lead.first_name} {lead.last_name}')
 
-    # 4. Guardar kommo_contact_id en el lead
-    lead.kommo_contact_id = contact_id
-    lead.save(update_fields=['kommo_contact_id'])
-
-    # 5. Actualizar contacto en Kommo con datos del form
-    all_data = {
-        'curso':        lead.form_course_raw or '',
-        'experiencia':  lead.form_experience_raw or '',
-        'objetivo':     lead.form_motivation_raw or '',
-        'sede_horario': lead.form_schedule_raw or '',
-        'utm_campaign': lead.utm_campaign or '',
-        'utm_source':   lead.utm_source or '',
-        'utm_content':  lead.utm_content or '',
-        'rango_edad':   lead.form_age_raw or '',
-    }
-    update_kommo_contact(contact_id, all_data)
-    print(f'[KOMMO WEBHOOK] ✅ Contacto {contact_id} actualizado en Kommo')
-
-    # 6. Crear deal si aún no existe
-    if not lead.kommo_deal_id:
-        full_name = f'{lead.first_name} {lead.last_name}'.strip()
-        deal_name = f"{full_name or phone_normalized} — {lead.form_course_raw or 'Consulta'}".strip(' —')
-        deal_id = create_kommo_deal(contact_id, deal_name)
-        if deal_id:
-            lead.kommo_deal_id = deal_id
-            lead.save(update_fields=['kommo_deal_id'])
-            print(f'[KOMMO WEBHOOK] ✅ Deal creado: ID={deal_id}')
-
-    # 7. Marcar sync
-    lead.kommo_synced_at  = timezone.now()
-    lead.kommo_last_error = None
-    lead.save(update_fields=['kommo_synced_at', 'kommo_last_error'])
-
+    # 4. Enriquecer contacto en Kommo + crear deal + marcar sync
+    enrich_kommo_contact(lead, contact_id)
     print(f'[KOMMO WEBHOOK] ✅ Lead {lead.id} sincronizado completamente')
+
     return JsonResponse({'success': True})
 
 

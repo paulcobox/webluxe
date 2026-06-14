@@ -407,6 +407,44 @@ def get_contact_phone(contact_id: str) -> str | None:
     return None
 
 
+def enrich_kommo_contact(lead, contact_id: str) -> None:
+    """
+    Enriquece un contacto existente en Kommo con los datos capturados del formulario
+    y crea el deal vinculado si aún no existe.
+    Usado tanto por el webhook como por la tarea de fallback.
+    """
+    from django.utils import timezone
+
+    all_data = {
+        'curso':        lead.form_course_raw or '',
+        'experiencia':  lead.form_experience_raw or '',
+        'objetivo':     lead.form_motivation_raw or '',
+        'sede_horario': lead.form_schedule_raw or '',
+        'utm_campaign': lead.utm_campaign or '',
+        'utm_source':   lead.utm_source or '',
+        'utm_content':  lead.utm_content or '',
+        'rango_edad':   lead.form_age_raw or '',
+    }
+
+    update_kommo_contact(contact_id, all_data)
+    logger.info(f'[KOMMO] Contacto {contact_id} enriquecido con datos del form (lead {lead.id})')
+
+    if not lead.kommo_deal_id:
+        full_name  = f'{lead.first_name} {lead.last_name}'.strip()
+        phone      = lead.phone_number or ''
+        deal_name  = f"{full_name or phone} — {lead.form_course_raw or 'Consulta'}".strip(' —')
+        deal_id    = create_kommo_deal(contact_id, deal_name)
+        if deal_id:
+            lead.kommo_deal_id = deal_id
+            lead.save(update_fields=['kommo_deal_id'])
+            logger.info(f'[KOMMO] Deal {deal_id} creado para lead {lead.id}')
+
+    lead.kommo_contact_id = contact_id
+    lead.kommo_synced_at  = timezone.now()
+    lead.kommo_last_error = None
+    lead.save(update_fields=['kommo_contact_id', 'kommo_synced_at', 'kommo_last_error'])
+
+
 def sync_contact_to_kommo(lead) -> None:
     """
     Sincroniza un Lead con Kommo CRM.

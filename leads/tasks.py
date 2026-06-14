@@ -169,6 +169,68 @@ def send_capi_lead_event(self, lead_id, ip='', user_agent=''):
         raise self.retry(exc=exc)
 
 
+@shared_task
+def kommo_fallback_sync(lead_id: int):
+    """
+    Fallback que corre 5 minutos después de crear el lead.
+    Si el webhook de Kommo ya lo procesó (kommo_contact_id presente) no hace nada.
+    Si no, busca el contacto en Kommo por teléfono y sincroniza.
+    Si tampoco existe en Kommo, crea el contacto + deal.
+    """
+    from leads.models import Lead
+    from leads.services.kommo_service import (
+        find_contact_by_phone,
+        create_kommo_contact,
+        enrich_kommo_contact,
+        normalize_phone,
+    )
+
+    try:
+        lead = Lead.objects.get(pk=lead_id)
+    except Lead.DoesNotExist:
+        logger.error(f'[KOMMO FALLBACK] Lead {lead_id} no encontrado.')
+        return
+
+    if lead.kommo_contact_id:
+        logger.info(f'[KOMMO FALLBACK] Lead {lead_id} ya tiene kommo_contact_id — webhook lo procesó. Nada que hacer.')
+        return
+
+    phone = (lead.phone_number or '').strip()
+    if not phone:
+        logger.warning(f'[KOMMO FALLBACK] Lead {lead_id} sin teléfono — abortando.')
+        return
+
+    logger.info(f'[KOMMO FALLBACK] Lead {lead_id} sin kommo_contact_id después de 5 min. Buscando en Kommo...')
+
+    # Buscar contacto existente en Kommo por teléfono
+    contact_id = find_contact_by_phone(phone)
+
+    if not contact_id:
+        # No existe en Kommo — crear contacto nuevo
+        logger.info(f'[KOMMO FALLBACK] Contacto no encontrado en Kommo — creando nuevo para lead {lead_id}')
+        all_data = {
+            'full_name':    f'{lead.first_name} {lead.last_name}'.strip(),
+            'phone':        phone,
+            'email':        lead.email or '',
+            'curso':        lead.form_course_raw or '',
+            'experiencia':  lead.form_experience_raw or '',
+            'objetivo':     lead.form_motivation_raw or '',
+            'sede_horario': lead.form_schedule_raw or '',
+            'utm_campaign': lead.utm_campaign or '',
+            'utm_source':   lead.utm_source or '',
+            'utm_content':  lead.utm_content or '',
+            'rango_edad':   lead.form_age_raw or '',
+        }
+        from leads.services.kommo_service import create_kommo_contact
+        contact_id = create_kommo_contact(all_data)
+        if not contact_id:
+            logger.error(f'[KOMMO FALLBACK] No se pudo crear contacto en Kommo para lead {lead_id}')
+            return
+
+    logger.info(f'[KOMMO FALLBACK] Contacto encontrado/creado: {contact_id} — enriqueciendo lead {lead_id}')
+    enrich_kommo_contact(lead, contact_id)
+
+
 @shared_task(bind=True, max_retries=3, default_retry_delay=60)
 def sync_lead_to_kommo(self, lead_id: int):
     """
