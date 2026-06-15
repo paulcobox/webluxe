@@ -293,10 +293,10 @@ def kommo_webhook_contact_created(request):
         normalize_phone,
     )
 
-    # 1. Extraer contact_id
+    # 1. Solo procesar contactos nuevos — los updates los genera nuestro propio backend
     contact_id = request.POST.get('contacts[add][0][id]')
     if not contact_id:
-        print('[KOMMO WEBHOOK] ⚠️  No se encontró contact_id — ignorando evento')
+        print('[KOMMO WEBHOOK] ℹ️  Evento contacts[update] — ignorado (generado por nuestro propio backend)')
         return JsonResponse({'success': True})
 
     # 2. Extraer teléfono del payload (sin llamada extra a Kommo)

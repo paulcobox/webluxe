@@ -353,31 +353,26 @@ def create_kommo_deal(contact_id: str, deal_name: str) -> str | None:
 def extract_phone_from_webhook_payload(post_data) -> str | None:
     """
     Extrae el teléfono del payload form-encoded que envía Kommo en el webhook.
-    post_data puede ser QueryDict o dict — se normaliza con .get() seguro.
-    Itera contacts[add][0][custom_fields][N] buscando code=PHONE.
-    Retorna el teléfono normalizado o None.
+    Solo procesa contacts[add] (contactos nuevos).
+    post_data puede ser QueryDict o dict.
     """
     def _get(key):
         val = post_data.get(key)
         if val is None:
             return ''
-        # QueryDict.get() devuelve string; dict.get() puede devolver lista
         if isinstance(val, list):
             return val[0] if val else ''
         return val
 
-    i = 0
-    while True:
+    for i in range(20):
         code_key = f'contacts[add][0][custom_fields][{i}][code]'
-        if not _get(code_key) and i > 10:
+        code_val = _get(code_key)
+        if not code_val and i > 5:
             break
-        if _get(code_key) == 'PHONE':
+        if code_val == 'PHONE':
             value = _get(f'contacts[add][0][custom_fields][{i}][values][0][value]')
             if value:
                 return normalize_phone(value)
-        i += 1
-        if i > 20:
-            break
     return None
 
 
