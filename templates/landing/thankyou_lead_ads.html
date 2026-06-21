@@ -1,0 +1,341 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es-PE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>¡Gracias por tu interés! – Cuban Groove Peru</title>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-14XVW4XNL5"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-14XVW4XNL5');
+  </script>
+
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s){
+      if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)
+    }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1304835041836510');
+    fbq('track', 'PageView');
+    fbq('track', 'Lead');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1304835041836510&ev=Lead&noscript=1"/>
+  </noscript>
+  <!-- End Meta Pixel -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+  <link rel="stylesheet" href="{% static 'bootstrap-icons/css/bootstrap-icons.css' %}">
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+
+  <style>
+    :root {
+      --cg-orange:    #ff6a09;
+      --cg-orange-dk: #e05500;
+      --cg-green:     #16a34a;
+      --cg-green-dk:  #15803d;
+      --cg-border:    #e5e7eb;
+      --cg-text:      #1f2937;
+      --cg-muted:     #6b7280;
+      --cg-light:     #f9fafb;
+      --nav-h:        72px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      font-family: 'Heebo', sans-serif;
+      background: #fff;
+      color: var(--cg-text);
+      margin: 0; padding: 0;
+    }
+
+    /* ── HERO ───────────────────────────────────────────── */
+    .hero-photo {
+      position: relative;
+      height: 22dvh;
+      overflow: hidden;
+    }
+    @media (min-width: 992px) { .hero-photo { height: 34dvh; } }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('{{ hero_image_url }}');
+      background-size: cover;
+      background-position: center 20%;
+    }
+    .hero-ov {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom,
+        rgba(0,0,0,.40) 0%,
+        rgba(0,0,0,.20) 45%,
+        rgba(0,0,0,.65) 100%);
+    }
+    .hero-intro {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: .85rem 1.25rem 1.1rem; z-index: 2;
+    }
+    @media (min-width: 992px) {
+      .hero-intro { padding: 1.25rem 2.5rem 1.5rem; }
+    }
+    .cg-stars { color: #fbbf24; }
+
+    /* ── BODY CONTENT ───────────────────────────────────── */
+    .page-body {
+      max-width: 560px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 1.5rem 1.25rem 3rem;
+    }
+    @media (min-width: 992px) {
+      .page-body { padding: 2rem 2.5rem 3rem; }
+    }
+
+    /* ── CONFIRMATION BOX ───────────────────────────────── */
+    .confirm-box {
+      background: #f0fdf4;
+      border: 1.5px solid #bbf7d0;
+      border-radius: 1rem;
+      padding: 1.1rem 1.25rem;
+      margin-bottom: 1.75rem;
+      display: flex;
+      gap: .75rem;
+      align-items: flex-start;
+    }
+    .confirm-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      line-height: 1;
+      margin-top: .1rem;
+    }
+    .confirm-title {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #15803d;
+      margin: 0 0 .2rem;
+    }
+    .confirm-text {
+      font-size: .875rem;
+      color: #166534;
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    /* ── TESTIMONIALS ───────────────────────────────────── */
+    .section-label {
+      font-size: .73rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--cg-muted);
+      margin-bottom: .6rem;
+    }
+    .cg-track {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      gap: .65rem;
+      padding: .25rem .25rem .5rem;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .cg-track::-webkit-scrollbar { display: none; }
+    .cg-track-card {
+      flex-shrink: 0;
+      width: 88%;
+      scroll-snap-align: start;
+      border: 1px solid var(--cg-border);
+      border-radius: 1rem;
+      background: var(--cg-light);
+      padding: .9rem;
+    }
+    .cg-dots { display: flex; justify-content: center; gap: .4rem; margin-top: .6rem; margin-bottom: 1.75rem; }
+    .cg-dot  { width: 6px; height: 6px; border-radius: 50%; background: var(--cg-border); cursor: pointer; transition: background .2s; }
+    .cg-dot.on { background: var(--cg-orange); }
+
+    /* ── WHATSAPP BUTTON ────────────────────────────────── */
+    .wa-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .65rem;
+      width: 100%;
+      background: #25d366;
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      border: none;
+      border-radius: .875rem;
+      padding: 1rem 1.25rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background .15s, transform .1s;
+      box-shadow: 0 4px 14px rgba(37,211,102,.35);
+    }
+    .wa-btn:hover {
+      background: #1ebe5d;
+      color: #fff;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(37,211,102,.45);
+    }
+    .wa-btn:active { transform: scale(.99); }
+    .wa-btn i { font-size: 1.3rem; }
+    .wa-hint {
+      text-align: center;
+      font-size: .76rem;
+      color: var(--cg-muted);
+      margin-top: .6rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAVBAR — solo logo ═══════════════════════════════ -->
+<nav class="bg-white shadow" style="height:var(--nav-h);position:sticky;top:0;z-index:200;display:flex;align-items:center;">
+  <div class="px-4 px-lg-5">
+    <a href="{% url 'home' %}" title="Cuban Groove">
+      <img src="{% static 'img/logos/logo_desk.webp' %}"
+           style="height:38px;width:auto;"
+           alt="Cuban Groove – Clases de Salsa en Lima">
+    </a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ══════════════════════════════════════════════ -->
+<div class="hero-photo">
+  <div class="hero-bg"></div>
+  <div class="hero-ov"></div>
+  <div class="hero-intro">
+    <div class="d-flex align-items-center gap-2 mb-1">
+      <span class="cg-stars" style="font-size:.75rem;">
+        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+        <i class="bi bi-star-fill"></i>
+      </span>
+      <span style="color:rgba(255,255,255,.9);font-size:.75rem;">
+        +<strong style="color:#fff;">500</strong> alumnos formados
+      </span>
+    </div>
+    <h1 style="font-family:'Nunito',sans-serif;font-weight:800;font-size:clamp(1.25rem,4.5vw,2rem);color:#fff;line-height:1.15;margin:0;">
+      ¡Gracias por tu interés<br>en Cuban Groove!
+    </h1>
+  </div>
+</div>
+
+<!-- ═══ CONTENIDO ════════════════════════════════════════ -->
+<div class="page-body">
+
+  <!-- Confirmación -->
+  <div class="confirm-box">
+    <div class="confirm-icon">✅</div>
+    <div>
+      <p class="confirm-title">Recibimos tu solicitud</p>
+      <p class="confirm-text">
+        Un asesor de Cuban Groove se pondrá en contacto contigo pronto.<br>
+        Si prefieres no esperar, escríbenos directamente por WhatsApp y te atendemos ahora.
+      </p>
+    </div>
+  </div>
+
+  <!-- Testimonios -->
+  {% if list_testimony %}
+  <p class="section-label">Lo que dicen nuestros alumnos</p>
+
+  <div class="cg-track" id="car">
+    {% for t in list_testimony %}
+    <div class="cg-track-card">
+      <div class="cg-stars mb-2" style="font-size:.78rem;">
+        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+      </div>
+      <blockquote style="color:#4b5563;font-size:.85rem;line-height:1.65;font-style:italic;margin:0 0 .65rem;">
+        "{{ t.description|striptags|safe }}"
+      </blockquote>
+      <div class="d-flex align-items-center gap-2">
+        <div style="width:1.9rem;height:1.9rem;border-radius:50%;background:rgba(255,106,9,.15);color:var(--cg-orange);font-weight:700;font-size:.82rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          {{ t.name|first }}
+        </div>
+        <div>
+          <p style="font-weight:600;font-size:.8rem;color:#1f2937;margin:0;">{{ t.name }}</p>
+          <p style="font-size:.72rem;color:var(--cg-muted);margin:0;">{{ t.profession|default:"Alumno de Cuban Groove" }}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="cg-dots" id="dots">
+    {% for t in list_testimony %}
+    <div class="cg-dot {% if forloop.first %}on{% endif %}"
+         onclick="scrollToCard({{ forloop.counter0 }})"></div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- Botón WhatsApp -->
+  <a class="wa-btn"
+     href="https://wa.me/51991337159?text=Hola%20Cuban%20Groove%2C%20dej%C3%A9%20mis%20datos%20en%20el%20formulario%20y%20estoy%20interesado%20en%20los%20horarios%20de%20clases%20de%20salsa%20en%20Miraflores."
+     target="_blank"
+     rel="noopener noreferrer"
+     onclick="fbq('track','Contact');">
+    <i class="fab fa-whatsapp"></i>
+    Hablar con un asesor ahora
+  </a>
+  <p class="wa-hint">Atención personalizada · Lunes a Sábado</p>
+
+</div>
+
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script>
+  // ── Dots sync ──────────────────────────────────────────
+  const car  = document.getElementById('car');
+  const dots = document.querySelectorAll('.cg-dot');
+
+  function scrollToCard(i) {
+    const cards = car.querySelectorAll('.cg-track-card');
+    if (cards[i]) cards[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+  }
+
+  if (car && dots.length) {
+    car.addEventListener('scroll', () => {
+      const cards = car.querySelectorAll('.cg-track-card');
+      let closest = 0, minDist = Infinity;
+      cards.forEach((c, i) => {
+        const dist = Math.abs(c.getBoundingClientRect().left - car.getBoundingClientRect().left);
+        if (dist < minDist) { minDist = dist; closest = i; }
+      });
+      dots.forEach((d, i) => d.classList.toggle('on', i === closest));
+    }, { passive: true });
+  }
+
+  // Auto-avance del carrusel cada 4s
+  let autoIdx = 0;
+  const cards = car ? car.querySelectorAll('.cg-track-card') : [];
+  if (cards.length > 1) {
+    setInterval(() => {
+      autoIdx = (autoIdx + 1) % cards.length;
+      scrollToCard(autoIdx);
+    }, 4000);
+  }
+</script>
+</body>
+</html>

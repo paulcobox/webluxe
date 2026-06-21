@@ -4,7 +4,7 @@ from .views import (
     TermsConditionsTemplateView, sitemap_view, robots_view, ThankYouTemplateView,
     InvitatedTemplateView, InvitatedSuccessTemplateView, sitemap_blog_view,
     sitemap_general_view, sitemap_miraflores_view, test_email,
-    LandingMetaAdsJun2026View,
+    LandingMetaAdsJun2026View, ThankyouLeadAdsView,
 )
 from django.views.generic import RedirectView
 from django.conf import settings
@@ -33,6 +33,7 @@ urlpatterns = [
   path("enviar-correo/", test_email, name="enviar_correo"),
   path('preguntas-frecuentes/', FAQListView.as_view(), name='faq'),
   path('promo/', LandingMetaAdsJun2026View.as_view(), name='landing_meta_ads'),
+  path('gracias/', ThankyouLeadAdsView.as_view(), name='thankyou_lead_ads'),
 ]
   # path('test-email/', test_email, name='test_email'),
     

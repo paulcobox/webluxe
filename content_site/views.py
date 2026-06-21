@@ -231,6 +231,26 @@ class InvitatedSuccessTemplateView(TemplateView):
 
 
 # ══════════════════════════════════════════════════════════════════
+# THANK YOU — LEAD ADS FACEBOOK
+# Página de agradecimiento post-formulario de Lead Ads.
+# ══════════════════════════════════════════════════════════════════
+class ThankyouLeadAdsView(TemplateView):
+    template_name = 'landing/thankyou_lead_ads.html'
+
+    def get_context_data(self, **kwargs):
+        import random
+        context = super().get_context_data(**kwargs)
+        from content_site.models import Testimony
+        testimonies = list(Testimony.objects.filter(is_active=True))
+        random.shuffle(testimonies)
+        context.update({
+            'hero_image_url': 'https://images.unsplash.com/photo-1545959570-a94084071b5d?w=1400&q=80',
+            'list_testimony': testimonies,
+        })
+        return context
+
+
+# ══════════════════════════════════════════════════════════════════
 # LANDING META ADS — JUNIO 2026
 # Para actualizar precios, vacantes u horarios edita solo esta clase.
 # ══════════════════════════════════════════════════════════════════
