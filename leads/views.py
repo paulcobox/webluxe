@@ -223,8 +223,8 @@ def create_lead(request):
             args=[lead.id, ip, user_agent or request.META.get('HTTP_USER_AGENT', '')]
         )
 
-        # Fallback Kommo: si el webhook no llega en 5 min, sincronizar activamente
-        kommo_fallback_sync.apply_async(args=[lead.id], countdown=120)
+        # T+5min: buscar en Kommo, enriquecer si existe, enviar plantilla WA si no
+        kommo_fallback_sync.apply_async(args=[lead.id], countdown=300)
 
         return JsonResponse({'success': True, 'lead_id': lead.id})
 

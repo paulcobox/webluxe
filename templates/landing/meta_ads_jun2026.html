@@ -1129,16 +1129,17 @@ function confirmCursos() {
     if (el) fd.append(k, el.value);
   });
 
-  fetch('/create-lead/', { method:'POST', body:fd, headers:{'X-CSRFToken':CSRF} })
-    .then(r => r.json())
-    .then(data => {
-      if (data.success) {
-        S.leadId = data.lead_id || null;
-        if (typeof gtag !== 'undefined') gtag('event', 'lead_submitted', { program: S.prog });
-        if (window.dataLayer) dataLayer.push({ event:'lead_submitted', program: S.prog });
-      }
-    })
-    .catch(() => {});
+  // PRUEBAS: guardado de lead desactivado temporalmente
+  // fetch('/create-lead/', { method:'POST', body:fd, headers:{'X-CSRFToken':CSRF} })
+  //   .then(r => r.json())
+  //   .then(data => {
+  //     if (data.success) {
+  //       S.leadId = data.lead_id || null;
+  //       if (typeof gtag !== 'undefined') gtag('event', 'lead_submitted', { program: S.prog });
+  //       if (window.dataLayer) dataLayer.push({ event:'lead_submitted', program: S.prog });
+  //     }
+  //   })
+  //   .catch(() => {});
 }
 
 function trackWA() {

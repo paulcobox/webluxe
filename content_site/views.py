@@ -261,8 +261,8 @@ class LandingMetaAdsJun2026View(TemplateView):
             ],
             'sedes': [
                 {
-                    'id': 'jueves', 'name': 'Jueves',
-                    'schedule': 'Jueves', 'time': '8:00 pm – 10:00 pm',
+                    'id': 'viernes', 'name': 'Viernes',
+                    'schedule': 'Viernes', 'time': '8:00 pm – 10:00 pm',
                     'ref': 'Miraflores · 1 cdra. Parque Kennedy',
                     'vacantes': 4,
                 },
@@ -307,8 +307,8 @@ class LandingMetaAdsJun2026View(TemplateView):
             ],
             'sedes': [
                 {
-                    'id': 'sabado', 'name': 'Sabado',
-                    'schedule': 'Sabado', 'time': '6:00 pm – 7:30 pm',
+                    'id': 'jueves', 'name': 'Jueves',
+                    'schedule': 'Jueves', 'time': '8:00 pm – 10:00 pm',
                     'ref': 'Miraflores · 1 cdra. Parque Kennedy',
                     'vacantes': 6,
                 },
@@ -327,8 +327,8 @@ class LandingMetaAdsJun2026View(TemplateView):
             ],
             'sedes': [
                 {
-                    'id': 'viernes', 'name': 'Viernes',
-                    'schedule': 'Viernes', 'time': '8:00 pm – 10:00 pm',
+                    'id': 'sabado', 'name': 'Sabado',
+                    'schedule': 'Sabado', 'time': '6:00 pm – 7:30 pm',
                     'ref': 'Miraflores · 1 cdra. Parque Kennedy',
                     'vacantes': 4,
                 },
