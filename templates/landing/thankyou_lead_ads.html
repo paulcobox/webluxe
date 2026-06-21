@@ -50,30 +50,51 @@
   <style>
     :root {
       --cg-orange:    #ff6a09;
-      --cg-orange-dk: #e05500;
-      --cg-green:     #16a34a;
-      --cg-green-dk:  #15803d;
       --cg-border:    #e5e7eb;
       --cg-text:      #1f2937;
       --cg-muted:     #6b7280;
       --cg-light:     #f9fafb;
-      --nav-h:        72px;
+      --nav-h:        62px;
     }
     *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; padding: 0; }
     body {
       font-family: 'Heebo', sans-serif;
       background: #fff;
       color: var(--cg-text);
-      margin: 0; padding: 0;
+      /* layout de columna: nav + contenido ocupa exactamente la ventana */
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── NAVBAR ─────────────────────────────────────────── */
+    .cg-nav {
+      height: var(--nav-h);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      background: #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+      position: sticky; top: 0; z-index: 200;
+      padding: 0 1.25rem;
+    }
+
+    /* ── MAIN: ocupa todo el espacio restante ───────────── */
+    .cg-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;               /* permite que flex hijos se compriman */
+      overflow: hidden;
     }
 
     /* ── HERO ───────────────────────────────────────────── */
     .hero-photo {
       position: relative;
-      height: 22dvh;
+      flex-shrink: 0;
+      height: 16dvh;
       overflow: hidden;
     }
-    @media (min-width: 992px) { .hero-photo { height: 34dvh; } }
     .hero-bg {
       position: absolute; inset: 0;
       background-image: url('{{ hero_image_url }}');
@@ -83,77 +104,60 @@
     .hero-ov {
       position: absolute; inset: 0;
       background: linear-gradient(to bottom,
-        rgba(0,0,0,.40) 0%,
-        rgba(0,0,0,.20) 45%,
-        rgba(0,0,0,.65) 100%);
+        rgba(0,0,0,.38) 0%,
+        rgba(0,0,0,.18) 45%,
+        rgba(0,0,0,.68) 100%);
     }
     .hero-intro {
       position: absolute; bottom: 0; left: 0; right: 0;
-      padding: .85rem 1.25rem 1.1rem; z-index: 2;
-    }
-    @media (min-width: 992px) {
-      .hero-intro { padding: 1.25rem 2.5rem 1.5rem; }
+      padding: .6rem 1.25rem .75rem; z-index: 2;
     }
     .cg-stars { color: #fbbf24; }
 
-    /* ── BODY CONTENT ───────────────────────────────────── */
+    /* ── BODY: crece para llenar el resto ───────────────── */
     .page-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;   /* empuja el botón al fondo */
+      padding: .9rem 1.25rem 1.1rem;
       max-width: 560px;
       width: 100%;
       margin: 0 auto;
-      padding: 1.5rem 1.25rem 3rem;
-    }
-    @media (min-width: 992px) {
-      .page-body { padding: 2rem 2.5rem 3rem; }
+      min-height: 0;
     }
 
-    /* ── CONFIRMATION BOX ───────────────────────────────── */
-    .confirm-box {
-      background: #f0fdf4;
-      border: 1.5px solid #bbf7d0;
-      border-radius: 1rem;
-      padding: 1.1rem 1.25rem;
-      margin-bottom: 1.75rem;
+    /* ── CONFIRM PILL ───────────────────────────────────── */
+    .confirm-pill {
       display: flex;
-      gap: .75rem;
-      align-items: flex-start;
-    }
-    .confirm-icon {
-      font-size: 1.5rem;
-      flex-shrink: 0;
-      line-height: 1;
-      margin-top: .1rem;
-    }
-    .confirm-title {
-      font-family: 'Nunito', sans-serif;
-      font-weight: 800;
-      font-size: 1.1rem;
+      align-items: center;
+      gap: .5rem;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 2rem;
+      padding: .45rem .9rem;
+      font-size: .82rem;
+      font-weight: 600;
       color: #15803d;
-      margin: 0 0 .2rem;
-    }
-    .confirm-text {
-      font-size: .875rem;
-      color: #166534;
-      margin: 0;
-      line-height: 1.55;
+      width: fit-content;
     }
 
     /* ── TESTIMONIALS ───────────────────────────────────── */
     .section-label {
-      font-size: .73rem;
+      font-size: .7rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: .1em;
+      letter-spacing: .09em;
       color: var(--cg-muted);
-      margin-bottom: .6rem;
+      margin: 0 0 .4rem;
     }
     .cg-track {
       display: flex;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
-      gap: .65rem;
-      padding: .25rem .25rem .5rem;
+      gap: .55rem;
+      padding: .15rem .15rem .35rem;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
     }
@@ -163,156 +167,154 @@
       width: 88%;
       scroll-snap-align: start;
       border: 1px solid var(--cg-border);
-      border-radius: 1rem;
+      border-radius: .875rem;
       background: var(--cg-light);
-      padding: .9rem;
+      padding: .7rem .85rem;
     }
-    .cg-dots { display: flex; justify-content: center; gap: .4rem; margin-top: .6rem; margin-bottom: 1.75rem; }
-    .cg-dot  { width: 6px; height: 6px; border-radius: 50%; background: var(--cg-border); cursor: pointer; transition: background .2s; }
+    .cg-dots { display: flex; justify-content: center; gap: .35rem; margin: .4rem 0 0; }
+    .cg-dot  { width: 5px; height: 5px; border-radius: 50%; background: var(--cg-border); cursor: pointer; transition: background .2s; }
     .cg-dot.on { background: var(--cg-orange); }
 
     /* ── WHATSAPP BUTTON ────────────────────────────────── */
+    .wa-wrap { margin-top: .85rem; }
     .wa-btn {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: .65rem;
+      gap: .6rem;
       width: 100%;
       background: #25d366;
       color: #fff;
       font-family: 'Nunito', sans-serif;
       font-weight: 800;
       font-size: 1.05rem;
-      border: none;
       border-radius: .875rem;
-      padding: 1rem 1.25rem;
+      padding: .95rem 1.25rem;
       text-decoration: none;
-      cursor: pointer;
       transition: background .15s, transform .1s;
-      box-shadow: 0 4px 14px rgba(37,211,102,.35);
+      box-shadow: 0 4px 14px rgba(37,211,102,.32);
     }
-    .wa-btn:hover {
-      background: #1ebe5d;
-      color: #fff;
-      transform: translateY(-1px);
-      box-shadow: 0 6px 18px rgba(37,211,102,.45);
-    }
+    .wa-btn:hover  { background: #1ebe5d; color: #fff; transform: translateY(-1px); }
     .wa-btn:active { transform: scale(.99); }
-    .wa-btn i { font-size: 1.3rem; }
+    .wa-btn i      { font-size: 1.25rem; }
     .wa-hint {
       text-align: center;
-      font-size: .76rem;
+      font-size: .74rem;
       color: var(--cg-muted);
-      margin-top: .6rem;
+      margin-top: .45rem;
+    }
+
+    /* ── DESKTOP: más espacio en foto ───────────────────── */
+    @media (min-width: 992px) {
+      .hero-photo  { height: 28dvh; }
+      .hero-intro  { padding: 1rem 2.5rem 1.25rem; }
+      .page-body   { padding: 1.25rem 2.5rem 1.5rem; }
     }
   </style>
 </head>
 <body>
 
 <!-- ═══ NAVBAR — solo logo ═══════════════════════════════ -->
-<nav class="bg-white shadow" style="height:var(--nav-h);position:sticky;top:0;z-index:200;display:flex;align-items:center;">
-  <div class="px-4 px-lg-5">
-    <a href="{% url 'home' %}" title="Cuban Groove">
-      <img src="{% static 'img/logos/logo_desk.webp' %}"
-           style="height:38px;width:auto;"
-           alt="Cuban Groove – Clases de Salsa en Lima">
-    </a>
-  </div>
+<nav class="cg-nav">
+  <a href="{% url 'home' %}" title="Cuban Groove">
+    <img src="{% static 'img/logos/logo_desk.webp' %}"
+         style="height:36px;width:auto;"
+         alt="Cuban Groove – Clases de Salsa en Lima">
+  </a>
 </nav>
 
-<!-- ═══ HERO ══════════════════════════════════════════════ -->
-<div class="hero-photo">
-  <div class="hero-bg"></div>
-  <div class="hero-ov"></div>
-  <div class="hero-intro">
-    <div class="d-flex align-items-center gap-2 mb-1">
-      <span class="cg-stars" style="font-size:.75rem;">
-        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i>
-      </span>
-      <span style="color:rgba(255,255,255,.9);font-size:.75rem;">
-        +<strong style="color:#fff;">500</strong> alumnos formados
-      </span>
+<!-- ═══ MAIN ══════════════════════════════════════════════ -->
+<main class="cg-main">
+
+  <!-- Hero -->
+  <div class="hero-photo">
+    <div class="hero-bg"></div>
+    <div class="hero-ov"></div>
+    <div class="hero-intro">
+      <div class="d-flex align-items-center gap-2 mb-1">
+        <span class="cg-stars" style="font-size:.72rem;">
+          <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+          <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+          <i class="bi bi-star-fill"></i>
+        </span>
+        <span style="color:rgba(255,255,255,.9);font-size:.72rem;">
+          +<strong style="color:#fff;">500</strong> alumnos formados
+        </span>
+      </div>
+      <h1 style="font-family:'Nunito',sans-serif;font-weight:800;font-size:clamp(1.15rem,4vw,1.85rem);color:#fff;line-height:1.15;margin:0;">
+        ¡Gracias por tu interés<br>en Cuban Groove!
+      </h1>
     </div>
-    <h1 style="font-family:'Nunito',sans-serif;font-weight:800;font-size:clamp(1.25rem,4.5vw,2rem);color:#fff;line-height:1.15;margin:0;">
-      ¡Gracias por tu interés<br>en Cuban Groove!
-    </h1>
   </div>
-</div>
 
-<!-- ═══ CONTENIDO ════════════════════════════════════════ -->
-<div class="page-body">
+  <!-- Body -->
+  <div class="page-body">
 
-  <!-- Confirmación -->
-  <div class="confirm-box">
-    <div class="confirm-icon">✅</div>
+    <!-- Confirmación compacta -->
     <div>
-      <p class="confirm-title">Recibimos tu solicitud</p>
-      <p class="confirm-text">
-        Un asesor de Cuban Groove se pondrá en contacto contigo pronto.<br>
-        Si prefieres no esperar, escríbenos directamente por WhatsApp y te atendemos ahora.
-      </p>
-    </div>
-  </div>
-
-  <!-- Testimonios -->
-  {% if list_testimony %}
-  <p class="section-label">Lo que dicen nuestros alumnos</p>
-
-  <div class="cg-track" id="car">
-    {% for t in list_testimony %}
-    <div class="cg-track-card">
-      <div class="cg-stars mb-2" style="font-size:.78rem;">
-        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+      <div class="confirm-pill mb-3">
+        <span>✅</span>
+        <span>Recibimos tu solicitud — un asesor te contactará pronto</span>
       </div>
-      <blockquote style="color:#4b5563;font-size:.85rem;line-height:1.65;font-style:italic;margin:0 0 .65rem;">
-        "{{ t.description|striptags|safe }}"
-      </blockquote>
-      <div class="d-flex align-items-center gap-2">
-        <div style="width:1.9rem;height:1.9rem;border-radius:50%;background:rgba(255,106,9,.15);color:var(--cg-orange);font-weight:700;font-size:.82rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-          {{ t.name|first }}
+
+      <!-- Testimonios -->
+      {% if list_testimony %}
+      <p class="section-label">Lo que dicen nuestros alumnos</p>
+      <div class="cg-track" id="car">
+        {% for t in list_testimony %}
+        <div class="cg-track-card">
+          <div class="cg-stars mb-1" style="font-size:.74rem;">
+            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+          </div>
+          <blockquote style="color:#4b5563;font-size:.8rem;line-height:1.6;font-style:italic;margin:0 0 .5rem;">
+            "{{ t.description|striptags|safe }}"
+          </blockquote>
+          <div class="d-flex align-items-center gap-2">
+            <div style="width:1.7rem;height:1.7rem;border-radius:50%;background:rgba(255,106,9,.13);color:var(--cg-orange);font-weight:700;font-size:.78rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              {{ t.name|first }}
+            </div>
+            <div>
+              <p style="font-weight:600;font-size:.76rem;color:#1f2937;margin:0;">{{ t.name }}</p>
+              <p style="font-size:.69rem;color:var(--cg-muted);margin:0;">{{ t.profession|default:"Alumno de Cuban Groove" }}</p>
+            </div>
+          </div>
         </div>
-        <div>
-          <p style="font-weight:600;font-size:.8rem;color:#1f2937;margin:0;">{{ t.name }}</p>
-          <p style="font-size:.72rem;color:var(--cg-muted);margin:0;">{{ t.profession|default:"Alumno de Cuban Groove" }}</p>
-        </div>
+        {% endfor %}
       </div>
+      <div class="cg-dots" id="dots">
+        {% for t in list_testimony %}
+        <div class="cg-dot {% if forloop.first %}on{% endif %}"
+             onclick="scrollToCard({{ forloop.counter0 }})"></div>
+        {% endfor %}
+      </div>
+      {% endif %}
     </div>
-    {% endfor %}
-  </div>
 
-  <div class="cg-dots" id="dots">
-    {% for t in list_testimony %}
-    <div class="cg-dot {% if forloop.first %}on{% endif %}"
-         onclick="scrollToCard({{ forloop.counter0 }})"></div>
-    {% endfor %}
-  </div>
-  {% endif %}
+    <!-- Botón WhatsApp -->
+    <div class="wa-wrap">
+      <a class="wa-btn"
+         href="https://wa.me/51991337159?text=Hola%20Cuban%20Groove%2C%20dej%C3%A9%20mis%20datos%20en%20el%20formulario%20y%20estoy%20interesado%20en%20los%20horarios%20de%20clases%20de%20salsa%20en%20Miraflores."
+         target="_blank"
+         rel="noopener noreferrer"
+         onclick="fbq('track','Contact');">
+        <i class="fab fa-whatsapp"></i>
+        Hablar con un asesor ahora
+      </a>
+      <p class="wa-hint">Consulta precios, horarios y paquetes de cursos</p>
+    </div>
 
-  <!-- Botón WhatsApp -->
-  <a class="wa-btn"
-     href="https://wa.me/51991337159?text=Hola%20Cuban%20Groove%2C%20dej%C3%A9%20mis%20datos%20en%20el%20formulario%20y%20estoy%20interesado%20en%20los%20horarios%20de%20clases%20de%20salsa%20en%20Miraflores."
-     target="_blank"
-     rel="noopener noreferrer"
-     onclick="fbq('track','Contact');">
-    <i class="fab fa-whatsapp"></i>
-    Hablar con un asesor ahora
-  </a>
-  <p class="wa-hint">Atención personalizada · Lunes a Sábado</p>
-
-</div>
+  </div><!-- /page-body -->
+</main>
 
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 <script>
-  // ── Dots sync ──────────────────────────────────────────
   const car  = document.getElementById('car');
   const dots = document.querySelectorAll('.cg-dot');
 
   function scrollToCard(i) {
     const cards = car.querySelectorAll('.cg-track-card');
-    if (cards[i]) cards[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    if (cards[i]) cards[i].scrollIntoView({ behavior:'smooth', block:'nearest', inline:'start' });
   }
 
   if (car && dots.length) {
@@ -325,16 +327,15 @@
       });
       dots.forEach((d, i) => d.classList.toggle('on', i === closest));
     }, { passive: true });
-  }
 
-  // Auto-avance del carrusel cada 4s
-  let autoIdx = 0;
-  const cards = car ? car.querySelectorAll('.cg-track-card') : [];
-  if (cards.length > 1) {
-    setInterval(() => {
-      autoIdx = (autoIdx + 1) % cards.length;
-      scrollToCard(autoIdx);
-    }, 4000);
+    let autoIdx = 0;
+    const cards = car.querySelectorAll('.cg-track-card');
+    if (cards.length > 1) {
+      setInterval(() => {
+        autoIdx = (autoIdx + 1) % cards.length;
+        scrollToCard(autoIdx);
+      }, 4000);
+    }
   }
 </script>
 </body>
