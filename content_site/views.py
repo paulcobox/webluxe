@@ -148,11 +148,11 @@ class InvitatedTemplateView(TemplateView):
         friend_phone = request.POST.get("friend_phone")
         notes = request.POST.get("notes")
 
-        # LÃ³gica para guardar datos en base de datos o procesamiento
+        # Lógica para guardar datos en base de datos o procesamiento
         print("Nombre del Alumno:", student_name)
-        print("Correo ElectrÃ³nico del Alumno:", student_email)
+        print("Correo Electrónico del Alumno:", student_email)
         print("Nombre del Amigo:", friend_name)
-        print("TelÃ©fono del Amigo:", friend_phone)
+        print("Teléfono del Amigo:", friend_phone)
         print("Clase Seleccionada:", notes)
         # Guardar los datos en el modelo
         
@@ -176,13 +176,13 @@ class InvitatedTemplateView(TemplateView):
             notes=notes,
         )
         
-        # Enviar correo de invitaciÃ³n con plantilla HTML
+        # Enviar correo de invitación con plantilla HTML
         # self.send_invitation_email(student_name, friend_name, student_email, notes)
-        # Redirigir a la pÃ¡gina de Ã©xito
+        # Redirigir a la página de éxito
         return redirect(reverse("invite_success"))
     
     def send_aviso_email(self, student_name, friend_name, student_email, notes):
-        subject = f"Â¡Lead de {friend_name} a Cuban Groove!"
+        subject = f"¡Lead de {friend_name} a Cuban Groove!"
         from_email = settings.DEFAULT_FROM_EMAIL
         recipient_list = [student_email, 'paulcofiis@gmail.com', '']
 
@@ -211,13 +211,13 @@ def test_email(request):
         )
         return HttpResponse("Correo enviado correctamente")
     except SMTPException as e:
-        # Captura errores especÃ­ficos de SMTP
+        # Captura errores específicos de SMTP
         error_message = f"Error SMTP al enviar el correo: {str(e)}"
         logger.error(error_message)  # Registra el error en los logs
         return HttpResponse(error_message, status=500)
     except socket.error as e:
-        # Captura errores de conexiÃ³n (por ejemplo, problemas de red)
-        error_message = f"Error de conexiÃ³n: {str(e)}"
+        # Captura errores de conexión (por ejemplo, problemas de red)
+        error_message = f"Error de conexión: {str(e)}"
         logger.error(error_message)  # Registra el error en los logs
         return HttpResponse(error_message, status=500)
     except Exception as e:
@@ -227,13 +227,13 @@ def test_email(request):
         return HttpResponse(error_message, status=500)
               
 class InvitatedSuccessTemplateView(TemplateView):
-    template_name = "content_site/invitated_success.html"  # Plantilla de la pÃ¡gina de Ã©xito
+    template_name = "content_site/invitated_success.html"  # Plantilla de la página de éxito
 
 
-# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-# THANK YOU â€” LEAD ADS FACEBOOK
-# PÃ¡gina de agradecimiento post-formulario de Lead Ads.
-# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+# ══════════════════════════════════════════════════════════════════
+# THANK YOU - LEAD ADS FACEBOOK
+# Página de agradecimiento post-formulario de Lead Ads.
+# ══════════════════════════════════════════════════════════════════
 class ThankyouLeadAdsView(TemplateView):
     template_name = 'landing/thankyou_lead_ads.html'
 
@@ -250,23 +250,23 @@ class ThankyouLeadAdsView(TemplateView):
         return context
 
 
-# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-# LANDING META ADS â€” JUNIO 2026
+# ══════════════════════════════════════════════════════════════════
+# LANDING META ADS - JUNIO 2026
 # Para actualizar precios, vacantes u horarios edita solo esta clase.
-# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+# ══════════════════════════════════════════════════════════════════
 class LandingMetaAdsJun2026View(TemplateView):
     template_name = 'landing/meta_ads_jun2026.html'
 
-    # â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+    # ════════════════════════════════════════════════════════
     # EDITAR AQUI: precios, horarios, vacantes, bullets
-    # â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-    REF_MIRAFLORES = 'Miraflores Â· 1 cdra. Parque Kennedy'
+    # ════════════════════════════════════════════════════════
+    REF_MIRAFLORES = 'Miraflores - 1 cdra. Parque Kennedy'
 
     RAICES_CUBANAS = {
         'name': 'Raices Cubanas',
-        'tagline': 'Rumba y Danzas Afrocubanas â€” complementa cualquier nivel',
-        'schedule': 'Sabados', 'time': '4:30 pm â€“ 6:00 pm',
-        'ref': 'Miraflores Â· 1 cdra. Parque Kennedy',
+        'tagline': 'Rumba y Danzas Afrocubanas - complementa cualquier nivel',
+        'schedule': 'Sabados', 'time': '4:30 pm - 6:00 pm',
+        'ref': 'Miraflores - 1 cdra. Parque Kennedy',
     }
 
     PROGRAMS = {
@@ -282,14 +282,14 @@ class LandingMetaAdsJun2026View(TemplateView):
             'sedes': [
                 {
                     'id': 'viernes', 'name': 'Viernes',
-                    'schedule': 'Viernes', 'time': '8:00 pm â€“ 10:00 pm',
-                    'ref': 'Miraflores Â· 1 cdra. Parque Kennedy',
+                    'schedule': 'Viernes', 'time': '8:00 pm - 10:00 pm',
+                    'ref': 'Miraflores - 1 cdra. Parque Kennedy',
                     'vacantes': 4,
                 },
                 {
                     'id': 'sabado', 'name': 'Sabado',
-                    'schedule': 'Sabado', 'time': '3:00 pm â€“ 4:30 pm',
-                    'ref': 'Miraflores Â· 1 cdra. Parque Kennedy',
+                    'schedule': 'Sabado', 'time': '3:00 pm - 4:30 pm',
+                    'ref': 'Miraflores - 1 cdra. Parque Kennedy',
                     'vacantes': 3,
                 },
             ],
@@ -308,8 +308,8 @@ class LandingMetaAdsJun2026View(TemplateView):
             'sedes': [
                 {
                     'id': 'martes', 'name': 'Martes',
-                    'schedule': 'Martes', 'time': '8:00 pm â€“ 10:00 pm',
-                    'ref': 'Miraflores Â· 1 cdra. Parque Kennedy',
+                    'schedule': 'Martes', 'time': '8:00 pm - 10:00 pm',
+                    'ref': 'Miraflores - 1 cdra. Parque Kennedy',
                     'vacantes': 5,
                 },
             ],
@@ -328,8 +328,8 @@ class LandingMetaAdsJun2026View(TemplateView):
             'sedes': [
                 {
                     'id': 'jueves', 'name': 'Jueves',
-                    'schedule': 'Jueves', 'time': '8:00 pm â€“ 10:00 pm',
-                    'ref': 'Miraflores Â· 1 cdra. Parque Kennedy',
+                    'schedule': 'Jueves', 'time': '8:00 pm - 10:00 pm',
+                    'ref': 'Miraflores - 1 cdra. Parque Kennedy',
                     'vacantes': 6,
                 },
             ],
@@ -348,8 +348,8 @@ class LandingMetaAdsJun2026View(TemplateView):
             'sedes': [
                 {
                     'id': 'sabado', 'name': 'Sabado',
-                    'schedule': 'Sabado', 'time': '6:00 pm â€“ 7:30 pm',
-                    'ref': 'Miraflores Â· 1 cdra. Parque Kennedy',
+                    'schedule': 'Sabado', 'time': '6:00 pm - 7:30 pm',
+                    'ref': 'Miraflores - 1 cdra. Parque Kennedy',
                     'vacantes': 4,
                 },
             ],
@@ -369,7 +369,7 @@ class LandingMetaAdsJun2026View(TemplateView):
                 {
                     'id': 'coordinar', 'name': 'A coordinar',
                     'schedule': 'A coordinar', 'time': 'Horario flexible',
-                    'ref': 'Miraflores Â· 1 cdra. Parque Kennedy',
+                    'ref': 'Miraflores - 1 cdra. Parque Kennedy',
                     'vacantes': None,
                 },
             ],
@@ -412,7 +412,7 @@ class LandingMetaAdsJun2026View(TemplateView):
 #             ['paulcofiis@gmail.com'],  # Cambia a un correo de prueba
 #             fail_silently=False,
 #         )
-#         return HttpResponse('Correo enviado con Ã©xito.')
+#         return HttpResponse('Correo enviado con éxito.')
 #     except Exception as e:
 #         return HttpResponse(f'Error al enviar el correo: {e}')
 
@@ -443,4 +443,5 @@ class LandingMetaAdsJun2026View(TemplateView):
 #     context = super(AboutOurPartnerTemplateView, self).get_context_data(*args, **kwargs)
 #     context['name'] = 'about_our_partner'
 #     return context
+
 
