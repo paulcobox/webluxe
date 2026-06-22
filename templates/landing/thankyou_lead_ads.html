@@ -175,14 +175,23 @@
     .cg-dot  { width: 5px; height: 5px; border-radius: 50%; background: var(--cg-border); cursor: pointer; transition: background .2s; }
     .cg-dot.on { background: var(--cg-orange); }
 
-    /* ── WHATSAPP BUTTON ────────────────────────────────── */
-    .wa-wrap { margin-top: .85rem; }
+    /* ── WHATSAPP BUTTON — flotante fijo abajo ──────────── */
+    .wa-wrap {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 300;
+      background: #fff;
+      padding: .65rem 1.25rem .75rem;
+      box-shadow: 0 -2px 12px rgba(0,0,0,.10);
+    }
     .wa-btn {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: .6rem;
       width: 100%;
+      max-width: 560px;
+      margin: 0 auto;
       background: #25d366;
       color: #fff;
       font-family: 'Nunito', sans-serif;
@@ -201,8 +210,13 @@
       text-align: center;
       font-size: .74rem;
       color: var(--cg-muted);
-      margin-top: .45rem;
+      margin-top: .35rem;
+      max-width: 560px;
+      margin-left: auto;
+      margin-right: auto;
     }
+    /* espacio al final del contenido para que el botón fijo no lo tape */
+    .wa-spacer { height: 90px; }
 
     /* ── DESKTOP: más espacio en foto ───────────────────── */
     @media (min-width: 992px) {
@@ -291,20 +305,23 @@
       {% endif %}
     </div>
 
-    <!-- Botón WhatsApp -->
-    <div class="wa-wrap">
-      <a class="wa-btn"
-         href="https://wa.me/51991337159?text=Hola%20Cuban%20Groove%2C%20dej%C3%A9%20mis%20datos%20en%20el%20formulario%20y%20estoy%20interesado%20en%20los%20horarios%20de%20clases%20de%20salsa%20en%20Miraflores."
-         target="_blank"
-         rel="noopener noreferrer"
-         onclick="fbq('track','Contact');">
-        <i class="fab fa-whatsapp"></i>
-        Hablar con un asesor ahora
-      </a>
-      <p class="wa-hint">Consulta precios, horarios y paquetes de cursos</p>
-    </div>
+    <!-- Spacer para que el botón fijo no tape el contenido -->
+    <div class="wa-spacer"></div>
 
   </div><!-- /page-body -->
+
+  <!-- Botón WhatsApp — fijo en la parte inferior -->
+  <div class="wa-wrap">
+    <a class="wa-btn"
+       href="https://wa.me/51991337159?text=Hola%20Cuban%20Groove%2C%20dej%C3%A9%20mis%20datos%20en%20el%20formulario%20y%20estoy%20interesado%20en%20los%20horarios%20de%20clases%20de%20salsa%20en%20Miraflores."
+       target="_blank"
+       rel="noopener noreferrer"
+       onclick="fbq('track','Contact');">
+      <i class="fab fa-whatsapp"></i>
+      Hablar con un asesor ahora
+    </a>
+    <p class="wa-hint">Consulta precios, horarios y paquetes de cursos</p>
+  </div>
 </main>
 
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
