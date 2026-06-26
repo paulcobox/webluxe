@@ -2,8 +2,7 @@ from django.urls import path
 from .views import (
     FAQListView, HomePageView, ContactTemplateView, PrivacyPoliciesTemplateView,
     TermsConditionsTemplateView, sitemap_view, robots_view, ThankYouTemplateView,
-    InvitatedTemplateView, InvitatedSuccessTemplateView, sitemap_blog_view,
-    sitemap_general_view, sitemap_miraflores_view, test_email,
+    sitemap_blog_view, sitemap_general_view, sitemap_miraflores_view, test_email,
     LandingMetaAdsJun2026View, ThankyouLeadAdsView,
 )
 from django.views.generic import RedirectView
@@ -28,8 +27,8 @@ urlpatterns = [
   path('robots.txt', robots_view, name='robots'),
   path('favicon.ico', RedirectView.as_view(url=settings.STATIC_URL + 'img/logos/favicon.ico')),
   path('favicon.png', RedirectView.as_view(url=settings.STATIC_URL + 'img/logos/favicon.png')),
-  path("invite-friend/", InvitatedTemplateView.as_view(), name="invite_friend"),
-  path("invite-success/", InvitatedSuccessTemplateView.as_view(), name="invite_success"),
+  path("invite-friend/", RedirectView.as_view(url='/', permanent=True)),
+  path("invite-success/", RedirectView.as_view(url='/', permanent=True)),
   path("enviar-correo/", test_email, name="enviar_correo"),
   path('preguntas-frecuentes/', FAQListView.as_view(), name='faq'),
   path('promo/', LandingMetaAdsJun2026View.as_view(), name='landing_meta_ads'),
