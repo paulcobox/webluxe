@@ -302,6 +302,33 @@ def update_kommo_contact(contact_id: str, data: dict) -> bool:
         return False
 
 
+def add_tag_to_contact(contact_id: str, tag_name: str) -> bool:
+    """
+    Agrega un tag al contacto en Kommo.
+    Retorna True si fue exitoso, False si falla.
+    """
+    payload = {'_embedded': {'tags': [{'name': tag_name}]}}
+
+    try:
+        resp = requests.patch(
+            f'{KOMMO_BASE_URL}/contacts/{contact_id}',
+            headers=_get_headers(),
+            json=payload,
+            timeout=10,
+        )
+        if resp.status_code == 401:
+            logger.error('[KOMMO_SERVICE] 401 Unauthorized al agregar tag — verificar KOMMO_TOKEN')
+            return False
+        if not (200 <= resp.status_code < 300):
+            logger.error(f'[KOMMO_SERVICE] add_tag HTTP {resp.status_code}: {resp.text[:300]}')
+            return False
+        logger.warning(f'[KOMMO_SERVICE] ✅ Tag "{tag_name}" agregado a contacto {contact_id}')
+        return True
+    except Exception as exc:
+        logger.error(f'[KOMMO_SERVICE] ❌ Error agregando tag a contacto {contact_id}: {exc}')
+        return False
+
+
 def create_kommo_deal(contact_id: str, deal_name: str) -> str | None:
     """
     Crea un deal en Kommo vinculado al contacto por su ID.
@@ -421,36 +448,41 @@ def enrich_kommo_contact(lead, contact_id: str) -> None:
         'rango_edad':   lead.form_age_raw or '',
     }
 
+    phone = (lead.phone_number or '').strip()
+    logger.warning(f'[KOMMO_WEBHOOK] 🔄 Enriqueciendo contacto | lead={lead.id} | phone={phone} | contact_id={contact_id}')
     update_kommo_contact(contact_id, all_data)
-    logger.info(f'[KOMMO] Contacto {contact_id} enriquecido con datos del form (lead {lead.id})')
+    logger.warning(f'[KOMMO_WEBHOOK] ✅ Contacto enriquecido | lead={lead.id} | phone={phone} | contact_id={contact_id}')
 
     if not lead.kommo_deal_id:
-        full_name  = f'{lead.first_name} {lead.last_name}'.strip()
-        phone      = lead.phone_number or ''
-        deal_name  = f"{full_name or phone} — {lead.form_course_raw or 'Consulta'}".strip(' —')
-        deal_id    = create_kommo_deal(contact_id, deal_name)
+        full_name = f'{lead.first_name} {lead.last_name}'.strip()
+        deal_name = f"{full_name or phone} — {lead.form_course_raw or 'Consulta'}".strip(' —')
+        logger.warning(f'[KOMMO_WEBHOOK] ➕ Creando deal | lead={lead.id} | phone={phone} | nombre="{deal_name}"')
+        deal_id = create_kommo_deal(contact_id, deal_name)
         if deal_id:
             lead.kommo_deal_id = deal_id
             lead.save(update_fields=['kommo_deal_id'])
-            logger.info(f'[KOMMO] Deal {deal_id} creado para lead {lead.id}')
+            logger.warning(f'[KOMMO_WEBHOOK] ✅ Deal creado | lead={lead.id} | phone={phone} | deal_id={deal_id}')
+        else:
+            logger.error(f'[KOMMO_WEBHOOK] ❌ Falló creación de deal | lead={lead.id} | phone={phone}')
+    else:
+        logger.warning(f'[KOMMO_WEBHOOK] ⏭ Deal ya existe | lead={lead.id} | phone={phone} | deal_id={lead.kommo_deal_id}')
 
     lead.kommo_contact_id = contact_id
     lead.kommo_synced_at  = timezone.now()
     lead.kommo_last_error = None
     lead.save(update_fields=['kommo_contact_id', 'kommo_synced_at', 'kommo_last_error'])
+    logger.warning(f'[KOMMO_WEBHOOK] ✅ Enrich completado | lead={lead.id} | phone={phone} | contact={contact_id} | deal={lead.kommo_deal_id}')
 
 
 def sync_contact_to_kommo(lead) -> None:
     """
-    Sincroniza un Lead con Kommo CRM.
-
-    - Contacto nuevo: POST con todos los campos disponibles (una sola llamada).
-    - Contacto existente (encontrado por email o kommo_contact_id): PATCH con datos actuales.
-    - El campo sede_horario llega en un PATCH posterior desde update_lead_sede.
+    Crea o actualiza el Contacto en Kommo desde el formulario web.
+    NO crea deal/lead en el pipeline — eso solo ocurre cuando la persona escribe por WA.
+    Flujo: busca por teléfono → busca por email → crea nuevo si no existe.
     """
     phone = (lead.phone_number or '').strip()
     if not phone:
-        logger.warning(f'[KOMMO] Lead {lead.id} sin teléfono — sync abortado.')
+        logger.warning(f'[KOMMO_SERVICE] ⚠️ Lead {lead.id} sin teléfono — sync abortado')
         return
 
     all_data = {
@@ -467,50 +499,46 @@ def sync_contact_to_kommo(lead) -> None:
         'rango_edad':   lead.form_age_raw or '',
     }
 
-    deal_name = f"{all_data['full_name'] or phone} — {all_data['curso'] or 'Consulta'}".strip(' —')
-
     try:
         contact_id = lead.kommo_contact_id
 
         if not contact_id:
-            # Buscar por teléfono primero, luego por email
+            logger.warning(f'[KOMMO_SERVICE] 🔎 Buscando contacto | lead={lead.id} | phone={phone}')
             contact_id = find_contact_by_phone(phone)
+
             if not contact_id and lead.email:
+                logger.warning(f'[KOMMO_SERVICE] 🔎 No encontrado por teléfono | lead={lead.id} | phone={phone} — buscando por email={lead.email}')
                 contact_id = find_contact_by_email(lead.email)
 
             if contact_id:
-                # Contacto existente encontrado: guardar ID y actualizar campos
+                logger.warning(f'[KOMMO_SERVICE] ✅ Contacto existente | lead={lead.id} | phone={phone} | contact_id={contact_id} — actualizando')
                 lead.kommo_contact_id = contact_id
                 lead.save(update_fields=['kommo_contact_id'])
                 update_kommo_contact(contact_id, all_data)
             else:
-                # Contacto nuevo: POST con payload completo
+                logger.warning(f'[KOMMO_SERVICE] ➕ Contacto nuevo | lead={lead.id} | phone={phone} — creando en Kommo')
                 contact_id = create_kommo_contact(all_data)
                 if not contact_id:
                     lead.kommo_last_error = 'No se pudo crear el contacto en Kommo.'
                     lead.save(update_fields=['kommo_last_error'])
+                    logger.error(f'[KOMMO_SERVICE] ❌ Falló creación | lead={lead.id} | phone={phone}')
                     return
+                logger.warning(f'[KOMMO_SERVICE] ✅ Contacto creado | lead={lead.id} | phone={phone} | contact_id={contact_id}')
                 lead.kommo_contact_id = contact_id
                 lead.save(update_fields=['kommo_contact_id'])
         else:
-            # Ya tiene ID: actualizar con todos los datos actuales
+            logger.warning(f'[KOMMO_SERVICE] 🔄 Actualizando contacto | lead={lead.id} | phone={phone} | contact_id={contact_id}')
             update_kommo_contact(contact_id, all_data)
 
-        # Crear deal vinculado solo si aún no existe
-        if not lead.kommo_deal_id:
-            deal_id = create_kommo_deal(contact_id, deal_name)
-            if deal_id:
-                lead.kommo_deal_id = deal_id
-                lead.save(update_fields=['kommo_deal_id'])
-
+        # Deal NO se crea aquí — solo cuando la persona escribe por WA (webhook)
         lead.kommo_synced_at  = timezone.now()
         lead.kommo_last_error = None
         lead.save(update_fields=['kommo_synced_at', 'kommo_last_error'])
 
-        logger.info(f'[KOMMO] Lead {lead.id} sincronizado. Contact ID={contact_id} | Deal ID={lead.kommo_deal_id}')
+        logger.warning(f'[KOMMO_SERVICE] ✅ Sync completado | lead={lead.id} | phone={phone} | contact_id={contact_id} | sin deal (esperando WA)')
 
     except Exception as exc:
         error_msg = str(exc)[:500]
-        logger.error(f'[KOMMO] Error inesperado sincronizando lead {lead.id}: {exc}')
+        logger.error(f'[KOMMO_SERVICE] ❌ Error inesperado | lead={lead.id} | phone={phone} | {exc}')
         lead.kommo_last_error = error_msg
         lead.save(update_fields=['kommo_last_error'])

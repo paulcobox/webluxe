@@ -172,81 +172,134 @@ def send_capi_lead_event(self, lead_id, ip='', user_agent=''):
 @shared_task
 def kommo_fallback_sync(lead_id: int):
     """
-    Corre 5 minutos después de crear el lead.
-    - Si webhook ya lo procesó (kommo_contact_id presente) → no hacer nada.
-    - Si existe en Kommo por teléfono → enriquecer con datos del form.
-    - Si no existe en Kommo → la persona nunca escribió por WA → enviar plantilla WA.
+    Corre 10 minutos después de crear el lead.
+    - Si la persona ya escribió por WA (kommo_deal_id presente) → no enviar plantilla.
+    - Si no escribió por WA → enviar plantilla WA para iniciar la conversación.
     """
     from leads.models import Lead
-    from leads.services.kommo_service import find_contact_by_phone, enrich_kommo_contact
     from leads.services.whatsapp_service import send_whatsapp_template
+
+    logger.warning(f'[KOMMO_FALLBACK] ▶ Iniciando | lead_id={lead_id}')
 
     try:
         lead = Lead.objects.get(pk=lead_id)
     except Lead.DoesNotExist:
-        logger.error(f'[FALLBACK] Lead {lead_id} no encontrado.')
-        print(f'[FALLBACK] ❌ Lead {lead_id} no encontrado.')
+        logger.error(f'[KOMMO_FALLBACK] ❌ Lead {lead_id} no encontrado en BD — abortando')
         return
 
-    print(f'[FALLBACK] 🔍 Iniciando para lead {lead_id} | {lead.first_name} {lead.last_name} | {lead.phone_number}')
+    logger.warning(
+        f'[KOMMO_FALLBACK] Lead {lead_id} | {lead.first_name} {lead.last_name} | '
+        f'phone={lead.phone_number} | kommo_contact_id={lead.kommo_contact_id} | kommo_deal_id={lead.kommo_deal_id}'
+    )
 
-    # 1. Webhook ya lo procesó
-    if lead.kommo_contact_id:
-        logger.info(f'[FALLBACK] Lead {lead_id} ya tiene kommo_contact_id={lead.kommo_contact_id} — webhook lo procesó.')
-        print(f'[FALLBACK] ✅ Ya sincronizado por webhook — nada que hacer.')
+    phone = (lead.phone_number or '').strip()
+
+    # Si ya tiene deal → la persona escribió por WA → Kommo lo procesó → no enviar plantilla
+    if lead.kommo_deal_id:
+        logger.warning(
+            f'[KOMMO_FALLBACK] ✅ Persona ya escribió por WA | lead_id={lead_id} | '
+            f'phone={phone} | deal_id={lead.kommo_deal_id} — no se envía plantilla'
+        )
+        return
+
+    if not phone:
+        logger.warning(f'[KOMMO_FALLBACK] ⚠️ Lead {lead_id} sin teléfono — abortando')
+        return
+
+    logger.warning(
+        f'[KOMMO_FALLBACK] ⏳ Persona NO escribió por WA | lead_id={lead_id} | '
+        f'phone={phone} — enviando plantilla WA'
+    )
+
+    curso = lead.form_course_raw or 'nuestros cursos'
+    ok = send_whatsapp_template(phone=phone, first_name=lead.first_name, curso=curso)
+
+    if ok:
+        logger.warning(f'[KOMMO_FALLBACK] ✅ Plantilla WA enviada | lead_id={lead_id} | phone={phone}')
+    else:
+        logger.error(f'[KOMMO_FALLBACK] ❌ Error enviando plantilla WA | lead_id={lead_id} | phone={phone}')
+
+
+@shared_task
+def kommo_tag_no_response(lead_id: int):
+    """
+    Corre 3 días después de crear el lead.
+    Si la persona nunca respondió WA ni la plantilla (kommo_deal_id sigue en None),
+    agrega el tag 'Sin respuesta' al contacto en Kommo.
+    """
+    from leads.models import Lead
+    from leads.services.kommo_service import add_tag_to_contact
+
+    logger.warning(f'[KOMMO_TAG] ▶ Iniciando | lead_id={lead_id}')
+
+    try:
+        lead = Lead.objects.get(pk=lead_id)
+    except Lead.DoesNotExist:
+        logger.error(f'[KOMMO_TAG] ❌ Lead {lead_id} no encontrado en BD — abortando')
         return
 
     phone = (lead.phone_number or '').strip()
-    if not phone:
-        logger.warning(f'[FALLBACK] Lead {lead_id} sin teléfono — abortando.')
-        print(f'[FALLBACK] ⚠️  Sin teléfono — abortando.')
+
+    logger.warning(
+        f'[KOMMO_TAG] Lead {lead_id} | {lead.first_name} {lead.last_name} | '
+        f'phone={phone} | kommo_contact_id={lead.kommo_contact_id} | kommo_deal_id={lead.kommo_deal_id}'
+    )
+
+    # Si tiene deal → persona respondió en algún momento → no marcar como sin respuesta
+    if lead.kommo_deal_id:
+        logger.warning(
+            f'[KOMMO_TAG] ✅ Persona respondió WA | lead_id={lead_id} | phone={phone} | '
+            f'deal_id={lead.kommo_deal_id} — no se agrega tag'
+        )
         return
 
-    # 2. Buscar en Kommo por teléfono
-    print(f'[FALLBACK] 🔎 Buscando en Kommo por teléfono={phone}...')
-    contact_id = find_contact_by_phone(phone)
+    # Sin contacto en Kommo → sync falló → no hay nada que taggear
+    if not lead.kommo_contact_id:
+        logger.warning(f'[KOMMO_TAG] ⚠️ Lead {lead_id} | phone={phone} | sin kommo_contact_id — no se puede agregar tag')
+        return
 
-    if contact_id:
-        # Encontrado — persona escribió por WA, asesor lo cargó manualmente, etc.
-        print(f'[FALLBACK] ✅ Contacto encontrado en Kommo: contact_id={contact_id} — enriqueciendo...')
-        logger.info(f'[FALLBACK] Contacto {contact_id} encontrado para lead {lead_id} — enriqueciendo.')
-        enrich_kommo_contact(lead, contact_id)
-        print(f'[FALLBACK] ✅ Lead {lead_id} enriquecido en Kommo.')
+    logger.warning(
+        f'[KOMMO_TAG] 🏷 Persona nunca respondió | lead_id={lead_id} | phone={phone} | '
+        f'contact_id={lead.kommo_contact_id} — agregando tag "Sin respuesta"'
+    )
+
+    ok = add_tag_to_contact(lead.kommo_contact_id, 'Sin respuesta')
+
+    if ok:
+        logger.warning(f'[KOMMO_TAG] ✅ Tag agregado | lead_id={lead_id} | phone={phone} | contact_id={lead.kommo_contact_id}')
     else:
-        # No encontrado — persona nunca escribió por WA
-        print(f'[FALLBACK] ℹ️  Contacto NO encontrado en Kommo — enviando plantilla WA a {phone}')
-        logger.info(f'[FALLBACK] Lead {lead_id} sin contacto en Kommo — enviando plantilla WA.')
-        curso = lead.form_course_raw or 'nuestros cursos'
-        ok = send_whatsapp_template(phone=phone, first_name=lead.first_name, curso=curso)
-        if ok:
-            print(f'[FALLBACK] ✅ Plantilla WA enviada a {phone}')
-        else:
-            print(f'[FALLBACK] ❌ Error enviando plantilla WA a {phone}')
+        logger.error(f'[KOMMO_TAG] ❌ Error agregando tag | lead_id={lead_id} | phone={phone} | contact_id={lead.kommo_contact_id}')
 
 
 
 @shared_task(bind=True, max_retries=3, default_retry_delay=60)
 def sync_lead_to_kommo(self, lead_id: int):
     """
-    Sincroniza un Lead con Kommo CRM.
-    Reintenta hasta 3 veces con delay de 60s salvo en errores de autenticación (401).
+    Crea o actualiza el contacto en Kommo CRM.
+    Reintenta hasta 3 veces con delay de 60s salvo en errores 401.
     """
     from leads.models import Lead
     from leads.services.kommo_service import sync_contact_to_kommo
 
+    logger.warning(f'[KOMMO_SYNC] ▶ Iniciando | lead_id={lead_id} | intento={self.request.retries + 1}/3')
+
     try:
         lead = Lead.objects.get(pk=lead_id)
     except Lead.DoesNotExist:
-        logger.error(f'[KOMMO] Lead {lead_id} no encontrado. Abortando tarea.')
+        logger.error(f'[KOMMO_SYNC] ❌ Lead {lead_id} no encontrado en BD — abortando')
         return
+
+    phone = (lead.phone_number or '').strip()
+    logger.warning(f'[KOMMO_SYNC] Lead {lead_id} | {lead.first_name} {lead.last_name} | phone={phone}')
 
     try:
         sync_contact_to_kommo(lead)
+        lead.refresh_from_db()
+        logger.warning(f'[KOMMO_SYNC] ✅ Completado | lead_id={lead_id} | phone={phone} | kommo_contact_id={lead.kommo_contact_id}')
     except Exception as exc:
         error_msg = str(exc)
-        # Si el error es 401 (token inválido) no tiene sentido reintentar
         if '401' in error_msg:
-            logger.error(f'[KOMMO] 401 Unauthorized en tarea lead {lead_id} — no se reintentará.')
+            logger.error(f'[KOMMO_SYNC] ❌ 401 Unauthorized | lead_id={lead_id} | phone={phone} — no se reintentará')
             return
-        logger.error(f'[KOMMO] Error en tarea sync_lead_to_kommo para lead {lead_id}: {exc}')
+        logger.error(f'[KOMMO_SYNC] ❌ Error | lead_id={lead_id} | phone={phone} | {exc} — reintentando...')
         raise self.retry(exc=exc)

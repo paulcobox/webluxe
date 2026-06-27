@@ -14,7 +14,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.cache import cache
-from .tasks import schedule_email_sequence, send_capi_lead_event, kommo_fallback_sync
+from .tasks import schedule_email_sequence, send_capi_lead_event, kommo_fallback_sync, sync_lead_to_kommo, kommo_tag_no_response
 
 
 # Create your views here.
@@ -223,8 +223,32 @@ def create_lead(request):
             args=[lead.id, ip, user_agent or request.META.get('HTTP_USER_AGENT', '')]
         )
 
-        # T+5min: buscar en Kommo, enriquecer si existe, enviar plantilla WA si no
-        kommo_fallback_sync.apply_async(args=[lead.id], countdown=300)
+        # ===============================================
+        # 🔟 Crear contacto en Kommo CRM (inmediato)
+        # ===============================================
+        try:
+            sync_lead_to_kommo.apply_async(args=[lead.id])
+            logger.warning(f'[KOMMO_SYNC] ▶ Sync inmediato programado | lead_id={lead.id} | {first_name} {last_name}')
+        except Exception as e:
+            logger.error(f'[KOMMO_SYNC] ❌ Error al programar sync | lead_id={lead.id} | {e}')
+
+        # ===============================================
+        # 1️⃣1️⃣ Fallback WA (+10 min): si no escribió WA, enviar plantilla
+        # ===============================================
+        try:
+            kommo_fallback_sync.apply_async(args=[lead.id], countdown=600)
+            logger.warning(f'[KOMMO_FALLBACK] ⏱ Programado | lead_id={lead.id} | se ejecuta en 10 min')
+        except Exception as e:
+            logger.error(f'[KOMMO_FALLBACK] ❌ Error al programar fallback | lead_id={lead.id} | {e}')
+
+        # ===============================================
+        # 1️⃣2️⃣ Tag "Sin respuesta" (+3 días): si nunca respondió WA ni plantilla
+        # ===============================================
+        try:
+            kommo_tag_no_response.apply_async(args=[lead.id], countdown=259200)
+            logger.warning(f'[KOMMO_TAG] ⏱ Programado | lead_id={lead.id} | se ejecuta en 3 días')
+        except Exception as e:
+            logger.error(f'[KOMMO_TAG] ❌ Error al programar tag | lead_id={lead.id} | {e}')
 
         return JsonResponse({'success': True, 'lead_id': lead.id})
 
