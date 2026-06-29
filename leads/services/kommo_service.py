@@ -403,6 +403,31 @@ def extract_phone_from_webhook_payload(post_data) -> str | None:
     return None
 
 
+def get_contact_id_from_deal(deal_id: str) -> str | None:
+    """
+    Consulta un deal en Kommo y retorna el contact_id vinculado.
+    Necesario porque el webhook leads[add] no incluye el contacto en el payload.
+    """
+    try:
+        resp = requests.get(
+            f'{KOMMO_BASE_URL}/leads/{deal_id}',
+            headers=_get_headers(),
+            params={'with': 'contacts'},
+            timeout=10,
+        )
+        if resp.status_code != 200:
+            logger.warning(f'[KOMMO] get_contact_id_from_deal HTTP {resp.status_code} para deal_id={deal_id}')
+            return None
+        contacts = resp.json().get('_embedded', {}).get('contacts', [])
+        if contacts:
+            return str(contacts[0]['id'])
+        logger.warning(f'[KOMMO] Deal {deal_id} sin contactos vinculados')
+        return None
+    except Exception as exc:
+        logger.error(f'[KOMMO] Error al obtener contacto de deal {deal_id}: {exc}')
+        return None
+
+
 def get_contact_phone(contact_id: str) -> str | None:
     """
     Consulta un contacto en Kommo por su ID y retorna el teléfono (PHONE).

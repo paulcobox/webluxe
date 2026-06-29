@@ -293,61 +293,68 @@ def update_lead_sede(request):
 @csrf_exempt
 def kommo_webhook_contact_created(request):
     """
-    Receptor del webhook de Kommo cuando se crea un nuevo contacto.
+    Receptor del webhook de Kommo para el evento leads[add].
+    Se dispara cuando Kommo crea un deal — lo que ocurre cuando la persona escribe por WhatsApp.
     Kommo envía application/x-www-form-urlencoded.
-    Por ahora: imprime en consola el payload completo y busca el teléfono del contacto.
     """
     if request.method != 'POST':
         return JsonResponse({'success': False}, status=405)
 
-    # ── DEBUG: imprimir payload completo ──────────────────────────
-    print('=' * 60)
-    print('[KOMMO WEBHOOK] Nuevo evento recibido')
-    print(f'  Content-Type : {request.content_type}')
-    print(f'  GET params   : {dict(request.GET)}')
-    print('  POST data completo:')
+    # DEBUG: payload completo para diagnóstico en producción
+    logger.warning('[KOMMO WEBHOOK] ▶ Nuevo evento recibido')
+    logger.warning(f'[KOMMO WEBHOOK] Content-Type: {request.content_type}')
     for key, value in request.POST.items():
-        print(f'    {key} = {value}')
-    print('=' * 60)
-    # ──────────────────────────────────────────────────────────────
+        logger.warning(f'[KOMMO WEBHOOK]   {key} = {value}')
 
     from leads.services.kommo_service import (
-        extract_phone_from_webhook_payload,
-        enrich_kommo_contact,
+        get_contact_id_from_deal,
+        get_contact_phone,
         normalize_phone,
     )
 
-    # 1. Solo procesar contactos nuevos — los updates los genera nuestro propio backend
-    contact_id = request.POST.get('contacts[add][0][id]')
+    # 1. Extraer deal_id del evento leads[add]
+    deal_id = request.POST.get('leads[add][0][id]')
+    if not deal_id:
+        logger.warning('[KOMMO WEBHOOK] ℹ️  No es leads[add] — ignorado')
+        return JsonResponse({'success': True})
+
+    logger.warning(f'[KOMMO WEBHOOK] deal_id={deal_id} detectado')
+
+    # 2. Obtener contact_id vinculado al deal via API
+    contact_id = get_contact_id_from_deal(deal_id)
     if not contact_id:
-        print('[KOMMO WEBHOOK] ℹ️  Evento contacts[update] — ignorado (generado por nuestro propio backend)')
+        logger.warning(f'[KOMMO WEBHOOK] ⚠️  Deal {deal_id} sin contacto vinculado — ignorando')
         return JsonResponse({'success': True})
 
-    # 2. Extraer teléfono del payload (sin llamada extra a Kommo)
-    phone = extract_phone_from_webhook_payload(request.POST)
-    print(f'[KOMMO WEBHOOK] contact_id={contact_id} | teléfono extraído={phone}')
+    logger.warning(f'[KOMMO WEBHOOK] deal_id={deal_id} → contact_id={contact_id}')
 
-    if not phone:
-        print('[KOMMO WEBHOOK] ⚠️  Sin teléfono en payload — ignorando evento')
-        return JsonResponse({'success': True})
+    # 3. Buscar lead en BD por kommo_contact_id (camino rápido: ya sincronizado)
+    lead = Lead.objects.filter(kommo_contact_id=contact_id).order_by('-created_date').first()
 
-    # 3. Buscar Lead en BD por teléfono normalizado (más reciente sin kommo_contact_id)
-    phone_normalized = normalize_phone(phone)
-    lead = None
-    for candidate in Lead.objects.filter(kommo_contact_id=None).order_by('-created_date'):
-        if normalize_phone(candidate.phone_number or '') == phone_normalized:
-            lead = candidate
-            break
+    # Fallback: buscar por teléfono si aún no tiene kommo_contact_id
+    if not lead:
+        phone = get_contact_phone(contact_id)
+        if phone:
+            phone_normalized = normalize_phone(phone)
+            logger.warning(f'[KOMMO WEBHOOK] Buscando por teléfono={phone_normalized}')
+            for candidate in Lead.objects.order_by('-created_date')[:200]:
+                if normalize_phone(candidate.phone_number or '') == phone_normalized:
+                    lead = candidate
+                    break
 
     if not lead:
-        print(f'[KOMMO WEBHOOK] ℹ️  Sin Lead en BD para teléfono={phone_normalized} — nada que actualizar')
+        logger.warning(f'[KOMMO WEBHOOK] ℹ️  Sin Lead en BD para contact_id={contact_id} — nada que actualizar')
         return JsonResponse({'success': True})
 
-    print(f'[KOMMO WEBHOOK] ✅ Lead encontrado: ID={lead.id} | {lead.first_name} {lead.last_name}')
+    logger.warning(f'[KOMMO WEBHOOK] ✅ Lead encontrado: ID={lead.id} | {lead.first_name} {lead.last_name} | phone={lead.phone_number}')
 
-    # 4. Enriquecer contacto en Kommo + crear deal + marcar sync
-    enrich_kommo_contact(lead, contact_id)
-    print(f'[KOMMO WEBHOOK] ✅ Lead {lead.id} sincronizado completamente')
+    # 4. Guardar kommo_deal_id — esto activa la lógica del fallback
+    lead.kommo_deal_id = deal_id
+    if not lead.kommo_contact_id:
+        lead.kommo_contact_id = contact_id
+    lead.save(update_fields=['kommo_deal_id', 'kommo_contact_id'])
+
+    logger.warning(f'[KOMMO WEBHOOK] ✅ kommo_deal_id={deal_id} guardado | lead_id={lead.id} | phone={lead.phone_number}')
 
     return JsonResponse({'success': True})
 
