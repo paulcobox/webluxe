@@ -36,7 +36,7 @@ SEQUENCE_SUBJECTS = {
 EMAIL_FROM = 'Cuban Groove <info@cubangrooveperu.com>'
 
 EMAIL_CONTEXT_BASE = {
-    'whatsapp_url': 'https://wa.me/51991337159',
+    'whatsapp_url': 'https://wa.me/51933275831',
     'instagram_url': 'https://www.instagram.com/cubangroove/',
     'facebook_url': 'https://www.facebook.com/cubangrooveperu',
     'tiktok_url': 'https://www.tiktok.com/@cubangrooveperu',
@@ -212,12 +212,13 @@ def kommo_fallback_sync(lead_id: int):
     )
 
     curso = lead.form_course_raw or 'nuestros cursos'
-    ok = send_whatsapp_template(phone=phone, first_name=lead.first_name, curso=curso)
-
-    if ok:
-        logger.warning(f'[KOMMO_FALLBACK] ✅ Plantilla WA enviada | lead_id={lead_id} | phone={phone}')
-    else:
-        logger.error(f'[KOMMO_FALLBACK] ❌ Error enviando plantilla WA | lead_id={lead_id} | phone={phone}')
+    # TEMPORALMENTE COMENTADO — descomentar cuando se quiera activar en producción
+    # ok = send_whatsapp_template(phone=phone, first_name=lead.first_name, curso=curso)
+    # if ok:
+    #     logger.warning(f'[KOMMO_FALLBACK] ✅ Plantilla WA enviada | lead_id={lead_id} | phone={phone}')
+    # else:
+    #     logger.error(f'[KOMMO_FALLBACK] ❌ Error enviando plantilla WA | lead_id={lead_id} | phone={phone}')
+    logger.warning(f'[KOMMO_FALLBACK] 🔕 Plantilla WA NO enviada (desactivada para pruebas) | lead_id={lead_id} | phone={phone} | curso={curso}')
 
 
 @shared_task

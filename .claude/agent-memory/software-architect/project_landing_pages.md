@@ -25,7 +25,7 @@ Se establecio el patron para landing pages de ads en el proyecto webluxe.
 
 **Override del WhatsApp flotante:**
 - `_base.html` no tiene `{% block whatsapp_icon %}` — no es overrideable via herencia de templates.
-- Solucion: JS en `{% block javascript %}` remueve `data-bs-toggle`/`data-bs-target` y asigna `onclick` directo a `https://wa.me/51991337159`.
+- Solucion: JS en `{% block javascript %}` remueve `data-bs-toggle`/`data-bs-target` y asigna `onclick` directo a `https://wa.me/51933275831`.
 
 **Video YouTube:**
 - Se almacena en la vista como variable de contexto `video_embed_url = ''`, no en el modelo Course.

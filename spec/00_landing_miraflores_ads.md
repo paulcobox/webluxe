@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
         waIcon.removeAttribute('data-bs-target');
         waIcon.addEventListener('click', function(e) {
             e.preventDefault();
-            window.open('https://wa.me/51991337159?text=Hola%2C+quiero+informes+sobre+las+clases+en+Miraflores', '_blank');
+            window.open('https://wa.me/51933275831?text=Hola%2C+quiero+informes+sobre+las+clases+en+Miraflores', '_blank');
         });
     }
 });

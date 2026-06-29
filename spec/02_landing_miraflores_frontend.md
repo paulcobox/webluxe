@@ -246,7 +246,7 @@ Este bloque se inyecta después de todos los scripts de `_base.html`.
 1. Seleccionar `document.querySelector('.whatsapp-icon button')`
 2. `removeAttribute('data-bs-toggle')`
 3. `removeAttribute('data-bs-target')`
-4. Agregar `addEventListener('click', () => window.open('https://wa.me/51991337159', '_blank'))`
+4. Agregar `addEventListener('click', () => window.open('https://wa.me/51933275831', '_blank'))`
 5. GTag event: `gtag('event', 'whatsapp_direct_landing_miraflores', {...})`
 
 **Por qué remover los atributos:** Bootstrap 5 interpreta `data-bs-toggle="modal"` en el evento click y abre el modal antes de que el listener personalizado ejecute. Sin `removeAttribute`, el modal se abre Y WhatsApp se abre simultáneamente.
@@ -257,7 +257,7 @@ Este bloque se inyecta después de todos los scripts de `_base.html`.
 
 **Lógica:**
 - `document.getElementById('ld_openWhatsApp')`
-- `addEventListener('click', () => window.open('https://wa.me/51991337159?text=...', '_blank'))`
+- `addEventListener('click', () => window.open('https://wa.me/51933275831?text=...', '_blank'))`
 
 ### F9.3 — Ajuste de posición del ícono WhatsApp flotante
 
@@ -277,7 +277,7 @@ Cuando la barra móvil inferior está visible, elevar el ícono flotante a `bott
    - Leer valores con `getElementById('ld_first_name').value`, `getElementById('ld_last_name').value`, etc.
    - Construir `whatsappMessage` con los datos
    - `gtag('event', 'whatsapp_send_landing_miraflores', { categoria: 'lead', accion: 'enviar', etiqueta: 'landing_miraflores_ads' })`
-   - `window.open('https://wa.me/51991337159?text=' + encodeURIComponent(whatsappMessage), '_blank')`
+   - `window.open('https://wa.me/51933275831?text=' + encodeURIComponent(whatsappMessage), '_blank')`
    - Ocultar form: `leadForm_miraflores.classList.add('d-none')`
    - Mostrar gracias: `thankYouMessage_miraflores.classList.remove('d-none')`
 9. En error: `alert('Error al crear el lead.')`

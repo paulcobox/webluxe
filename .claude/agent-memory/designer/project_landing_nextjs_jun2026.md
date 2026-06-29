@@ -24,8 +24,8 @@ metadata:
 
 ### CTA principal
 - WhatsApp con mensaje pre-llenado dinámico
-- Número: +51991337159
-- Pattern URL: `https://wa.me/51991337159?text=...`
+- Número: +51933275831
+- Pattern URL: `https://wa.me/51933275831?text=...`
 
 ### Arquitectura de datos
 - Todo editable en `/data/config.ts` sin tocar JSX

@@ -36,7 +36,7 @@ metadata:
 - Clases Privadas (cualquier nivel, personalizado)
 
 ### WhatsApp de negocio
-- Número detectado en schema.org: +51991337159
+- Número detectado en schema.org: +51933275831
 - Mensaje dinámico pattern: "Hola 👋 Vi la publicidad de Cuban Groove y me gustaría recibir información sobre el programa [PROGRAMA] en la sede [SEDE]."
 
 ### Redes sociales

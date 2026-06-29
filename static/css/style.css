@@ -710,3 +710,17 @@
     content: "›";
     color: #ff7b00; /* tu color de marca */
 }
+
+.feature-title{
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #222;
+    line-height: 1.4;
+    margin-bottom: .4rem;
+}
+
+@media (max-width:768px){
+    .feature-title{
+        font-size: 1.05rem;
+    }
+}

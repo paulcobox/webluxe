@@ -384,7 +384,7 @@ import type {
 // ─── CONFIGURACIÓN GLOBAL ───────────────────────────────────
 export const siteConfig: SiteConfig = {
   name: 'Cuban Groove Perú',
-  whatsappNumber: '51991337159',
+  whatsappNumber: '51933275831',
   stats: {
     count: '500+',
     label: 'alumnos formados',
@@ -1316,7 +1316,7 @@ export default function ProgramResult({ program, onReset }: ProgramResultProps) 
     if (!sede) return;
 
     const message = program.whatsappMessage(sede.name);
-    const url = buildWhatsAppUrl('51991337159', message);
+    const url = buildWhatsAppUrl('51933275831', message);
 
     // Evento para Meta Pixel y GTM
     if (typeof window !== 'undefined') {
@@ -1842,7 +1842,7 @@ export default function FinalCTA({
 /**
  * Construye la URL de WhatsApp con mensaje pre-llenado.
  * El número debe estar en formato internacional sin + ni espacios.
- * Ejemplo: '51991337159'
+ * Ejemplo: '51933275831'
  */
 export function buildWhatsAppUrl(phone: string, message: string): string {
   const encoded = encodeURIComponent(message);
