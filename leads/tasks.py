@@ -212,13 +212,12 @@ def kommo_fallback_sync(lead_id: int):
     )
 
     curso = lead.form_course_raw or 'nuestros cursos'
-    # TEMPORALMENTE COMENTADO — descomentar cuando se quiera activar en producción
-    # ok = send_whatsapp_template(phone=phone, first_name=lead.first_name, curso=curso)
-    # if ok:
-    #     logger.warning(f'[KOMMO_FALLBACK] ✅ Plantilla WA enviada | lead_id={lead_id} | phone={phone}')
-    # else:
-    #     logger.error(f'[KOMMO_FALLBACK] ❌ Error enviando plantilla WA | lead_id={lead_id} | phone={phone}')
-    logger.warning(f'[KOMMO_FALLBACK] 🔕 Plantilla WA NO enviada (desactivada para pruebas) | lead_id={lead_id} | phone={phone} | curso={curso}')
+    ok = send_whatsapp_template(phone=phone, first_name=lead.first_name, curso=curso)
+
+    if ok:
+        logger.warning(f'[KOMMO_FALLBACK] ✅ Plantilla WA enviada | lead_id={lead_id} | phone={phone}')
+    else:
+        logger.error(f'[KOMMO_FALLBACK] ❌ Error enviando plantilla WA | lead_id={lead_id} | phone={phone}')
 
 
 @shared_task
