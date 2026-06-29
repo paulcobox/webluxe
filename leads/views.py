@@ -306,51 +306,42 @@ def kommo_webhook_contact_created(request):
     for key, value in request.POST.items():
         logger.warning(f'[KOMMO WEBHOOK]   {key} = {value}')
 
-    from leads.services.kommo_service import (
-        get_contact_id_from_deal,
-        get_contact_phone,
-        normalize_phone,
-    )
+    from leads.services.kommo_service import normalize_phone
 
-    # 1. Extraer deal_id del evento leads[add]
-    deal_id = request.POST.get('leads[add][0][id]')
+    # Kommo envía evento "unsorted[add]" cuando alguien escribe por WhatsApp
+    deal_id    = request.POST.get('unsorted[add][0][lead_id]')
+    contact_id = request.POST.get('unsorted[add][0][data][contacts][0][id]')
+    phone_raw  = request.POST.get('unsorted[add][0][source_data][client][id]', '')
+
     if not deal_id:
-        logger.warning('[KOMMO WEBHOOK] ℹ️  No es leads[add] — ignorado')
+        logger.warning('[KOMMO WEBHOOK] ℹ️  No es unsorted[add] — ignorado')
         return JsonResponse({'success': True})
 
-    logger.warning(f'[KOMMO WEBHOOK] deal_id={deal_id} detectado')
+    logger.warning(f'[KOMMO WEBHOOK] unsorted[add] | deal_id={deal_id} | contact_id={contact_id} | phone_raw={phone_raw}')
 
-    # 2. Obtener contact_id vinculado al deal via API
-    contact_id = get_contact_id_from_deal(deal_id)
-    if not contact_id:
-        logger.warning(f'[KOMMO WEBHOOK] ⚠️  Deal {deal_id} sin contacto vinculado — ignorando')
-        return JsonResponse({'success': True})
+    # 1. Buscar lead por kommo_contact_id (camino rápido)
+    lead = None
+    if contact_id:
+        lead = Lead.objects.filter(kommo_contact_id=contact_id).order_by('-created_date').first()
 
-    logger.warning(f'[KOMMO WEBHOOK] deal_id={deal_id} → contact_id={contact_id}')
-
-    # 3. Buscar lead en BD por kommo_contact_id (camino rápido: ya sincronizado)
-    lead = Lead.objects.filter(kommo_contact_id=contact_id).order_by('-created_date').first()
-
-    # Fallback: buscar por teléfono si aún no tiene kommo_contact_id
-    if not lead:
-        phone = get_contact_phone(contact_id)
-        if phone:
-            phone_normalized = normalize_phone(phone)
-            logger.warning(f'[KOMMO WEBHOOK] Buscando por teléfono={phone_normalized}')
-            for candidate in Lead.objects.order_by('-created_date')[:200]:
-                if normalize_phone(candidate.phone_number or '') == phone_normalized:
-                    lead = candidate
-                    break
+    # 2. Fallback: buscar por teléfono
+    if not lead and phone_raw:
+        phone_normalized = normalize_phone(phone_raw)
+        logger.warning(f'[KOMMO WEBHOOK] Buscando por teléfono={phone_normalized}')
+        for candidate in Lead.objects.order_by('-created_date')[:200]:
+            if normalize_phone(candidate.phone_number or '') == phone_normalized:
+                lead = candidate
+                break
 
     if not lead:
-        logger.warning(f'[KOMMO WEBHOOK] ℹ️  Sin Lead en BD para contact_id={contact_id} — nada que actualizar')
+        logger.warning(f'[KOMMO WEBHOOK] ℹ️  Sin Lead en BD para contact_id={contact_id} / phone={phone_raw} — nada que actualizar')
         return JsonResponse({'success': True})
 
     logger.warning(f'[KOMMO WEBHOOK] ✅ Lead encontrado: ID={lead.id} | {lead.first_name} {lead.last_name} | phone={lead.phone_number}')
 
-    # 4. Guardar kommo_deal_id — esto activa la lógica del fallback
+    # 3. Guardar kommo_deal_id — esto es el centinela para el fallback
     lead.kommo_deal_id = deal_id
-    if not lead.kommo_contact_id:
+    if not lead.kommo_contact_id and contact_id:
         lead.kommo_contact_id = contact_id
     lead.save(update_fields=['kommo_deal_id', 'kommo_contact_id'])
 
