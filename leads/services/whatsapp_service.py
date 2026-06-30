@@ -45,7 +45,7 @@ def send_whatsapp_template(phone: str, first_name: str, curso: str) -> bool:
                 {
                     'type': 'body',
                     'parameters': [
-                        {'type': 'text', 'text': first_name or 'amigo/a'},
+                        {'type': 'text', 'parameter_name': 'nombre', 'text': first_name or 'amigo/a'},
                     ],
                 }
             ],
