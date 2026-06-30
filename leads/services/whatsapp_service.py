@@ -40,7 +40,7 @@ def send_whatsapp_template(phone: str, first_name: str, curso: str) -> bool:
         'type': 'template',
         'template': {
             'name': template,
-            'language': {'code': 'es'},
+            'language': {'code': 'es_PE'},
             'components': [
                 {
                     'type': 'body',
