@@ -14,6 +14,9 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.cache import cache
+from django.utils import timezone
+from datetime import timedelta
+import pytz
 from .tasks import schedule_email_sequence, send_capi_lead_event, kommo_fallback_sync, sync_lead_to_kommo, kommo_tag_no_response
 
 
@@ -245,8 +248,11 @@ def create_lead(request):
         # 1️⃣2️⃣ Tag "Sin respuesta" (+3 días): si nunca respondió WA ni plantilla
         # ===============================================
         try:
-            kommo_tag_no_response.apply_async(args=[lead.id], countdown=259200)
-            logger.warning(f'[KOMMO_TAG] ⏱ Programado | lead_id={lead.id} | se ejecuta en 3 días')
+            lima_tz = pytz.timezone('America/Lima')
+            now_lima = timezone.now().astimezone(lima_tz)
+            tag_eta = (now_lima + timedelta(days=1)).replace(hour=9, minute=0, second=0, microsecond=0)
+            kommo_tag_no_response.apply_async(args=[lead.id], eta=tag_eta)
+            logger.warning(f'[KOMMO_TAG] ⏱ Programado | lead_id={lead.id} | se ejecuta el {tag_eta.strftime("%Y-%m-%d %H:%M")} Lima')
         except Exception as e:
             logger.error(f'[KOMMO_TAG] ❌ Error al programar tag | lead_id={lead.id} | {e}')
 
@@ -306,7 +312,7 @@ def kommo_webhook_contact_created(request):
     for key, value in request.POST.items():
         logger.warning(f'[KOMMO WEBHOOK]   {key} = {value}')
 
-    from leads.services.kommo_service import normalize_phone
+    from leads.services.kommo_service import normalize_phone, relink_deal_to_contact
 
     # Kommo envía evento "unsorted[add]" cuando alguien escribe por WhatsApp
     deal_id    = request.POST.get('unsorted[add][0][lead_id]')
@@ -339,7 +345,12 @@ def kommo_webhook_contact_created(request):
 
     logger.warning(f'[KOMMO WEBHOOK] ✅ Lead encontrado: ID={lead.id} | {lead.first_name} {lead.last_name} | phone={lead.phone_number}')
 
-    # 3. Guardar kommo_deal_id — esto es el centinela para el fallback
+    # 3. Si contact_id=None → Kommo creó contacto duplicado → re-vincular deal al contacto original
+    if not contact_id and lead.kommo_contact_id:
+        logger.warning(f'[KOMMO WEBHOOK] ⚠️ Contacto duplicado detectado | deal={deal_id} re-vinculando a contact={lead.kommo_contact_id}')
+        relink_deal_to_contact(deal_id, lead.kommo_contact_id)
+
+    # 4. Guardar kommo_deal_id — esto es el centinela para el fallback
     lead.kommo_deal_id = deal_id
     if not lead.kommo_contact_id and contact_id:
         lead.kommo_contact_id = contact_id

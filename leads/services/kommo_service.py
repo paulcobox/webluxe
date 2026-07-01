@@ -428,6 +428,30 @@ def get_contact_id_from_deal(deal_id: str) -> str | None:
         return None
 
 
+def relink_deal_to_contact(deal_id: str, contact_id: str) -> bool:
+    """
+    Vincula un deal al contacto correcto en Kommo.
+    Usado cuando Kommo crea un contacto duplicado al recibir un WA —
+    re-linkea el deal al contacto original que ya tiene todos los datos del form.
+    """
+    try:
+        payload = {'_embedded': {'contacts': [{'id': int(contact_id)}]}}
+        resp = requests.patch(
+            f'{KOMMO_BASE_URL}/leads/{deal_id}',
+            headers=_get_headers(),
+            json=payload,
+            timeout=10,
+        )
+        if resp.status_code in (200, 204):
+            logger.warning(f'[KOMMO] ✅ Deal {deal_id} re-vinculado al contacto {contact_id}')
+            return True
+        logger.warning(f'[KOMMO] ❌ relink_deal HTTP {resp.status_code} | deal={deal_id} | contact={contact_id}: {resp.text[:300]}')
+        return False
+    except Exception as exc:
+        logger.error(f'[KOMMO] Error en relink_deal_to_contact: {exc}')
+        return False
+
+
 def get_contact_phone(contact_id: str) -> str | None:
     """
     Consulta un contacto en Kommo por su ID y retorna el teléfono (PHONE).
