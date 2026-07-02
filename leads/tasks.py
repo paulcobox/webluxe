@@ -258,6 +258,11 @@ def kommo_tag_no_response(lead_id: int):
         logger.warning(f'[KOMMO_TAG] ⚠️ Lead {lead_id} | phone={phone} | sin kommo_contact_id — no se puede agregar tag')
         return
 
+    # Idempotencia: si ya fue taggeado, no repetir
+    if lead.kommo_tag_sin_respuesta:
+        logger.warning(f'[KOMMO_TAG] ℹ️ Lead {lead_id} | phone={phone} | tag ya aplicado anteriormente — ignorando')
+        return
+
     logger.warning(
         f'[KOMMO_TAG] 🏷 Persona nunca respondió | lead_id={lead_id} | phone={phone} | '
         f'contact_id={lead.kommo_contact_id} — agregando tag "Sin respuesta"'
@@ -266,6 +271,8 @@ def kommo_tag_no_response(lead_id: int):
     ok = add_tag_to_contact(lead.kommo_contact_id, 'Sin respuesta')
 
     if ok:
+        lead.kommo_tag_sin_respuesta = True
+        lead.save(update_fields=['kommo_tag_sin_respuesta'])
         logger.warning(f'[KOMMO_TAG] ✅ Tag agregado | lead_id={lead_id} | phone={phone} | contact_id={lead.kommo_contact_id}')
     else:
         logger.error(f'[KOMMO_TAG] ❌ Error agregando tag | lead_id={lead_id} | phone={phone} | contact_id={lead.kommo_contact_id}')

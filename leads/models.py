@@ -48,9 +48,10 @@ class Lead(models.Model):
 
     # --- Kommo CRM ---
     kommo_contact_id = models.CharField(max_length=50, blank=True, null=True, db_index=True)
-    kommo_deal_id    = models.CharField(max_length=50, blank=True, null=True)
-    kommo_synced_at  = models.DateTimeField(null=True, blank=True)
-    kommo_last_error = models.TextField(null=True, blank=True)
+    kommo_deal_id           = models.CharField(max_length=50, blank=True, null=True)
+    kommo_synced_at         = models.DateTimeField(null=True, blank=True)
+    kommo_last_error        = models.TextField(null=True, blank=True)
+    kommo_tag_sin_respuesta = models.BooleanField(default=False)
 
     # --- Secuencia de correos ---
     email_sequence_started_at = models.DateTimeField(null=True, blank=True)
